@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 router.get('/sidebar', function(req, res, next) {
   res.render('sidebar');
 });
-
+//test comment by pathum
 router.get('/profile',function(req,res,next){
   res.render('profile');
 })
