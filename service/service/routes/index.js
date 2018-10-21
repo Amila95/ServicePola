@@ -47,18 +47,18 @@ router.post('/register',function(req,res){
   
 })
 
-router.post('/register',function(req,res){
-  var name = req.body.name;
-  var email = req.body.email;
-  var address = req.body.address;
-  var phone_no = req.body.phone_no;
-  var dis = req.body.dis;
-  var password = req.body,password;
-  var re_password = req.body.re_password;
-  //console.log(name);
+// router.post('/register',function(req,res){
+//   var name = req.body.name;
+//   var email = req.body.email;
+//   var address = req.body.address;
+//   var phone_no = req.body.phone_no;
+//   var dis = req.body.dis;
+//   var password = req.body,password;
+//   var re_password = req.body.re_password;
+//   //console.log(name);
 
   
-})
+// })
 
 
 module.exports = router;
