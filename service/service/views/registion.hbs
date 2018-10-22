@@ -6,7 +6,7 @@
 								<h3 class="mb-30 title_color">Registion From</h3>
 								<form action="/register" method="post">
 									<div class="mt-10">
-										<input type="text" name="name" placeholder="First Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name'" required class="single-input">
+										<input type="text" name="name" placeholder="First Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name'"  class="single-input">
 									</div>
 									{{!-- <div class="mt-10">
 										<input type="text" name="last_name" placeholder="Last Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name'" required class="single-input">
@@ -23,8 +23,8 @@
 									</div>
 									<div class="input-group-icon mt-10">
 										<div class="icon"><i class="fa fa-plane" aria-hidden="true"></i></div>
-										<div class="form-select" id="default-select">
-											<select>
+										<div class="form-select" id="default-select" >
+											<select  name="district">
 												<option value="">District</option>
 												<option value="Colombo">Colombo</option>
 												<option value="Gampaha">Gampaha</option>

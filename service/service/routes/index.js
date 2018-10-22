@@ -1,5 +1,24 @@
 var express = require('express');
 var router = express.Router();
+var mysql      = require('mysql');
+var expressValidator = require('express-validator');
+
+
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  database : 'service',
+  user     : 'root',
+  password : '',
+});
+
+connection.connect(function(err) {
+  if (err) {
+      console.error('Error connecting: ' + err.stack);
+      return;
+  }
+
+  console.log('Connected as id ' + connection.threadId);
+});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -35,30 +54,32 @@ router.get('/signin',function(req,res,next){
 })
 
 router.post('/register',function(req,res){
-  var name = req.body.name;
-  var email = req.body.email;
-  var address = req.body.address;
-  var phone_no = req.body.phone_no;
-  var dis = req.body.dis;
-  var password = req.body,password;
-  var re_password = req.body.re_password;
-  //console.log(name);
+  req.checkBody('name','Username field connot be empty.').notEmpty();
 
-  
-})
+  const errors = req.validationErrors();
+  if(errors){
+    console.log('errors: ${JSON.stringify(errors)}');
 
-// router.post('/register',function(req,res){
+  }
+
 //   var name = req.body.name;
 //   var email = req.body.email;
 //   var address = req.body.address;
 //   var phone_no = req.body.phone_no;
 //   var dis = req.body.dis;
-//   var password = req.body,password;
+//   var password = req.body.password;
+//   var district = req.body.district;
 //   var re_password = req.body.re_password;
-//   //console.log(name);
 
+//  // console.log(district);
+//   connection.query('INSERT INTO user(user_name,email,address,tel_phone,discription,district,password) VALUES(?,?,?,?,?,?,?)',[name,email,address,phone_no,dis,district,password],function(err,result){
+//     if(err) throw err;
+//     res.render('add_telent');
+//   })
   
-// })
+})
+
+
 
 
 module.exports = router;
