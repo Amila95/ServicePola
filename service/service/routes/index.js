@@ -3,6 +3,8 @@ var router = express.Router();
 var mysql      = require('mysql');
 var expressValidator = require('express-validator');
 
+var bcrypt = require('bcrypt');
+const saltRounds =10;
 
 var connection = mysql.createConnection({
   host     : 'localhost',
@@ -61,21 +63,27 @@ router.post('/register',function(req,res){
     console.log('errors: ${JSON.stringify(errors)}');
 
   }
+  else{
+      var name = req.body.name;
+  var email = req.body.email;
+  var address = req.body.address;
+  var phone_no = req.body.phone_no;
+  var dis = req.body.dis;
+  var password = req.body.password;
+  var district = req.body.district;
+  var re_password = req.body.re_password;
 
-//   var name = req.body.name;
-//   var email = req.body.email;
-//   var address = req.body.address;
-//   var phone_no = req.body.phone_no;
-//   var dis = req.body.dis;
-//   var password = req.body.password;
-//   var district = req.body.district;
-//   var re_password = req.body.re_password;
+ // console.log(district);
+ bcrypt.hash(password,saltRounds, function(err,hash){
+  connection.query('INSERT INTO user(user_name,email,address,tel_phone,discription,district,password) VALUES(?,?,?,?,?,?,?)',[name,email,address,phone_no,dis,district,hash],function(err,result){
+    if(err) throw err;
+    res.render('add_telent');
+  })
+ })
+  
+  }
 
-//  // console.log(district);
-//   connection.query('INSERT INTO user(user_name,email,address,tel_phone,discription,district,password) VALUES(?,?,?,?,?,?,?)',[name,email,address,phone_no,dis,district,password],function(err,result){
-//     if(err) throw err;
-//     res.render('add_telent');
-//   })
+
   
 })
 
