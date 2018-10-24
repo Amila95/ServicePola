@@ -7,6 +7,10 @@ var session = require('express-session');
 var expressValidator = require('express-validator');
 
 
+////Authentication Packages
+var session = require('express-session');
+var passport = require('passport');
+
 var hbs = require('express-handlebars');
 
 var indexRouter = require('./routes/index');
@@ -29,9 +33,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressValidator());
 app.use(session({
   secret: 'secret',
-  saveUninitialized:true,
-  resave:true
+  saveUninitialized:false,
+  resave:false
 }))
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

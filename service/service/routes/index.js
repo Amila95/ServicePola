@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var mysql      = require('mysql');
 var expressValidator = require('express-validator');
+var passport = require('passport');
+
 
 var bcrypt = require('bcrypt');
 const saltRounds =10;
@@ -24,6 +26,8 @@ connection.connect(function(err) {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  console.log(req.user);
+  console.log(req.isAuthenticated());
   res.render('index');
 });
 
@@ -77,7 +81,27 @@ router.post('/register',function(req,res){
  bcrypt.hash(password,saltRounds, function(err,hash){
   connection.query('INSERT INTO user(user_name,email,address,tel_phone,discription,district,password) VALUES(?,?,?,?,?,?,?)',[name,email,address,phone_no,dis,district,hash],function(err,result){
     if(err) throw err;
-    res.render('add_telent');
+    // connection.query('SELECT LAST_INSERT_ID() as user_id',function(err,res){
+    //   if (err) throw err;
+    //   const user_id = result[0];
+    //   console.log(result[0]);
+    //   req.login(user_id,function(err,res){
+    //     res.redirect('/signin');
+    //   });
+
+    // })
+    connection.query('SELECT LAST_INSERT_ID() as user_id', function (err, results, fields) {
+                            if (err) throw err;
+                            const user_id = results[0];
+                            //console.log(results[0]);
+                            req.login(user_id, function (err) {
+                                
+                                res.redirect('/');
+                            }
+                            )
+
+                        });
+    
   })
  })
   
@@ -86,6 +110,14 @@ router.post('/register',function(req,res){
 
   
 })
+passport.serializeUser(function(user_id,done){
+  done(null,user_id);
+});
+
+passport.deserializeUser(function(user_id,done){
+  done(null,user_id);
+});
+
 
 
 
