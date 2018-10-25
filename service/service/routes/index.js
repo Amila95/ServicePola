@@ -25,7 +25,7 @@ connection.connect(function(err) {
 });
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', authenticationMiddleware(), function(req, res, next) {
   console.log(req.user);
   console.log(req.isAuthenticated());
   res.render('index');
@@ -58,6 +58,11 @@ router.get('/add_thired',function(req,res,next){
 router.get('/signin',function(req,res,next){
   res.render('signin');
 })
+
+router.post('/login',passport.authenticate('local',{
+  successRedirect:'/',
+  failureRedirect:'/signin'
+}));
 
 router.post('/register',function(req,res){
   req.checkBody('name','Username field connot be empty.').notEmpty();
@@ -118,6 +123,15 @@ passport.deserializeUser(function(user_id,done){
   done(null,user_id);
 });
 
+function authenticationMiddleware(){
+  return(req,res,next) =>{
+    console.log(
+      'req.session.passport.user:${JSON.stringify(req.session.passport)}'
+    );
+    if(req.isAuthenticated()) return next();
+    res.redirect('/signin');
+  }
+}
 
 
 

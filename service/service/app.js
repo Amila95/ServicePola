@@ -5,6 +5,10 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
 var expressValidator = require('express-validator');
+var LocalStrategy = require('passport-local').Strategy;
+
+var MySQLStore = require('express-mysql-session')(session);
+
 
 
 ////Authentication Packages
@@ -31,16 +35,88 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressValidator());
+var options = {
+  host:'localhost',
+  port: '3306',
+  user: 'root',
+  password:'',
+  database: 'service'
+};
+
+
+var sessionStore = new MySQLStore(options);
+
 app.use(session({
   secret: 'secret',
   saveUninitialized:false,
-  resave:false
+  resave:false,
+  store:sessionStore
 }))
+
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+
+passport.use(new LocalStrategy(
+  function(user_name, password, done) {
+  	console.log(user_name);
+  	console.log(password);
+var mysql = require('mysql');
+
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "service"
+});
+
+
+
+    /*const db = require('../config/connection');*/
+  con.connect(function(err) {
+  if (err) throw err;
+
+  
+    console.log("Connected!");
+
+  con.query('SELECT password,user_id FROM users WHERE user_name = ?', [user_name], function(err,results,fields){
+  if(err){
+      done(err)
+    }
+  
+  if(results.length === 0){
+        //return done(null,false,{message:'Unknow User'});
+    done(null,false);
+    }else{const hash = results[0].password.toString();
+    bcrypt.compare(password,hash,function(err, response){
+      if(response === true){
+        //req.isAuthenticated= true;
+        //user_id = results[0].user_id;
+        return done(null,{user_id:results[0].user_id});
+        //return done(null, user);
+
+      }else{
+        console.log("hcnjft");
+        return done(null,false);
+      }
+
+    })}
+  
+    
+   // return done(null,'btfbj');
+      
+      //console.log("loging sucefuly");
+      
+    });
+
+    });
+    
+
+  }
+));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
