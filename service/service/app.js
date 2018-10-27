@@ -26,7 +26,7 @@ var app = express();
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'jade');
-app.engine('hbs', hbs({extname:'hbs',defaultLayout:'layout',layoutDir:__dirname+'/views/layouts/'}));
+app.engine('hbs', hbs({ extname: 'hbs', defaultLayout: 'layout', layoutDir: __dirname + '/views/layouts/' }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
@@ -37,10 +37,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressValidator());
 var options = {
-  host:'localhost',
+  host: 'localhost',
   port: '3306',
   user: 'root',
-  password:'',
+  password: '',
   database: 'service'
 };
 
@@ -49,9 +49,9 @@ var sessionStore = new MySQLStore(options);
 
 app.use(session({
   secret: 'secret',
-  saveUninitialized:false,
-  resave:false,
-  store:sessionStore
+  saveUninitialized: false,
+  resave: false,
+  store: sessionStore
 }))
 
 app.use(passport.initialize());
@@ -62,9 +62,9 @@ app.use('/users', usersRouter);
 
 
 passport.use(new LocalStrategy(
-  function(username, password, done) {
-  	console.log(username);
-  	console.log(password);
+  function (username, password, done) {
+    console.log(username);
+    console.log(password);
     //return done(null,'njgm');
     var mysql = require('mysql');
     var con = mysql.createConnection({
@@ -74,53 +74,55 @@ passport.use(new LocalStrategy(
       database: "service"
     });
 
-    con.connect(function(err) {
+    con.connect(function (err) {
       if (err) throw err;
-    
-      
-        console.log("Connected!");
-    
-      con.query('SELECT password,user_id FROM user WHERE user_name = ?', [username], function(err,results,fields){
-      if(err){
+
+
+      console.log("Connected!");
+
+      con.query('SELECT password,user_id FROM user WHERE user_name = ?', [username], function (err, results, fields) {
+        if (err) {
           done(err)
         }
-      
-      if(results.lenght  === 0){
-            //return done(null,false,{message:'Unknow User
-			//console.log("bnd");
-        done(null,false);
-        }else{const hash = results[0].password.toString();
-        bcrypt.compare(password,hash,function(err, response){
-          if(response === true){
-            //req.isAuthenticated= true;
-            //user_id = results[0].user_id;
-            return done(null,{user_id:results[0].user_id});
-            //return done(null, user);
-    
-          }else{
-            return done(null,false);
-          }
-    
-        })}
-      
-        
-       // return done(null,'btfbj');
-          
-          //console.log("loging sucefuly");
-          
-        });
-    
-        });
+
+        if (results.lenght === 0) {
+          //return done(null,false,{message:'Unknow User
+          //console.log("bnd");
+          done(null, false);
+        } else {
+          const hash = results[0].password.toString();
+          bcrypt.compare(password, hash, function (err, response) {
+            if (response === true) {
+              //req.isAuthenticated= true;
+              //user_id = results[0].user_id;
+              return done(null, { user_id: results[0].user_id });
+              //return done(null, user);
+
+            } else {
+              return done(null, false);
+            }
+
+          })
+        }
+
+
+        // return done(null,'btfbj');
+
+        //console.log("loging sucefuly");
+
+      });
+
+    });
   }
 ));
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
