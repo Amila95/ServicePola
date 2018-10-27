@@ -55,6 +55,10 @@ router.get('/add_thired',function(req,res,next){
   res.render('add_thired');
 })
 
+router.get('/home',function(req,res,next){
+  res.render('home',{layout: 'home_layout'});
+})
+
 router.get('/signin',function(req,res,next){
   res.render('signin');
 })
