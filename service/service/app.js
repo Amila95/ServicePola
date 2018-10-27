@@ -14,6 +14,7 @@ var MySQLStore = require('express-mysql-session')(session);
 ////Authentication Packages
 var session = require('express-session');
 var passport = require('passport');
+var bcrypt = require('bcrypt');
 
 var hbs = require('express-handlebars');
 
@@ -61,60 +62,55 @@ app.use('/users', usersRouter);
 
 
 passport.use(new LocalStrategy(
-  function(user_name, password, done) {
-  	console.log(user_name);
+  function(username, password, done) {
+  	console.log(username);
   	console.log(password);
-var mysql = require('mysql');
-
-var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "service"
-});
-
-
-
-    /*const db = require('../config/connection');*/
-  con.connect(function(err) {
-  if (err) throw err;
-
-  
-    console.log("Connected!");
-
-  con.query('SELECT password,user_id FROM users WHERE user_name = ?', [user_name], function(err,results,fields){
-  if(err){
-      done(err)
-    }
-  
-  if(results.length === 0){
-        //return done(null,false,{message:'Unknow User'});
-    done(null,false);
-    }else{const hash = results[0].password.toString();
-    bcrypt.compare(password,hash,function(err, response){
-      if(response === true){
-        //req.isAuthenticated= true;
-        //user_id = results[0].user_id;
-        return done(null,{user_id:results[0].user_id});
-        //return done(null, user);
-
-      }else{
-        console.log("hcnjft");
-        return done(null,false);
-      }
-
-    })}
-  
-    
-   // return done(null,'btfbj');
-      
-      //console.log("loging sucefuly");
-      
+    //return done(null,'njgm');
+    var mysql = require('mysql');
+    var con = mysql.createConnection({
+      host: "localhost",
+      user: "root",
+      password: "",
+      database: "service"
     });
 
-    });
+    con.connect(function(err) {
+      if (err) throw err;
     
-
+      
+        console.log("Connected!");
+    
+      con.query('SELECT password,user_id FROM user WHERE user_name = ?', [username], function(err,results,fields){
+      if(err){
+          done(err)
+        }
+      
+      if(results.lenght  === 0){
+            //return done(null,false,{message:'Unknow User
+			//console.log("bnd");
+        done(null,false);
+        }else{const hash = results[0].password.toString();
+        bcrypt.compare(password,hash,function(err, response){
+          if(response === true){
+            //req.isAuthenticated= true;
+            //user_id = results[0].user_id;
+            return done(null,{user_id:results[0].user_id});
+            //return done(null, user);
+    
+          }else{
+            return done(null,false);
+          }
+    
+        })}
+      
+        
+       // return done(null,'btfbj');
+          
+          //console.log("loging sucefuly");
+          
+        });
+    
+        });
   }
 ));
 

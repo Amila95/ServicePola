@@ -25,9 +25,9 @@ connection.connect(function(err) {
 });
 
 /* GET home page. */
-router.get('/', authenticationMiddleware(), function(req, res, next) {
-  console.log(req.user);
-  console.log(req.isAuthenticated());
+router.get('/',  function(req, res, next) {
+  //console.log(req.user);
+  //console.log(req.isAuthenticated());
   res.render('index');
 });
 
@@ -63,6 +63,12 @@ router.post('/login',passport.authenticate('local',{
   successRedirect:'/',
   failureRedirect:'/signin'
 }));
+
+router.get('/logout',function(req,res,next){
+  req.logOut();
+  req.session.destroy();
+  res.redirect('//signin');
+})
 
 router.post('/register',function(req,res){
   req.checkBody('name','Username field connot be empty.').notEmpty();
