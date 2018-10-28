@@ -41,7 +41,7 @@ var options = {
   port: '3306',
   user: 'root',
   password: '',
-  database: 'service'
+  database: 'servicepoladb'
 };
 
 
@@ -62,8 +62,8 @@ app.use('/users', usersRouter);
 
 
 passport.use(new LocalStrategy(
-  function (username, password, done) {
-    console.log(username);
+  function (u_name, password, done) {
+    console.log(u_name);
     console.log(password);
     //return done(null,'njgm');
     var mysql = require('mysql');
@@ -71,7 +71,7 @@ passport.use(new LocalStrategy(
       host: "localhost",
       user: "root",
       password: "",
-      database: "service"
+      database: "servicepoladb"
     });
 
     con.connect(function (err) {
@@ -80,22 +80,23 @@ passport.use(new LocalStrategy(
 
       console.log("Connected!");
 
-      con.query('SELECT password,user_id FROM user WHERE user_name = ?', [username], function (err, results, fields) {
+      con.query('SELECT u_password,u_id FROM users WHERE u_name = ?', [u_name], function (err, results, fields) {
         if (err) {
           done(err)
         }
-
+        //console.log("rt");
+        console.log(results.lenght);
         if (results.lenght === 0) {
           //return done(null,false,{message:'Unknow User
-          //console.log("bnd");
+          console.log("bnd");
           done(null, false);
         } else {
-          const hash = results[0].password.toString();
+          const hash = results[0].u_password.toString();
           bcrypt.compare(password, hash, function (err, response) {
             if (response === true) {
               //req.isAuthenticated= true;
               //user_id = results[0].user_id;
-              return done(null, { user_id: results[0].user_id });
+              return done(null, { user_id: results[0].u_id });
               //return done(null, user);
 
             } else {
