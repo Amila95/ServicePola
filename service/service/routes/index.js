@@ -110,8 +110,8 @@ router.post('/register', function (req, res) {
                 const user_id = results[0].u_id;
                 console.log(results[0].u_id);
                 req.login(user_id, function (err) {
-      
-                 res.redirect('/');
+                 console.log(req.user.user_id);
+                 res.redirect('/add_telenet');
                }
                )
             })  
@@ -149,6 +149,21 @@ router.post('/register', function (req, res) {
 
 
 })
+
+router.post('/fristadd',function(req, res){
+  var main = req.body.main;
+  var sub = req.body.sub;
+  var dis = req.body.dis;
+  console.log(req.isAuthenticated());
+  console.log(req.user.user_id);
+
+//   connection.query('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [req.user_id, sub, dis], function (err, result) {
+//     if(err) throw err;
+//     res.redirect('/add_secound');
+// })
+
+})
+
 passport.serializeUser(function (user_id, done) {
   done(null, user_id);
 });

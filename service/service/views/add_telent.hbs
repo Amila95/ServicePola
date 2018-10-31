@@ -6,7 +6,7 @@
           <h3 class="mb-30 title_color">
             Telent From
           </h3>
-          <form action="#">
+          <form action="/fristadd" method="post">
             {{! <div class="mt-10">
 										<input type="text" name="first_name" placeholder="First Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name'" required class="single-input">
 									</div> }}
@@ -28,7 +28,7 @@
                 <i class="fa fa-plane" aria-hidden="true"></i>
               </div>
               <div class="form-select" id="default-select">
-                <select>
+                <select name="name">
                   <option value="1">
                     Main Category
                   </option>
@@ -52,7 +52,7 @@
                 <i class="fa fa-plane" aria-hidden="true"></i>
               </div>
               <div class="form-select" id="default-select">
-                <select>
+                <select name="sub">
                   <option value="1">
                     Sub Category
                   </option>
@@ -101,6 +101,7 @@
             <div class="mt-10">
               <textarea
                 class="single-textarea"
+                name="dis"
                 placeholder="Discribtion About User Telent"
                 onfocus="this.placeholder = ''"
                 onblur="this.placeholder = 'Discribtion About User Telent'"
@@ -109,11 +110,14 @@
             </div>
             <div class="row">
               <div class="mt-10">
-                <a href="#" class="genric-btn primary-border circle arrow">
-                  Complte Regestion
-                  <span class="lnr lnr-arrow-right"></span>
-                </a>
-              </div>
+              <button
+                type="submit"
+                class="genric-btn primary-border circle arrow"
+              >
+                Sign In
+                <span class="lnr lnr-arrow-right"></span>
+              </button>
+            </div>
               <div class="mt-10">
                 <a
                   href="add_secound"
