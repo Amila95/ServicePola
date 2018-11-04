@@ -44,6 +44,8 @@ router.get('/registion', function (req, res, next) {
 })
 
 router.get('/add_telenet', function (req, res, next) {
+  //console.log(req.isAuthenticated());
+  //console.log(user_id);
   res.render('add_telent');
 })
 
@@ -110,36 +112,16 @@ router.post('/register', function (req, res) {
                 const user_id = results[0].u_id;
                 console.log(results[0].u_id);
                 req.login(user_id, function (err) {
-                 console.log(req.user.user_id);
-                 res.redirect('/add_telenet');
+                 console.log(user_id);
+                 res.render('add_telent',{user_id:user_id});
                }
                )
             })  
-            //res.redirect('/');
+           
           })
           })
         
-       // res.redirect('/');
-        // connection.query('SELECT LAST_INSERT_ID() as user_id',function(err,res){
-        //   if (err) throw err;
-        //   const user_id = result[0];
-        //   console.log(result[0]);
-        //   req.login(user_id,function(err,res){
-        //     res.redirect('/signin');
-        //   });
-
-        // })
-        // connection.query('SELECT LAST_INSERT_ID() as user_id', function (err, results, fields) {
-        //   if (err) throw err;
-        //   const user_id = results[0];
-        //   //console.log(results[0]);
-        //   req.login(user_id, function (err) {
-
-        //     res.redirect('/');
-        //   }
-        //   )
-
-        // });
+       
 
       })
     })
@@ -154,13 +136,46 @@ router.post('/fristadd',function(req, res){
   var main = req.body.main;
   var sub = req.body.sub;
   var dis = req.body.dis;
+  var user_id = req.body.user;
   console.log(req.isAuthenticated());
-  console.log(req.user.user_id);
+  console.log(user_id);
 
-//   connection.query('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [req.user_id, sub, dis], function (err, result) {
-//     if(err) throw err;
-//     res.redirect('/add_secound');
-// })
+  connection.query('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [user_id, sub, dis], function (err, result) {
+    if(err) throw err;
+    res.render('add_secound',{user_id:user_id});
+})
+
+})
+
+router.post('/secoundadd',function(req, res){
+  var main = req.body.main;
+  var sub = req.body.sub;
+  var dis = req.body.dis;
+  var user_id = req.body.user;
+  console.log(req.isAuthenticated());
+  console.log(user_id);
+
+  connection.query('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [user_id, sub, dis], function (err, result) {
+    if(err) throw err;
+    res.render('add_thired',{user_id:user_id});
+})
+
+})
+
+router.post('/secoundadd',function(req, res){
+  var main = req.body.main;
+  var sub = req.body.sub;
+  var dis = req.body.dis;
+  var user_id = req.body.user;
+  console.log(req.isAuthenticated());
+  console.log(user_id);
+
+  connection.query('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [user_id, sub, dis], function (err, result) {
+    if(err) throw err;
+    res.render('complete_registion');
+})
+
+
 
 })
 
