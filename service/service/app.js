@@ -41,7 +41,7 @@ var options = {
   port: '3306',
   user: 'root',
   password: '',
-  database: 'service'
+  database: 'servicepoladb'
 };
 
 
@@ -71,7 +71,7 @@ passport.use(new LocalStrategy(
       host: "localhost",
       user: "root",
       password: "",
-      database: "service"
+      database: "servicepoladb"
     });
 
     con.connect(function (err) {
@@ -80,22 +80,22 @@ passport.use(new LocalStrategy(
 
       console.log("Connected!");
 
-      con.query('SELECT password,user_id FROM user WHERE user_name = ?', [username], function (err, results, fields) {
+      con.query('SELECT u_password,u_id FROM users WHERE u_name = ?', [username], function (err, result, fields) {
         if (err) {
           done(err)
         }
-
-        if (results.lenght === 0) {
+        //console.log("rt");
+        console.log(result);
+        console.log(result.length);
+        if (result.length > 0) {
           //return done(null,false,{message:'Unknow User
-          //console.log("bnd");
-          done(null, false);
-        } else {
-          const hash = results[0].password.toString();
+          console.log("bf");
+          const hash = result[0].u_password.toString();
           bcrypt.compare(password, hash, function (err, response) {
             if (response === true) {
               //req.isAuthenticated= true;
               //user_id = results[0].user_id;
-              return done(null, { user_id: results[0].user_id });
+              return done(null, { user_id: result[0].u_id });
               //return done(null, user);
 
             } else {
@@ -103,6 +103,11 @@ passport.use(new LocalStrategy(
             }
 
           })
+          
+          
+        } else {
+          console.log("bndssss");
+          done(null, false);
         }
 
 

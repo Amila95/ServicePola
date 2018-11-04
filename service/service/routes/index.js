@@ -10,7 +10,7 @@ const saltRounds = 10;
 
 var connection = mysql.createConnection({
   host: 'localhost',
-  database: 'service',
+  database: 'servicepoladb',
   user: 'root',
   password: '',
 });
@@ -71,7 +71,7 @@ router.post('/login', passport.authenticate('local', {
 router.get('/logout', function (req, res, next) {
   req.logOut();
   req.session.destroy();
-  res.redirect('//signin');
+  res.redirect('/signin');
 })
 
 router.post('/register', function (req, res) {
@@ -90,12 +90,36 @@ router.post('/register', function (req, res) {
     var dis = req.body.dis;
     var password = req.body.password;
     var district = req.body.district;
+    var city = req.body.city;
+    var dob = req.body.dob;
     var re_password = req.body.re_password;
 
     // console.log(district);
     bcrypt.hash(password, saltRounds, function (err, hash) {
-      connection.query('INSERT INTO user(user_name,email,address,tel_phone,discription,district,password) VALUES(?,?,?,?,?,?,?)', [name, email, address, phone_no, dis, district, hash], function (err, result) {
+      connection.query('INSERT INTO service_provider(s_name,email,address,mobile,overal_description,district,dob,town) VALUES(?,?,?,?,?,?,?,?)', [name, email, address, phone_no, dis, district, dob, city ], function (err, result) {
         if (err) throw err;
+        connection.query('SELECT LAST_INSERT_ID() as s_p_id', function (err, results, fields) {
+          if(err) throw err;
+          var s_p_id = results[0].s_p_id;
+          //console.log(s_p_id);
+          
+          connection.query('INSERT INTO users(u_email,u_name,u_password,u_group,u_status,s_p_id) VALUES(?,?,?,?,?,?)',[email,name,hash,'1','1',s_p_id],function(err,result){
+            if(err) throw err;
+            connection.query('SELECT LAST_INSERT_ID() as u_id', function (err, results, fields) {
+              if (err) throw err;
+                const user_id = results[0].u_id;
+                console.log(results[0].u_id);
+                req.login(user_id, function (err) {
+                 console.log(req.user.user_id);
+                 res.redirect('/add_telenet');
+               }
+               )
+            })  
+            //res.redirect('/');
+          })
+          })
+        
+       // res.redirect('/');
         // connection.query('SELECT LAST_INSERT_ID() as user_id',function(err,res){
         //   if (err) throw err;
         //   const user_id = result[0];
@@ -105,17 +129,17 @@ router.post('/register', function (req, res) {
         //   });
 
         // })
-        connection.query('SELECT LAST_INSERT_ID() as user_id', function (err, results, fields) {
-          if (err) throw err;
-          const user_id = results[0];
-          //console.log(results[0]);
-          req.login(user_id, function (err) {
+        // connection.query('SELECT LAST_INSERT_ID() as user_id', function (err, results, fields) {
+        //   if (err) throw err;
+        //   const user_id = results[0];
+        //   //console.log(results[0]);
+        //   req.login(user_id, function (err) {
 
-            res.redirect('/');
-          }
-          )
+        //     res.redirect('/');
+        //   }
+        //   )
 
-        });
+        // });
 
       })
     })
@@ -125,6 +149,21 @@ router.post('/register', function (req, res) {
 
 
 })
+
+router.post('/fristadd',function(req, res){
+  var main = req.body.main;
+  var sub = req.body.sub;
+  var dis = req.body.dis;
+  console.log(req.isAuthenticated());
+  console.log(req.user.user_id);
+
+//   connection.query('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [req.user_id, sub, dis], function (err, result) {
+//     if(err) throw err;
+//     res.redirect('/add_secound');
+// })
+
+})
+
 passport.serializeUser(function (user_id, done) {
   done(null, user_id);
 });
