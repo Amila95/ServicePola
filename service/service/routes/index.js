@@ -162,7 +162,7 @@ router.post('/secoundadd',function(req, res){
 
 })
 
-router.post('/secoundadd',function(req, res){
+router.post('/thiredadd',function(req, res){
   var main = req.body.main;
   var sub = req.body.sub;
   var dis = req.body.dis;
@@ -172,7 +172,7 @@ router.post('/secoundadd',function(req, res){
 
   connection.query('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [user_id, sub, dis], function (err, result) {
     if(err) throw err;
-    res.render('complete_registion');
+    res.redirect('/signin');
 })
 
 
