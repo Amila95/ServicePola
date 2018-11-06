@@ -66,6 +66,7 @@ passport.use(new LocalStrategy(
     console.log(username);
     console.log(password);
     //return done(null,'njgm');
+    
     var mysql = require('mysql');
     var con = mysql.createConnection({
       host: "localhost",
