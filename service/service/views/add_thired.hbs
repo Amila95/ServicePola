@@ -9,9 +9,11 @@
            <form action="/thiredadd" method="post">
             
             <div class="input-group-icon mt-10">
-              <div class="icon">
-                <i class="fa fa-plane" aria-hidden="true"></i>
+             <div class="row">
+              <div class="col-lg-2 col-md-2">
+              <label> Main Category </label>
               </div>
+              <div class="col-lg-10 col-md-10">
               <div class="form-select" id="default-select">
                 <select name="name">
                   <option value="1">
@@ -32,10 +34,14 @@
                 </select>
               </div>
             </div>
+            </div>
+            </div>
             <div class="input-group-icon mt-10">
-              <div class="icon">
-                <i class="fa fa-plane" aria-hidden="true"></i>
+              <div class="row">
+              <div class="col-lg-2 col-md-2">
+              <label> Sub Category </label>
               </div>
+              <div class="col-lg-10 col-md-10">
               <div class="form-select" id="default-select">
                 <select name="sub">
                   <option value="1">
@@ -56,8 +62,15 @@
                 </select>
               </div>
             </div>
+            </div>
+            </div>
           
             <div class="mt-10" >
+              <div class="row">
+              <div class="col-lg-2 col-md-2">
+              <label> Introduction </label>
+              </div>
+              <div class="col-lg-10 col-md-10">
               <textarea
                 class="single-textarea"
                 name="dis"
@@ -66,6 +79,8 @@
                 onblur="this.placeholder = 'Discribtion About User Telent'"
                 required
               ></textarea>
+            </div>
+            </div>
             </div>
             <div class="mt-10"  hidden>
              <input type="text" name="user" value={{user_id}}>

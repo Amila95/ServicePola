@@ -55,7 +55,8 @@ router.get('/profile', function (req, res, next) {
 })
 
 router.get('/registion', function (req, res, next) {
-  res.render('registion');
+  res.render('registion',{success:req.session.success,errors:req.session.errors});
+  req.session.errors = null;
 })
 
 router.get('/add_telenet', function (req, res, next) {
@@ -93,10 +94,22 @@ router.get('/logout', function (req, res, next) {
 
 router.post('/register', function (req, res) {
   req.checkBody('name', 'Username field connot be empty.').notEmpty();
+  req.checkBody('email', 'Email field connot be empty.').notEmpty();
+  req.checkBody('address', 'Address field connot be empty.').notEmpty();
+  req.checkBody('phone_no', 'Mobile field connot be empty.').notEmpty();
+  req.checkBody('dis', 'Discription field connot be empty.').notEmpty();
+  req.checkBody('password', 'Password field connot be empty.').notEmpty();
+  req.checkBody('district', 'District field connot be empty.').notEmpty();
+  req.checkBody('city', 'City field connot be empty.').notEmpty();
+  req.checkBody('dob', 'DOB field connot be empty.').notEmpty();
+  req.checkBody('re_password', 'Re Password field connot be empty.').notEmpty();
 
-  const errors = req.validationErrors();
+  var errors = req.validationErrors();
   if (errors) {
-    console.log('errors: ${JSON.stringify(errors)}');
+    //console.log('errors: ${JSON.stringify(errors)}');
+    req.session.errors = errors;
+    req.session.success = false;
+    res.redirect('/registion')
 
   }
   else {
