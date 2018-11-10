@@ -247,10 +247,10 @@ router.post('/register', function (req, res) {
 
 })
 
-<<<<<<< HEAD
-router.post('/fristadd', function (req, res) {
-  var main = req.body.main;
-=======
+// <<<<<<< HEAD
+// router.post('/fristadd', function (req, res) {
+//   var main = req.body.main;
+// =======
 router.post('/fristadd',function(req, res){
   req.checkBody('main', 'main field connot be empty.').notEmpty();
   req.checkBody('sub', 'sub field connot be empty.').notEmpty();
@@ -291,7 +291,7 @@ router.post('/fristadd',function(req, res){
   }
   else{
     var main = req.body.main;
->>>>>>> master
+//>>>>>>> master
   var sub = req.body.sub;
   var dis = req.body.dis;
   var user_id = req.body.user;
@@ -311,9 +311,9 @@ router.post('/fristadd',function(req, res){
 
 })
 
-<<<<<<< HEAD
-router.post('/secoundadd', function (req, res) {
-=======
+// <<<<<<< HEAD
+// router.post('/secoundadd', function (req, res) {
+// =======
 router.post('/secoundadd',function(req, res){
   req.checkBody('main', 'main field connot be empty.').notEmpty();
   req.checkBody('sub', 'sub field connot be empty.').notEmpty();
@@ -353,7 +353,7 @@ router.post('/secoundadd',function(req, res){
 
   }
   else{
->>>>>>> master
+//
   var main = req.body.main;
   var sub = req.body.sub;
   var dis = req.body.dis;
@@ -369,13 +369,13 @@ router.post('/secoundadd',function(req, res){
     })
 
   })
-<<<<<<< HEAD
+// <<<<<<< HEAD
 
 
-})
+// })
 
-router.post('/thiredadd', function (req, res) {
-=======
+// router.post('/thiredadd', function (req, res) {
+// =======
 }
 
 })
@@ -419,7 +419,7 @@ router.post('/thiredadd',function(req, res){
 
   }
   else{
->>>>>>> master
+// >>>>>>> master
   var main = req.body.main;
   var sub = req.body.sub;
   var dis = req.body.dis;
@@ -434,12 +434,12 @@ router.post('/thiredadd',function(req, res){
       res.redirect('/signin');
     })
   })
-<<<<<<< HEAD
+// <<<<<<< HEAD
 
-=======
-})
+// =======
+//})
   }
->>>>>>> master
+//>>>>>>> master
 
 
 })
