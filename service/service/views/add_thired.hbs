@@ -32,7 +32,14 @@
                     Food
                   </option>
                 </select>
+                
               </div>
+              {{# if mainer }}
+                
+                  
+                      <p class="alert alert-danger">{{ this.mainer }}</p>
+                
+              {{/if}}
             </div>
             </div>
             </div>
@@ -60,6 +67,12 @@
                     Animations
                   </option>
                 </select>
+                {{# if suber }}
+                
+                  
+                      <p class="alert alert-danger">{{ this.suber }}</p>
+                
+              {{/if}}
               </div>
             </div>
             </div>
@@ -77,8 +90,14 @@
                 placeholder="Discribtion About User Telent"
                 onfocus="this.placeholder = ''"
                 onblur="this.placeholder = 'Discribtion About User Telent'"
-                required
+                
               ></textarea>
+              {{# if diser }}
+                
+                  
+                      <p class="alert alert-danger">{{ this.diser }}</p>
+                
+              {{/if}}
             </div>
             </div>
             </div>

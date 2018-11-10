@@ -103,6 +103,7 @@ router.get('/logout', function (req, res, next) {
 router.post('/register', function (req, res) {
   req.checkBody('name', 'Username field connot be empty.').notEmpty();
   req.checkBody('email', 'Email field connot be empty.').notEmpty();
+  req.checkBody('email', 'Enter a valid email address.').isEmail();
   req.checkBody('address', 'Address field connot be empty.').notEmpty();
   req.checkBody('phone_no', 'Mobile field connot be empty.').notEmpty();
   req.checkBody('dis', 'Discription field connot be empty.').notEmpty();
@@ -111,13 +112,91 @@ router.post('/register', function (req, res) {
   req.checkBody('city', 'City field connot be empty.').notEmpty();
   req.checkBody('dob', 'DOB field connot be empty.').notEmpty();
   req.checkBody('re_password', 'Re Password field connot be empty.').notEmpty();
-
+  var namer='';
+  var emailer="";
+  var addresser = "";
+  var phone_noer = "";
+  var diser = "";
+  var passworder = "";
+  var districter = "";
+  var cityer = "";
+  var dober = "";
+  var re_passworder = "";
+  
   var errors = req.validationErrors();
+  console.log(errors);
   if (errors) {
     //console.log('errors: ${JSON.stringify(errors)}');
+    for(i=0;i<errors.length;i++){
+      if(errors[i].param == 'name')
+      {
+        console.log("dbj");
+        namer= errors[i].msg;
+        //console.log(req.session.error);
+      }
+      
+      if(errors[i].param == 'email')
+      {
+        console.log("dbj");
+        emailer= errors[i].msg;
+        //console.log(req.session.error);
+      }
+      if(errors[i].param == 'address')
+      {
+        console.log("dbj");
+        addresser= errors[i].msg;
+        //console.log(req.session.error);
+      }
+      if(errors[i].param == 'phone_no')
+      {
+        console.log("dbj");
+        phone_noer= errors[i].msg;
+        //console.log(req.session.error);
+      }
+      if(errors[i].param == 'dis')
+      {
+        console.log("dbj");
+        diser= errors[i].msg;
+        //console.log(req.session.error);
+      }
+      if(errors[i].param == 'password')
+      {
+        console.log("dbj");
+        passworder= errors[i].msg;
+        //console.log(req.session.error);
+      }
+      if(errors[i].param == 'district')
+      {
+        console.log("dbj");
+        districter= errors[i].msg;
+        //console.log(req.session.error);
+      }
+      if(errors[i].param == 'city')
+      {
+        console.log("dbj");
+        cityer= errors[i].msg;
+        //console.log(req.session.error);
+      }
+      if(errors[i].param == 'dob')
+      {
+        console.log("dbj");
+        dober= errors[i].msg;
+        //console.log(req.session.error);
+      }
+      if(errors[i].param == 're_password')
+      {
+        console.log("dbj");
+        re_passworder= errors[i].msg;
+        //console.log(req.session.error);
+      }
+      
+    }
+   
+    
     req.session.errors = errors;
     req.session.success = false;
-    res.redirect('/registion')
+    res.render('registion',{namer:namer,emailer:emailer,addresser:addresser,phone_noer:phone_noer,diser:diser,
+      passworder:passworder,districter:districter,cityer:cityer,dober:dober,re_passworder:re_passworder})
 
   }
   else {
@@ -168,8 +247,51 @@ router.post('/register', function (req, res) {
 
 })
 
+<<<<<<< HEAD
 router.post('/fristadd', function (req, res) {
   var main = req.body.main;
+=======
+router.post('/fristadd',function(req, res){
+  req.checkBody('main', 'main field connot be empty.').notEmpty();
+  req.checkBody('sub', 'sub field connot be empty.').notEmpty();
+  req.checkBody('dis', 'dis field connot be empty.').notEmpty();
+
+  var mainer='';
+  var suber="";
+  var diser = "";
+  
+  var errors = req.validationErrors();
+
+  if(errors){
+    for(i=0;i<errors.length;i++){
+      if(errors[i].param == 'main')
+      {
+        console.log("dbj");
+        mainer= errors[i].msg;
+        //console.log(req.session.error);
+      }
+      
+      if(errors[i].param == 'sub')
+      {
+        console.log("dbj");
+        suber= errors[i].msg;
+        //console.log(req.session.error);
+      }
+      if(errors[i].param == 'dis')
+      {
+        console.log("dbj");
+        diser= errors[i].msg;
+        //console.log(req.session.error);
+      }
+    }
+    req.session.errors = errors;
+    req.session.success = false;
+    res.render('add_telent',{mainer:mainer,suber:suber,diser:diser})
+
+  }
+  else{
+    var main = req.body.main;
+>>>>>>> master
   var sub = req.body.sub;
   var dis = req.body.dis;
   var user_id = req.body.user;
@@ -184,10 +306,54 @@ router.post('/fristadd', function (req, res) {
     })
   })
 
+  }
+  
 
 })
 
+<<<<<<< HEAD
 router.post('/secoundadd', function (req, res) {
+=======
+router.post('/secoundadd',function(req, res){
+  req.checkBody('main', 'main field connot be empty.').notEmpty();
+  req.checkBody('sub', 'sub field connot be empty.').notEmpty();
+  req.checkBody('dis', 'dis field connot be empty.').notEmpty();
+
+  var mainer='';
+  var suber="";
+  var diser = "";
+  
+  var errors = req.validationErrors();
+
+  if(errors){
+    for(i=0;i<errors.length;i++){
+      if(errors[i].param == 'main')
+      {
+        console.log("dbj");
+        mainer= errors[i].msg;
+        //console.log(req.session.error);
+      }
+      
+      if(errors[i].param == 'sub')
+      {
+        console.log("dbj");
+        suber= errors[i].msg;
+        //console.log(req.session.error);
+      }
+      if(errors[i].param == 'dis')
+      {
+        console.log("dbj");
+        diser= errors[i].msg;
+        //console.log(req.session.error);
+      }
+    }
+    req.session.errors = errors;
+    req.session.success = false;
+    res.render('add_secound',{mainer:mainer,suber:suber,diser:diser})
+
+  }
+  else{
+>>>>>>> master
   var main = req.body.main;
   var sub = req.body.sub;
   var dis = req.body.dis;
@@ -203,11 +369,57 @@ router.post('/secoundadd', function (req, res) {
     })
 
   })
+<<<<<<< HEAD
 
 
 })
 
 router.post('/thiredadd', function (req, res) {
+=======
+}
+
+})
+
+router.post('/thiredadd',function(req, res){
+  req.checkBody('main', 'main field connot be empty.').notEmpty();
+  req.checkBody('sub', 'sub field connot be empty.').notEmpty();
+  req.checkBody('dis', 'dis field connot be empty.').notEmpty();
+
+  var mainer='';
+  var suber="";
+  var diser = "";
+  
+  var errors = req.validationErrors();
+
+  if(errors){
+    for(i=0;i<errors.length;i++){
+      if(errors[i].param == 'main')
+      {
+        console.log("dbj");
+        mainer= errors[i].msg;
+        //console.log(req.session.error);
+      }
+      
+      if(errors[i].param == 'sub')
+      {
+        console.log("dbj");
+        suber= errors[i].msg;
+        //console.log(req.session.error);
+      }
+      if(errors[i].param == 'dis')
+      {
+        console.log("dbj");
+        diser= errors[i].msg;
+        //console.log(req.session.error);
+      }
+    }
+    req.session.errors = errors;
+    req.session.success = false;
+    res.render('add_thired',{mainer:mainer,suber:suber,diser:diser})
+
+  }
+  else{
+>>>>>>> master
   var main = req.body.main;
   var sub = req.body.sub;
   var dis = req.body.dis;
@@ -222,7 +434,12 @@ router.post('/thiredadd', function (req, res) {
       res.redirect('/signin');
     })
   })
+<<<<<<< HEAD
 
+=======
+})
+  }
+>>>>>>> master
 
 
 })
