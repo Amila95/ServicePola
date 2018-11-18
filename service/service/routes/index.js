@@ -46,7 +46,7 @@ router.get('/service_provider_list', function (req, res, next) {
 router.get('/profile', function (req, res, next) {
   const user_id = req.user.user_id;
   console.log(user_id);
-<<<<<<< HEAD
+//<<<<<<< HEAD
   connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?',[user_id],function(err,rows){
       const s_p_id = rows[0].s_p_id;
       console.log(s_p_id);
@@ -56,17 +56,17 @@ router.get('/profile', function (req, res, next) {
       
    
   }) 
-=======
-  connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id], function (err, rows) {
-    const s_p_id = rows[0].s_p_id;
-    console.log(s_p_id);
-    connection.query('SELECT * ,sub_talent.s_t_name  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?', [s_p_id], function (err, row1) {
-      res.render('profile', { details: rows, talents: row1 });
-    })
+// =======
+//   connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id], function (err, rows) {
+//     const s_p_id = rows[0].s_p_id;
+//     console.log(s_p_id);
+//     connection.query('SELECT * ,sub_talent.s_t_name  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?', [s_p_id], function (err, row1) {
+//       res.render('profile', { details: rows, talents: row1 });
+//     })
 
 
-  })
->>>>>>> db77d95242a0e4685ac5a8b8563f1dc6bcb10c3d
+//   })
+// >>>>>>> db77d95242a0e4685ac5a8b8563f1dc6bcb10c3d
 
 
 
@@ -243,7 +243,7 @@ router.post('/register', function (req, res) {
             if (err) throw err;
             connection.query('SELECT LAST_INSERT_ID() as u_id', function (err, results, fields) {
               if (err) throw err;
-<<<<<<< HEAD
+//<<<<<<< HEAD
                 const user_id = results[0].u_id;
                 console.log(results[0].u_id);
                 req.login(user_id, function (err) {
@@ -261,24 +261,24 @@ router.post('/register', function (req, res) {
             })  
            
           })
-=======
-              const user_id = results[0].u_id;
-              console.log(results[0].u_id);
-              req.login(user_id, function (err) {
-                console.log(user_id);
-                res.render('add_telent', { user_id: user_id });
-              }
-              )
-            })
+// =======
+//               const user_id = results[0].u_id;
+//               console.log(results[0].u_id);
+//               req.login(user_id, function (err) {
+//                 console.log(user_id);
+//                 res.render('add_telent', { user_id: user_id });
+//               }
+//               )
+//             })
 
->>>>>>> db77d95242a0e4685ac5a8b8563f1dc6bcb10c3d
+// >>>>>>> db77d95242a0e4685ac5a8b8563f1dc6bcb10c3d
           })
         })
 
 
 
       })
-    })
+    
 
   }
 
