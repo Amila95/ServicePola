@@ -28,7 +28,7 @@ connection.connect(function (err) {
 router.get('/', function (req, res, next) {
   //console.log(req.user);
   //console.log(req.isAuthenticated());
-  res.render('index', { layout: 'home_layout' });
+  res.render('index');
 });
 
 router.get('/sidebar', function (req, res, next) {
@@ -36,17 +36,17 @@ router.get('/sidebar', function (req, res, next) {
 });
 
 router.get('/sub_category', function (req, res, next) {
-  res.render('subcategory', { layout: 'home_layout' });
+  res.render('subcategory');
 });
 
 router.get('/service_provider_list', function (req, res, next) {
-  res.render('service_provider_list', { layout: 'home_layout' });
+  res.render('service_provider_list');
 });
 //test comment by pathum
 router.get('/profile', function (req, res, next) {
   const user_id = req.user.user_id;
   console.log(user_id);
-
+  console.log(req.isAuthenticated());
   connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?',[user_id],function(err,rows){
       const s_p_id = rows[0].s_p_id;
       console.log(s_p_id);
@@ -61,7 +61,7 @@ router.get('/profile', function (req, res, next) {
 
 router.get('/registion', function (req, res, next) {
   //req.session.errors = null;
-  res.render('registion', { layout: 'home_layout' });
+  res.render('registion');
   
 })
 
@@ -87,7 +87,7 @@ router.get('/add_thired', function (req, res, next) {
 })
 
 router.get('/home', function (req, res, next) {
-  res.render('home', { layout: 'home_layout' });
+  res.render('home');
 })
 
 router.get('/signin', function (req, res, next) {
@@ -470,6 +470,7 @@ function authenticationMiddleware() {
     if (req.isAuthenticated()) return next();
     res.redirect('/signin');
   }
+  res.redirect('/signin');
 }
 
 router.post('/textdata',function(req,res){

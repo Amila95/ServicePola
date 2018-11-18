@@ -20,7 +20,7 @@ var hbs = require('express-handlebars');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var adminRouter = require('./routes/admin');
+
 var app = express();
 
 // view engine setup
@@ -36,6 +36,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressValidator());
+
+
+
 var options = {
   host: 'localhost',
   port: '3306',
@@ -57,9 +60,16 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(function(req, res, next){
+
+
+  res.locals.isAuthenticated = req.isAuthenticated();
+  next();
+});
+
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/admin',adminRouter);
 
 
 passport.use(new LocalStrategy(
