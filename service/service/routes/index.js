@@ -46,11 +46,7 @@ router.get('/service_provider_list', function (req, res, next) {
 router.get('/profile', function (req, res, next) {
   const user_id = req.user.user_id;
   console.log(user_id);
-<<<<<<< HEAD
-// <<<<<<< HEAD
-=======
-//<<<<<<< HEAD
->>>>>>> 34f5ce9aa5afad7bf48e62d2f2a0ac68ac5465d1
+
   connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?',[user_id],function(err,rows){
       const s_p_id = rows[0].s_p_id;
       console.log(s_p_id);
@@ -60,22 +56,7 @@ router.get('/profile', function (req, res, next) {
       
    
   }) 
-// =======
-//   connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id], function (err, rows) {
-//     const s_p_id = rows[0].s_p_id;
-//     console.log(s_p_id);
-//     connection.query('SELECT * ,sub_talent.s_t_name  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?', [s_p_id], function (err, row1) {
-//       res.render('profile', { details: rows, talents: row1 });
-//     })
 
-
-//   })
-// >>>>>>> db77d95242a0e4685ac5a8b8563f1dc6bcb10c3d
-
-
-
-
-  //res.render('profile');
 })
 
 router.get('/registion', function (req, res, next) {
@@ -247,11 +228,6 @@ router.post('/register', function (req, res) {
             if (err) throw err;
             connection.query('SELECT LAST_INSERT_ID() as u_id', function (err, results, fields) {
               if (err) throw err;
-<<<<<<< HEAD
-
-=======
-//<<<<<<< HEAD
->>>>>>> 34f5ce9aa5afad7bf48e62d2f2a0ac68ac5465d1
                 const user_id = results[0].u_id;
                 console.log(results[0].u_id);
                 req.login(user_id, function (err) {
@@ -269,21 +245,7 @@ router.post('/register', function (req, res) {
             })  
            
           })
-<<<<<<< HEAD
 
-=======
-// =======
-//               const user_id = results[0].u_id;
-//               console.log(results[0].u_id);
-//               req.login(user_id, function (err) {
-//                 console.log(user_id);
-//                 res.render('add_telent', { user_id: user_id });
-//               }
-//               )
-//             })
-
-// >>>>>>> db77d95242a0e4685ac5a8b8563f1dc6bcb10c3d
->>>>>>> 34f5ce9aa5afad7bf48e62d2f2a0ac68ac5465d1
           })
         })
 
@@ -342,7 +304,7 @@ router.post('/fristadd',function(req, res){
   }
   else{
     var main = req.body.main;
-//>>>>>>> master
+
   var sub = req.body.sub;
   var dis = req.body.dis;
   var user_id = req.body.user;
@@ -362,9 +324,7 @@ router.post('/fristadd',function(req, res){
 
 })
 
-// <<<<<<< HEAD
-// router.post('/secoundadd', function (req, res) {
-// =======
+
 router.post('/secoundadd',function(req, res){
   req.checkBody('main', 'main field connot be empty.').notEmpty();
   req.checkBody('sub', 'sub field connot be empty.').notEmpty();
@@ -420,7 +380,7 @@ router.post('/secoundadd',function(req, res){
     })
 
   })
-// <<<<<<< HEAD
+
 
 
 // })
@@ -470,7 +430,7 @@ router.post('/thiredadd',function(req, res){
 
   }
   else{
-// >>>>>>> master
+
   var main = req.body.main;
   var sub = req.body.sub;
   var dis = req.body.dis;
@@ -485,12 +445,9 @@ router.post('/thiredadd',function(req, res){
       res.redirect('/signin');
     })
   })
-// <<<<<<< HEAD
 
-// =======
-//})
   }
-//>>>>>>> master
+
 
 
 })
