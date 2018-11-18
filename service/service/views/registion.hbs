@@ -1,10 +1,17 @@
+<br/>
+<br/>
 <div class="whole-wrap">
   <div class="container">
     <div class="section-top-border">
       <div class="row">
-        <div class="col-lg-12 col-md-12">
+        
+        <div class="col-lg-1 col-md-1">
+
+        </div>
+        <div class="col-lg-10 col-md-10">
+          <div class="card" >
           <h3 class="mb-30 title_color">
-            Registion From
+            <center>Registion From</center>
           </h3>
          
           <form action="/register" method="post">
@@ -12,17 +19,19 @@
             <div class="mt-10">
               <div class="row">
               <div class="col-lg-2 col-md-2">
-              <label>Name</label>
+              <label>User Name</label>
               </div>
               <div class="col-lg-10 col-md-10">
               <input
                 type="text"
                 name="name"
-                placeholder="First Name"
+                
+                placeholder="User Name"
                 onfocus="this.placeholder = ''"
                 onblur="this.placeholder = 'First Name'"
                 
                 class="single-input"
+                required
                />
                {{# if namer }}
                 
@@ -49,6 +58,7 @@
                 onblur="this.placeholder = 'Email address'"
                 
                 class="single-input"
+                required
                />
                {{# if emailer }}
                 
@@ -74,6 +84,7 @@
                 onblur="this.placeholder = 'Birth Day'"
                 
                 class="single-input"
+                required
                />
                {{# if dober }}
                 
@@ -98,6 +109,7 @@
                 onblur="this.placeholder = 'Address'"
                 
                 class="single-input"
+                required
                />
                {{# if addresser }}
                 
@@ -156,6 +168,7 @@
                 onblur="this.placeholder = 'City'"
                 
                 class="single-input"
+                required
                />
                {{# if cityer }}
                 
@@ -180,6 +193,7 @@
                 onblur="this.placeholder = 'Tel Phone Number'"
                 
                 class="single-input"
+                required
                />
                {{# if phone_noer }}
                 
@@ -202,7 +216,7 @@
                 placeholder="Discribtion About User Self"
                 onfocus="this.placeholder = ''"
                 onblur="this.placeholder = 'Discribtion About User Self'"
-                
+                required
               ></textarea>
               {{# if diser }}
                 
@@ -227,6 +241,7 @@
                 onblur="this.placeholder = 'Password'"
                 
                 class="single-input"
+                required
                />
                {{# if passworder }}
                 
@@ -251,6 +266,7 @@
                 onblur="this.placeholder = 'RE Password'"
                 
                 class="single-input"
+                required
                />
                {{# if re_passworder }}
                 
@@ -262,8 +278,8 @@
             </div>
             </div>
             <div class="mt-10">
-              <button type="submit" class="genric-btn info-border circle arrow">
-                Go to 2nd Step
+              <button type="submit" class="genric-btn info-border circle arrow" style="float: right;">
+                Register
                 <span class="lnr lnr-arrow-right"></span>
               </button>
             </div>
@@ -272,4 +288,5 @@
       </div>
     </div>
   </div>
+</div>
 </div>

@@ -215,45 +215,52 @@ router.post('/register', function (req, res) {
     var city = req.body.city;
     var dob = req.body.dob;
     var re_password = req.body.re_password;
-
-    // console.log(district);
-    bcrypt.hash(password, saltRounds, function (err, hash) {
-      connection.query('INSERT INTO service_provider(s_name,email,address,mobile,overal_description,district,dob,town) VALUES(?,?,?,?,?,?,?,?)', [name, email, address, phone_no, dis, district, dob, city], function (err, result) {
-        if (err) throw err;
-        connection.query('SELECT LAST_INSERT_ID() as s_p_id', function (err, results, fields) {
+    if(password == re_password){
+      bcrypt.hash(password, saltRounds, function (err, hash) {
+        connection.query('INSERT INTO service_provider(s_name,email,address,mobile,overal_description,district,dob,town) VALUES(?,?,?,?,?,?,?,?)', [name, email, address, phone_no, dis, district, dob, city], function (err, result) {
           if (err) throw err;
-          var s_p_id = results[0].s_p_id;
-          //console.log(s_p_id);
-
-          connection.query('INSERT INTO users(u_email,u_name,u_password,u_group,u_status,s_p_id) VALUES(?,?,?,?,?,?)', [email, name, hash, '1', '1', s_p_id], function (err, result) {
+          connection.query('SELECT LAST_INSERT_ID() as s_p_id', function (err, results, fields) {
             if (err) throw err;
-            connection.query('SELECT LAST_INSERT_ID() as u_id', function (err, results, fields) {
+            var s_p_id = results[0].s_p_id;
+            //console.log(s_p_id);
+  
+            connection.query('INSERT INTO users(u_email,u_name,u_password,u_group,u_status,s_p_id) VALUES(?,?,?,?,?,?)', [email, name, hash, '1', '1', s_p_id], function (err, result) {
               if (err) throw err;
-                const user_id = results[0].u_id;
-                console.log(results[0].u_id);
-                req.login(user_id, function (err) {
-                 console.log(user_id);
-                // res.render('add_telent',{user_id:user_id});
-
-                 connection.query('SELECT * FROM main_talent',function(err,rows){
-                  connection.query('SELECT * FROM sub_talent',function(err,row1){
-                    //res.render('add_telent',{main:rows,sub:row1,user_id:user_id});
-                    res.redirect('/home');
+              connection.query('SELECT LAST_INSERT_ID() as u_id', function (err, results, fields) {
+                if (err) throw err;
+                  const user_id = results[0].u_id;
+                  console.log(results[0].u_id);
+                  req.login(user_id, function (err) {
+                   console.log(user_id);
+                  // res.render('add_telent',{user_id:user_id});
+  
+                   connection.query('SELECT * FROM main_talent',function(err,rows){
+                    connection.query('SELECT * FROM sub_talent',function(err,row1){
+                      //res.render('add_telent',{main:rows,sub:row1,user_id:user_id});
+                      res.redirect('/home');
+                    })
+                
                   })
-              
-                })
-               }
-               )
-            })  
-           
+                 }
+                 )
+              })  
+             
+            })
+  
+            })
           })
-
-          })
+  
+  
+  
         })
 
-
-
-      })
+    }
+    else{
+      re_passworder= "Not Match Password and RE Enter Password";
+      res.render('registion',{re_passworder:re_passworder})
+    }
+    // console.log(district);
+    
     
 
   }
@@ -262,10 +269,7 @@ router.post('/register', function (req, res) {
 
 })
 
-// <<<<<<< HEAD
-// router.post('/fristadd', function (req, res) {
-//   var main = req.body.main;
-// =======
+
 router.post('/fristadd',function(req, res){
   req.checkBody('main', 'main field connot be empty.').notEmpty();
   req.checkBody('sub', 'sub field connot be empty.').notEmpty();
