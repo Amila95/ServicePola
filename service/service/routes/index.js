@@ -28,16 +28,25 @@ connection.connect(function (err) {
 router.get('/', function (req, res, next) {
   //console.log(req.user);
   //console.log(req.isAuthenticated());
-  res.render('index');
+  res.render('index', { layout: 'home_layout' });
 });
 
 router.get('/sidebar', function (req, res, next) {
   res.render('sidebar');
 });
+
+router.get('/sub_category', function (req, res, next) {
+  res.render('subcategory', { layout: 'home_layout' });
+});
+
+router.get('/service_provider_list', function (req, res, next) {
+  res.render('service_provider_list', { layout: 'home_layout' });
+});
 //test comment by pathum
 router.get('/profile', function (req, res, next) {
   const user_id = req.user.user_id;
   console.log(user_id);
+<<<<<<< HEAD
   connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?',[user_id],function(err,rows){
       const s_p_id = rows[0].s_p_id;
       console.log(s_p_id);
@@ -47,6 +56,17 @@ router.get('/profile', function (req, res, next) {
       
    
   }) 
+=======
+  connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id], function (err, rows) {
+    const s_p_id = rows[0].s_p_id;
+    console.log(s_p_id);
+    connection.query('SELECT * ,sub_talent.s_t_name  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?', [s_p_id], function (err, row1) {
+      res.render('profile', { details: rows, talents: row1 });
+    })
+
+
+  })
+>>>>>>> db77d95242a0e4685ac5a8b8563f1dc6bcb10c3d
 
 
 
@@ -55,7 +75,7 @@ router.get('/profile', function (req, res, next) {
 })
 
 router.get('/registion', function (req, res, next) {
-  res.render('registion',{success:req.session.success,errors:req.session.errors});
+  res.render('registion', { success: req.session.success, errors: req.session.errors });
   req.session.errors = null;
 })
 
@@ -212,17 +232,18 @@ router.post('/register', function (req, res) {
 
     // console.log(district);
     bcrypt.hash(password, saltRounds, function (err, hash) {
-      connection.query('INSERT INTO service_provider(s_name,email,address,mobile,overal_description,district,dob,town) VALUES(?,?,?,?,?,?,?,?)', [name, email, address, phone_no, dis, district, dob, city ], function (err, result) {
+      connection.query('INSERT INTO service_provider(s_name,email,address,mobile,overal_description,district,dob,town) VALUES(?,?,?,?,?,?,?,?)', [name, email, address, phone_no, dis, district, dob, city], function (err, result) {
         if (err) throw err;
         connection.query('SELECT LAST_INSERT_ID() as s_p_id', function (err, results, fields) {
-          if(err) throw err;
+          if (err) throw err;
           var s_p_id = results[0].s_p_id;
           //console.log(s_p_id);
-          
-          connection.query('INSERT INTO users(u_email,u_name,u_password,u_group,u_status,s_p_id) VALUES(?,?,?,?,?,?)',[email,name,hash,'1','1',s_p_id],function(err,result){
-            if(err) throw err;
+
+          connection.query('INSERT INTO users(u_email,u_name,u_password,u_group,u_status,s_p_id) VALUES(?,?,?,?,?,?)', [email, name, hash, '1', '1', s_p_id], function (err, result) {
+            if (err) throw err;
             connection.query('SELECT LAST_INSERT_ID() as u_id', function (err, results, fields) {
               if (err) throw err;
+<<<<<<< HEAD
                 const user_id = results[0].u_id;
                 console.log(results[0].u_id);
                 req.login(user_id, function (err) {
@@ -240,9 +261,21 @@ router.post('/register', function (req, res) {
             })  
            
           })
+=======
+              const user_id = results[0].u_id;
+              console.log(results[0].u_id);
+              req.login(user_id, function (err) {
+                console.log(user_id);
+                res.render('add_telent', { user_id: user_id });
+              }
+              )
+            })
+
+>>>>>>> db77d95242a0e4685ac5a8b8563f1dc6bcb10c3d
           })
-        
-       
+        })
+
+
 
       })
     })
@@ -253,6 +286,10 @@ router.post('/register', function (req, res) {
 
 })
 
+// <<<<<<< HEAD
+// router.post('/fristadd', function (req, res) {
+//   var main = req.body.main;
+// =======
 router.post('/fristadd',function(req, res){
   req.checkBody('main', 'main field connot be empty.').notEmpty();
   req.checkBody('sub', 'sub field connot be empty.').notEmpty();
@@ -293,18 +330,19 @@ router.post('/fristadd',function(req, res){
   }
   else{
     var main = req.body.main;
+//>>>>>>> master
   var sub = req.body.sub;
   var dis = req.body.dis;
   var user_id = req.body.user;
   console.log(req.isAuthenticated());
   console.log(user_id);
-  connection.query('SELECT * FROM users WHERE u_id = ?',[user_id], function(err,row2){
+  connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
     var s_p_id = row2[0].s_p_id;
     console.log(s_p_id);
     connection.query('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [s_p_id, sub, dis], function (err, result) {
-      if(err) throw err;
-      res.render('add_secound',{user_id:user_id});
-  })
+      if (err) throw err;
+      res.render('add_secound', { user_id: user_id });
+    })
   })
 
   }
@@ -312,6 +350,9 @@ router.post('/fristadd',function(req, res){
 
 })
 
+// <<<<<<< HEAD
+// router.post('/secoundadd', function (req, res) {
+// =======
 router.post('/secoundadd',function(req, res){
   req.checkBody('main', 'main field connot be empty.').notEmpty();
   req.checkBody('sub', 'sub field connot be empty.').notEmpty();
@@ -351,21 +392,29 @@ router.post('/secoundadd',function(req, res){
 
   }
   else{
+//
   var main = req.body.main;
   var sub = req.body.sub;
   var dis = req.body.dis;
   var user_id = req.body.user;
   console.log(req.isAuthenticated());
   console.log(user_id);
-  connection.query('SELECT * FROM users WHERE u_id = ?',[user_id], function(err,row2){
+  connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
     console.log(row2);
     var s_p_id = row2[0].s_p_id;
     connection.query('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [s_p_id, sub, dis], function (err, result) {
-      if(err) throw err;
-      res.render('add_thired',{user_id:user_id});
-  })
+      if (err) throw err;
+      res.render('add_thired', { user_id: user_id });
+    })
 
   })
+// <<<<<<< HEAD
+
+
+// })
+
+// router.post('/thiredadd', function (req, res) {
+// =======
 }
 
 })
@@ -409,21 +458,27 @@ router.post('/thiredadd',function(req, res){
 
   }
   else{
+// >>>>>>> master
   var main = req.body.main;
   var sub = req.body.sub;
   var dis = req.body.dis;
   var user_id = req.body.user;
   console.log(req.isAuthenticated());
   console.log(user_id);
-  
-  connection.query('SELECT * FROM users WHERE u_id = ?',[user_id], function(err,row2){
+
+  connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
     var s_p_id = row2[0].s_p_id;
-  connection.query('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [s_p_id, sub, dis], function (err, result) {
-    if(err) throw err;
-    res.redirect('/signin');
+    connection.query('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [s_p_id, sub, dis], function (err, result) {
+      if (err) throw err;
+      res.redirect('/signin');
+    })
   })
-})
+// <<<<<<< HEAD
+
+// =======
+//})
   }
+//>>>>>>> master
 
 
 })
