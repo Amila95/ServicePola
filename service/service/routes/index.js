@@ -60,8 +60,9 @@ router.get('/profile', function (req, res, next) {
 })
 
 router.get('/registion', function (req, res, next) {
-  res.render('registion', { success: req.session.success, errors: req.session.errors });
-  req.session.errors = null;
+  //req.session.errors = null;
+  res.render('registion', { layout: 'home_layout' });
+  
 })
 
 router.get('/add_telenet', function (req, res, next) {
@@ -236,7 +237,8 @@ router.post('/register', function (req, res) {
 
                  connection.query('SELECT * FROM main_talent',function(err,rows){
                   connection.query('SELECT * FROM sub_talent',function(err,row1){
-                    res.render('add_telent',{main:rows,sub:row1,user_id:user_id});
+                    //res.render('add_telent',{main:rows,sub:row1,user_id:user_id});
+                    res.redirect('/home');
                   })
               
                 })
