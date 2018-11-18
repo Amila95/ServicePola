@@ -20,7 +20,7 @@ var hbs = require('express-handlebars');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-
+var adminRouter = require('./routes/admin');
 var app = express();
 
 // view engine setup
@@ -59,6 +59,7 @@ app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/admin',adminRouter);
 
 
 passport.use(new LocalStrategy(
