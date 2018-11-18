@@ -46,6 +46,17 @@ router.get('/service_provider_list', function (req, res, next) {
 router.get('/profile', function (req, res, next) {
   const user_id = req.user.user_id;
   console.log(user_id);
+<<<<<<< HEAD
+  connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?',[user_id],function(err,rows){
+      const s_p_id = rows[0].s_p_id;
+      console.log(s_p_id);
+      connection.query('SELECT * sub_talent.s_t_name  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?',[s_p_id],function(err,row1){
+        res.render('profile',{details:rows,talents:row1});
+      })
+      
+   
+  }) 
+=======
   connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id], function (err, rows) {
     const s_p_id = rows[0].s_p_id;
     console.log(s_p_id);
@@ -55,6 +66,7 @@ router.get('/profile', function (req, res, next) {
 
 
   })
+>>>>>>> db77d95242a0e4685ac5a8b8563f1dc6bcb10c3d
 
 
 
@@ -70,7 +82,14 @@ router.get('/registion', function (req, res, next) {
 router.get('/add_telenet', function (req, res, next) {
   //console.log(req.isAuthenticated());
   //console.log(user_id);
-  res.render('add_telent');
+  connection.query('SELECT * FROM main_talent',function(err,rows){
+    connection.query('SELECT * FROM sub_talent',function(err,row1){
+      res.render('add_telent',{main:rows,sub:row1});
+    })
+
+  })
+
+  
 })
 
 router.get('/add_secound', function (req, res, next) {
@@ -224,6 +243,25 @@ router.post('/register', function (req, res) {
             if (err) throw err;
             connection.query('SELECT LAST_INSERT_ID() as u_id', function (err, results, fields) {
               if (err) throw err;
+<<<<<<< HEAD
+                const user_id = results[0].u_id;
+                console.log(results[0].u_id);
+                req.login(user_id, function (err) {
+                 console.log(user_id);
+                // res.render('add_telent',{user_id:user_id});
+
+                 connection.query('SELECT * FROM main_talent',function(err,rows){
+                  connection.query('SELECT * FROM sub_talent',function(err,row1){
+                    res.render('add_telent',{main:rows,sub:row1,user_id:user_id});
+                  })
+              
+                })
+               }
+               )
+            })  
+           
+          })
+=======
               const user_id = results[0].u_id;
               console.log(results[0].u_id);
               req.login(user_id, function (err) {
@@ -233,6 +271,7 @@ router.post('/register', function (req, res) {
               )
             })
 
+>>>>>>> db77d95242a0e4685ac5a8b8563f1dc6bcb10c3d
           })
         })
 
@@ -319,7 +358,7 @@ router.post('/secoundadd',function(req, res){
   req.checkBody('sub', 'sub field connot be empty.').notEmpty();
   req.checkBody('dis', 'dis field connot be empty.').notEmpty();
 
-  var mainer='';
+  var mainer="";
   var suber="";
   var diser = "";
   
@@ -461,6 +500,17 @@ function authenticationMiddleware() {
     res.redirect('/signin');
   }
 }
+
+router.post('/textdata',function(req,res){
+  var m_t_id = req.body.branch;
+
+  console.log(m_t_id);
+  connection.query('SELECT * FROM sub_talent WHERE m_t_id = ?',[m_t_id], function(err,rows){
+    console.log(rows);
+    res.send(rows);
+  })
+
+})
 
 
 
