@@ -26,17 +26,20 @@ connection.connect(function (err) {
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  //console.log(req.user);
-  //console.log(req.isAuthenticated());
-  res.render('index');
+  connection.query('SELECT * FROM main_talent',function(err,main_talents){
+    res.render('index',{main_talents:main_talents});
+  })
 });
 
 router.get('/sidebar', function (req, res, next) {
   res.render('sidebar');
 });
 
-router.get('/sub_category', function (req, res, next) {
-  res.render('subcategory');
+router.get('/sub_category:id', function (req, res, next) {
+  var id=req.params.id;
+  connection.query('SELECT * FROM sub_talent WHERE m_t_id=?',[id],function(err,sub_talents){
+    res.render('sub_category',{sub_talents:sub_talents});
+  })
 });
 
 router.get('/service_provider_list', function (req, res, next) {

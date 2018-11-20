@@ -44,136 +44,23 @@
       {{! <p>If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may see some for as low as $.17 each.</p> }}
     </div>
     <div class="feature_inner row">
-      <div class="col-lg-3 col-md-6">
-        <div class="feature_item">
-          <i class="flaticon-city"></i>
-          <a href="sub_category">
-            <h3>
-              Architecture
-            </h3>
-          </a>
-          <p>
-            If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may see some for as low as $17 each.
-          </p>
+      {{#each main_talents}}
+        <div class="col-lg-3 col-md-6 brand work">
+          <div class="projects_item">
+            <img class="img-fluid" src="img/projects/projects-5.jpg" alt="" />
+            <div class="projects_text">
+              <a href="sub_category{{this.m_t_id}}">
+                <h4>
+                  {{this.m_t_name}}
+                </h4>
+              </a>
+              <p>
+                {{this.m_t_description}}
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="col-lg-3 col-md-6">
-        <div class="feature_item">
-          <i class="flaticon-skyline"></i>
-          <a href="sub_category">
-            <h3>
-              Architecture
-            </h3>
-          </a>
-          <p>
-            If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may see some for as low as $17 each.
-          </p>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6">
-        <div class="feature_item">
-          <i class="flaticon-sketch"></i>
-          <a href="sub_category">
-            <h3>
-              Architecture
-            </h3>
-          </a>
-          <p>
-            If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may see some for as low as $17 each.
-          </p>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6">
-        <div class="feature_item">
-          <i class="flaticon-city"></i>
-          <a href="sub_category">
-            <h3>
-              Architecture
-            </h3>
-          </a>
-          <p>
-            If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may see some for as low as $17 each.
-          </p>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6">
-        <div class="feature_item">
-          <i class="flaticon-city"></i>
-          <a href="sub_category">
-            <h3>
-              Architecture
-            </h3>
-          </a>
-          <p>
-            If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may see some for as low as $17 each.
-          </p>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6">
-        <div class="feature_item">
-          <i class="flaticon-city"></i>
-          <a href="sub_category">
-            <h3>
-              Architecture
-            </h3>
-          </a>
-          <p>
-            If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may see some for as low as $17 each.
-          </p>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6">
-        <div class="feature_item">
-          <i class="flaticon-city"></i>
-          <a href="sub_category">
-            <h3>
-              Architecture
-            </h3>
-          </a>
-          <p>
-            If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may see some for as low as $17 each.
-          </p>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6">
-        <div class="feature_item">
-          <i class="flaticon-city"></i>
-          <a href="sub_category">
-            <h3>
-              Architecture
-            </h3>
-          </a>
-          <p>
-            If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may see some for as low as $17 each.
-          </p>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6">
-        <div class="feature_item">
-          <i class="flaticon-city"></i>
-          <a href="sub_category">
-            <h3>
-              Architecture
-            </h3>
-          </a>
-          <p>
-            If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may see some for as low as $17 each.
-          </p>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6">
-        <div class="feature_item">
-          <i class="flaticon-city"></i>
-          <a href="sub_category">
-            <h3>
-              Architecture
-            </h3>
-          </a>
-          <p>
-            If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may see some for as low as $17 each.
-          </p>
-        </div>
-      </div>
+      {{/each}}
     </div>
   </div>
 </section>
