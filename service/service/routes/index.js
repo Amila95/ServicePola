@@ -48,13 +48,22 @@ router.get('/service_provider_list', function (req, res, next) {
 //test comment by pathum
 router.get('/profile', function (req, res, next) {
   const user_id = req.user.user_id;
+  var add_more = false;
   console.log(user_id);
   console.log(req.isAuthenticated());
   connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?',[user_id],function(err,rows){
       const s_p_id = rows[0].s_p_id;
       console.log(s_p_id);
-      connection.query('SELECT * sub_talent.s_t_name  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?',[s_p_id],function(err,row1){
-        res.render('profile',{details:rows,talents:row1});
+      connection.query('SELECT *  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?',[s_p_id],function(err,row1){
+        if(row1.length<3){
+          add_more= true;
+        }
+        connection.query('SELECT * FROM main_talent',function(err,row2){
+          connection.query('SELECT * FROM post WHERE s_p_id = ?',[s_p_id],function(err,row3){
+            res.render('profile',{details:rows,talents:row1,main:row2,add_more:add_more,post:row3});
+          })
+        
+        })
       })
       
    
@@ -85,8 +94,12 @@ router.get('/add_secound', function (req, res, next) {
   res.render('add_secound');
 })
 
-router.get('/add_thired', function (req, res, next) {
-  res.render('add_thired');
+router.get('/add_thired:id', function (req, res, next) {
+  var m_t_id = req.params.id;
+  connection.query('SELECT * FROM sub_talent WHERE m_t_id = ?',[m_t_id],function(err,rows){
+    res.render('add_thired',{sub:rows});
+  })
+  
 })
 
 router.get('/home', function (req, res, next) {
@@ -401,11 +414,11 @@ router.post('/secoundadd',function(req, res){
 })
 
 router.post('/thiredadd',function(req, res){
-  req.checkBody('main', 'main field connot be empty.').notEmpty();
+  //req.checkBody('main', 'main field connot be empty.').notEmpty();
   req.checkBody('sub', 'sub field connot be empty.').notEmpty();
   req.checkBody('dis', 'dis field connot be empty.').notEmpty();
 
-  var mainer='';
+  //var mainer='';
   var suber="";
   var diser = "";
   
@@ -413,12 +426,12 @@ router.post('/thiredadd',function(req, res){
 
   if(errors){
     for(i=0;i<errors.length;i++){
-      if(errors[i].param == 'main')
-      {
-        console.log("dbj");
-        mainer= errors[i].msg;
-        //console.log(req.session.error);
-      }
+      // if(errors[i].param == 'main')
+      // {
+      //   console.log("dbj");
+      //   mainer= errors[i].msg;
+      //   //console.log(req.session.error);
+      // }
       
       if(errors[i].param == 'sub')
       {
@@ -435,15 +448,15 @@ router.post('/thiredadd',function(req, res){
     }
     req.session.errors = errors;
     req.session.success = false;
-    res.render('add_thired',{mainer:mainer,suber:suber,diser:diser})
+    res.render('add_thired',{suber:suber,diser:diser})
 
   }
   else{
 
-  var main = req.body.main;
+  //var main = req.body.main;
   var sub = req.body.sub;
   var dis = req.body.dis;
-  var user_id = req.body.user;
+  const user_id = req.user.user_id;
   console.log(req.isAuthenticated());
   console.log(user_id);
 
@@ -451,7 +464,7 @@ router.post('/thiredadd',function(req, res){
     var s_p_id = row2[0].s_p_id;
     connection.query('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [s_p_id, sub, dis], function (err, result) {
       if (err) throw err;
-      res.redirect('/signin');
+      res.redirect('/profile');
     })
   })
 
@@ -491,6 +504,27 @@ router.post('/textdata',function(req,res){
 
 })
 
+router.get('/maincatagerious',function(req,res){
+  connection.query('SELECT * FROM main_talent',function(err,rows){
+  res.render('main_catagerious', {main:rows})
+  })
+})
+
+router.post('/addpost',function(req,res){
+  var subject = req.body.subject;
+  var message = req.body.message;
+  const user_id = req.user.user_id;
+  console.log(req.isAuthenticated());
+  console.log(user_id);
+  connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
+    console.log(row2);
+    var s_p_id = row2[0].s_p_id;
+  connection.query('INSERT INTO post (title,description,s_p_id) VALUES(?,?,?)',[subject,message,s_p_id],function(err,rows){
+    if (err) throw err;
+    res.redirect('/profile');
+  })
+  })
+})
 
 
 

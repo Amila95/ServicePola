@@ -8,41 +8,7 @@
           </h3>
            <form action="/thiredadd" method="post">
             
-            <div class="input-group-icon mt-10">
-             <div class="row">
-              <div class="col-lg-2 col-md-2">
-              <label> Main Category </label>
-              </div>
-              <div class="col-lg-10 col-md-10">
-              <div class="form-select" id="default-select">
-                <select name="name">
-                  <option value="1">
-                    Main Category
-                  </option>
-                  <option value="1">
-                    Art
-                  </option>
-                  <option value="1">
-                    IT
-                  </option>
-                  <option value="1">
-                    Construction
-                  </option>
-                  <option value="1">
-                    Food
-                  </option>
-                </select>
-                
-              </div>
-              {{# if mainer }}
-                
-                  
-                      <p class="alert alert-danger">{{ this.mainer }}</p>
-                
-              {{/if}}
-            </div>
-            </div>
-            </div>
+            
             <div class="input-group-icon mt-10">
               <div class="row">
               <div class="col-lg-2 col-md-2">
@@ -51,21 +17,9 @@
               <div class="col-lg-10 col-md-10">
               <div class="form-select" id="default-select">
                 <select name="sub">
-                  <option value="1">
-                    Sub Category
-                  </option>
-                  <option value="1">
-                    Graphic
-                  </option>
-                  <option value="1">
-                    Web Design
-                  </option>
-                  <option value="1">
-                    Programming
-                  </option>
-                  <option value="1">
-                    Animations
-                  </option>
+                   {{#each sub}}
+                    '<option value={{this.s_t_id}}> {{this.s_t_name}} </option> '  ;               
+                  {{/each}}
                 </select>
                 {{# if suber }}
                 
