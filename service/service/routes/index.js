@@ -246,19 +246,18 @@ router.post('/register', function (req, res) {
                 if (err) throw err;
                   const user_id = results[0].u_id;
                   console.log(results[0].u_id);
-                  req.login(user_id, function (err) {
+                  //req.login(user_id, function (err) {
                    console.log(user_id);
                   // res.render('add_telent',{user_id:user_id});
   
-                   connection.query('SELECT * FROM main_talent',function(err,rows){
-                    connection.query('SELECT * FROM sub_talent',function(err,row1){
+                   //connection.query('SELECT * FROM main_talent',function(err,rows){
+                    //connection.query('SELECT * FROM sub_talent',function(err,row1){
                       //res.render('add_telent',{main:rows,sub:row1,user_id:user_id});
                       res.redirect('/home');
-                    })
+                    //})
                 
-                  })
-                 }
-                 )
+               //   })
+                 //})
               })  
              
             })
