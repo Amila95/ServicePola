@@ -35,10 +35,11 @@ router.get('/sidebar', function (req, res, next) {
   res.render('sidebar');
 });
 
-router.get('/sub_category:id', function (req, res, next) {
+router.get('/sub_category:id:name', function (req, res, next) {
   var id=req.params.id;
+  var s_c_name=req.params.name;
   connection.query('SELECT * FROM sub_talent WHERE m_t_id=?',[id],function(err,sub_talents){
-    res.render('sub_category',{sub_talents:sub_talents});
+    res.render('sub_category',{sub_talents:sub_talents,s_c_name:s_c_name});
   })
 });
 
