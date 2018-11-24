@@ -46,6 +46,7 @@ router.get('/service_provider_list', function (req, res, next) {
   res.render('service_provider_list');
 });
 //test comment by pathum
+//test comment by Amila
 router.get('/profile', function (req, res, next) {
   const user_id = req.user.user_id;
   var add_more = false;
