@@ -20,6 +20,7 @@ var hbs = require('express-handlebars');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var adminRouter = require('./routes/admin');
 
 var app = express();
 
@@ -70,6 +71,7 @@ app.use(function(req, res, next){
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/admin',adminRouter);
 
 
 passport.use(new LocalStrategy(
