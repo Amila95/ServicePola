@@ -408,8 +408,12 @@
             </div>
             <!-- /input-group -->
             <div class="br"></div>
+             <a href="/update_details">
+              <img class="img-fluid" src="img/images.png" alt="sssssssssss" style="width:10px;height:10px;float: right;"/>
+            </a>
           </aside>
           <aside class="single_sidebar_widget author_widget">
+           
             {{#each details}}
             <img
               class="author_img rounded-circle"
@@ -492,7 +496,10 @@
              {{#each details}}
             <h4 class="widget_title">
               Contect Details
+            
+            
             </h4>
+            
             <ul class="list cat-list">
               
               
@@ -527,99 +534,6 @@
     </div>
   </div>
 
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-
-    <!-- Change class .modal-sm to change the size of the modal -->
-    <div class="modal-dialog modal-sm" role="document">
-
-
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title w-100" >Add Telent</h4>
-          <button type="button" class="close"  aria-label="Close" >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div >
-            <div class="row">
-             <label>Main telent</label>
-            <select class=" select" id="branch">
-              {{!-- <option selected>Open this select menu</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option> --}}
-              {{#each main}}
-                    '<option value={{this.m_t_id}}> {{this.m_t_name}} </option> '  ;               
-                  {{/each}}
-             </select>
-             </div>
-          </div>
-          <br/>
-          <div >
-            <div class="row" id="fo">
-             <label>Sub telent</label>
-            <select class=" select">
-              {{!-- <option selected>Open this select menu</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option> --}}
-              
-             </select>
-             </div>
-          </div>
-        </div>
-        
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary btn-sm">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  
   <!-- Central Modal Small -->
 </section>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script type="text/javascript">
-  $(document).ready(function() {
-    $('#branch').on('change',function(){
-      console.log("rnjfr");
-                        var branch=$(this).val();
-                        
-
-                         $.ajax({
-                            type: 'POST',
-                            url:'textdata',
-                            dataType: 'json',
-                            data:{branch},
-                            success: function(response){
-                              console.log('sucess');
-                                add_fo(response); 
-                            },
-                            error: function(){
-                               clear_fo();
-                            }
-                    });
-                       
-                        
-                        
-                    });
-
-                function add_fo(response){
-                    $('#fo').children('option').remove().trigger("liszt:updated");
-                    $('#fo').append("<option value=''></option>");
-                    $(response).each(function(index, fo_no) { 
-                        $('#fo').append("<option value='"+fo_no.s_t_id +"'>"+fo_no.s_t_name +"</option>"); 
-                    });
-                    $('#fo').trigger("liszt:updated");
-
-                }
-                
-                function clear_fo()
-                {
-                  $('#fo').children('option').remove().trigger("liszt:updated");
-                  $('#fo').append("<option value=''></option>");
-                  $('#fo').trigger("liszt:updated");
-                }
-  })
-</script>

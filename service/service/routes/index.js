@@ -35,11 +35,10 @@ router.get('/sidebar', function (req, res, next) {
   res.render('sidebar');
 });
 
-router.get('/sub_category:id:name', function (req, res, next) {
+router.get('/sub_category:id', function (req, res, next) {
   var id=req.params.id;
-  var s_c_name=req.params.name;
   connection.query('SELECT * FROM sub_talent WHERE m_t_id=?',[id],function(err,sub_talents){
-    res.render('sub_category',{sub_talents:sub_talents,s_c_name:s_c_name});
+    res.render('sub_category',{sub_talents:sub_talents});
   })
 });
 
@@ -524,6 +523,37 @@ router.post('/addpost',function(req,res){
     if (err) throw err;
     res.redirect('/profile');
   })
+  })
+})
+
+router.get('/update_details',function(req,res){
+  const user_id = req.user.user_id;
+  connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
+    var s_p_id = row2[0].s_p_id;
+    connection.query('SELECT * FROM service_provider WHERE s_p_id = ?',[s_p_id],function(err,rows){
+      res.render('update_profile',{details:rows});
+    }) 
+  })
+  
+})
+
+router.post('/update_profile',function(req,res){
+  const user_id = req.user.user_id;
+    var name = req.body.name;
+    var email = req.body.email;
+    var address = req.body.address;
+    var phone_no = req.body.phone_no;
+    var dis = req.body.dis;
+    
+    var district = req.body.district;
+    var city = req.body.city;
+    
+    
+  connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
+    var s_p_id = row2[0].s_p_id;
+    connection.query('UPDATE service_provider SET s_name = ?,email = ?,overal_description = ?,town = ?,address = ?,mobile = ?,district= ? WHERE s_p_id = ?',[name,email,dis,city,address,phone_no,district,s_p_id],function(err,rows){
+      res.redirect('/profile');
+    })
   })
 })
 
