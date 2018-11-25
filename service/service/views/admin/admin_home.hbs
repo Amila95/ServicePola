@@ -56,7 +56,34 @@
               aria-controls="pills-add-talent"
               aria-selected="false"
             >
-              Add a Talent
+              Add Talents
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              data-toggle="pill"
+              href="#pills-view-suggessions"
+              role="tab"
+              aria-controls="pills-view-suggessions"
+              aria-selected="false"
+            >
+              View Suggessions
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              data-toggle="pill"
+              href="#pills-view-notifications"
+              role="tab"
+              aria-controls="pills-view-notifications"
+              aria-selected="false"
+            >
+              View Notifications
+              <span class="badge badge-light">
+                {{new_notifications_count}}
+              </span>
             </a>
           </li>
         </ul>
@@ -102,10 +129,18 @@
                       </td>
                       <td>
                         <a
+                          target="_blank"
                           href="admin/all_user/more/{{this.s_p_id}}"
                           class="btn btn-outline-success"
                         >
-                          VIew more..
+                          VIew details..
+                        </a>
+                        <a
+                          target="_blank"
+                          href="admin/all_user/more/{{this.s_p_id}}"
+                          class="btn btn-outline-danger"
+                        >
+                          Delete User
                         </a>
                       </td>
                     </tr>
@@ -259,23 +294,49 @@
             aria-labelledby="pills-add-talent-tab"
           >
             <h2>
-              add a new talent
+              Add a new Sub talent
             </h2>
-            <form action="#" method="post">
+            <br />
+            <form action="/admin/sub_talent_add" method="post">
               <div class="mt-10">
                 <div class="row">
-                  <div class="col-lg-2 col-md-2">
+                  <div class="col-lg-4 col-md-2">
                     <label>
-                      Talent Main Category
+                      Main Talent Type
                     </label>
                   </div>
-                  <div class="col-lg-10 col-md-10">
+                  <div class="col-lg-8 col-md-10">
+                    <div class="form-select" id="default-select">
+                      <select name="maintalentid">
+                        <option value="">
+                          Select Your Main Talent
+                        </option>
+                        {{#each main_talents}}
+                          '
+                          <option value={{this.m_t_id}}>
+                            {{this.m_t_name}}
+                          </option>
+                          '  ;
+                        {{/each}}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-10">
+                <div class="row">
+                  <div class="col-lg-4 col-md-2">
+                    <label>
+                      Sub Talent Name
+                    </label>
+                  </div>
+                  <div class="col-lg-8 col-md-10">
                     <input
                       type="text"
-                      name="mtname"
-                      placeholder="User Name"
-                      onfocus="this.placeholder = ''"
-                      onblur="this.placeholder = 'First Name'"
+                      name="stalent"
+                      placeholder="Enter sub talent"
+                      onfocus="this.placeholder = 'Enter sub talent'"
+                      onblur="this.placeholder = 'Enter sub talent'"
                       required
                       class="single-input"
                      />
@@ -285,18 +346,18 @@
               </div>
               <div class="mt-10">
                 <div class="row">
-                  <div class="col-lg-2 col-md-2">
+                  <div class="col-lg-4 col-md-2">
                     <label>
-                      Description
+                      Sub Talent Description
                     </label>
                   </div>
-                  <div class="col-lg-10 col-md-10">
+                  <div class="col-lg-8 col-md-10">
                     <input
                       type="text"
-                      name="mtdescription"
-                      placeholder="Password"
+                      name="stdescription"
+                      placeholder="Enter simple description about sub talent"
                       onfocus="this.placeholder = ''"
-                      onblur="this.placeholder = 'Password'"
+                      onblur="this.placeholder = 'Enter simple description about sub talent'"
                       required
                       class="single-input"
                      />
@@ -308,13 +369,156 @@
                 <button
                   style="float: center;"
                   type="submit"
-                  class="genric-btn info-border circle arrow"
+                  class="btn btn-outline-primary"
                 >
-                  Add Talent
-                  <span class="lnr lnr-arrow-right"></span>
+                  Add Sub Talent
                 </button>
               </div>
             </form>
+            <br />
+            <hr />
+            <br />
+            <h2>
+              Add a new Main talent
+            </h2>
+            <br />
+            <form action="/admin/main_talent_add" method="post">
+              <div class="mt-10">
+                <div class="row">
+                  <div class="col-lg-4 col-md-2">
+                    <label>
+                      Main Talent
+                    </label>
+                  </div>
+                  <div class="col-lg-8 col-md-10">
+                    <input
+                      type="text"
+                      name="mtname"
+                      placeholder="Enter title for main talent"
+                      onfocus="this.placeholder = 'Enter title for main talent'"
+                      onblur="this.placeholder = 'Enter title for main talent'"
+                      required
+                      class="single-input"
+                     />
+
+                  </div>
+                </div>
+              </div>
+              <div class="mt-10">
+                <div class="row">
+                  <div class="col-lg-4 col-md-2">
+                    <label>
+                      Talent Description
+                    </label>
+                  </div>
+                  <div class="col-lg-8 col-md-10">
+                    <input
+                      type="text"
+                      name="mtdescription"
+                      placeholder="Enter simple description about main talent"
+                      onfocus="this.placeholder = 'Enter simple description about main talent'"
+                      onblur="this.placeholder = 'Enter simple description about main talent'"
+                      required
+                      class="single-input"
+                     />
+
+                  </div>
+                </div>
+              </div>
+              <div class="mt-10">
+                <button
+                  style="float: center;"
+                  type="submit"
+                  class="btn btn-outline-primary"
+                >
+                  Add Main Talent
+                </button>
+              </div>
+            </form>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="pills-view-suggessions"
+            role="tabpanel"
+            aria-labelledby="pills-view-suggessions-tab"
+          >
+            <h4>
+              VIew Suggessions
+            </h4>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">
+                    Content
+                  </th>
+                  <th scope="col">
+                    Date Recieved
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <div>
+                  {{#each site_suggesions}}
+                    <tr>
+                      <td>
+                        {{this.content}}
+                      </td>
+                      <td>
+                        {{this.recieved_date}}
+                      </td>
+                    </tr>
+                  {{/each}}
+                </div>
+              </tbody>
+            </table>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="pills-view-notifications"
+            role="tabpanel"
+            aria-labelledby="pills-view-notifications-tab"
+          >
+            <h4>
+              Notifications
+            </h4>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">
+                    Content
+                  </th>
+                  <th scope="col">
+                    Date Recieved
+                  </th>
+                  <th scope="col">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <div>
+                  {{#each all_notifications}}
+                    <tr>
+                      <td>
+                        {{this.content}}
+                      </td>
+                      <td>
+                        {{this.recieved_date}}
+                      </td>
+                      <td>
+                        {{#unless this.status}}
+                        <a
+                          href="/admin/suggessions/viewed/{{this.n_id}}"
+                          class="btn btn-outline-success"
+                        >Mark as read
+                          
+                        {{/unless}}
+                      </td>
+                    </tr>
+                  {{/each}}
+                </div>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
