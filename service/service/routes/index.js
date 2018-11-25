@@ -3,10 +3,24 @@ var router = express.Router();
 var mysql = require('mysql');
 var expressValidator = require('express-validator');
 var passport = require('passport');
+var multer = require('multer');
 
 
 var bcrypt = require('bcrypt');
 const saltRounds = 10;
+
+var Storage = multer.diskStorage({
+  destination: function(req, file, callback) {
+      callback(null, 'public/upload/');
+  },
+  filename: function(req, file, callback) {
+      callback(null, file.fieldname + "_" + Date.now() + "_" + file.originalname);
+  }
+});
+
+var upload = multer({
+  storage: Storage
+}).any()
 
 var connection = mysql.createConnection({
   host: 'localhost',
@@ -23,6 +37,11 @@ connection.connect(function (err) {
 
   console.log('Connected as id ' + connection.threadId);
 });
+
+
+
+
+
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -50,10 +69,15 @@ router.get('/service_provider_list', function (req, res, next) {
 router.get('/profile', function (req, res, next) {
   const user_id = req.user.user_id;
   var add_more = false;
+  var defult = false;
   console.log(user_id);
   console.log(req.isAuthenticated());
   connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?',[user_id],function(err,rows){
       const s_p_id = rows[0].s_p_id;
+      const ima = rows[0].image;
+      if(ima == 'NULL'){
+        defult = true;
+      }
       console.log(s_p_id);
       connection.query('SELECT *  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?',[s_p_id],function(err,row1){
         if(row1.length<3){
@@ -61,7 +85,7 @@ router.get('/profile', function (req, res, next) {
         }
         connection.query('SELECT * FROM main_talent',function(err,row2){
           connection.query('SELECT * FROM post WHERE s_p_id = ?',[s_p_id],function(err,row3){
-            res.render('profile',{details:rows,talents:row1,main:row2,add_more:add_more,post:row3});
+            res.render('profile',{details:rows,talents:row1,main:row2,add_more:add_more,post:row3,defult:defult});
           })
         
         })
@@ -555,6 +579,25 @@ router.post('/update_profile',function(req,res){
       res.redirect('/profile');
     })
   })
+})
+
+router.post('/add_profile_image',function(req,res){
+  upload(req, res, function(err) {
+    if (err) {
+      console.log('erro');
+       
+    }
+
+  const user_id = req.user.user_id;
+  console.log(user_id);
+  connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
+    var s_p_id = row2[0].s_p_id;
+  const logo = '../upload/'+req.files[0].filename;
+  connection.query('UPDATE service_provider SET image =? WHERE s_p_id = ?',[logo,s_p_id],function(err,rows){
+    res.redirect('/profile');
+  })
+  })
+})
 })
 
 

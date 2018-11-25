@@ -6,7 +6,8 @@ var logger = require('morgan');
 var session = require('express-session');
 var expressValidator = require('express-validator');
 var LocalStrategy = require('passport-local').Strategy;
-
+var multer = require('multer');
+var cors = require('cors')
 var MySQLStore = require('express-mysql-session')(session);
 
 

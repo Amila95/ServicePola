@@ -413,13 +413,50 @@
             </a>
           </aside>
           <aside class="single_sidebar_widget author_widget">
-           
-            {{#each details}}
-            <img
+            {{#if defult }}
+              <img
               class="author_img rounded-circle"
               src="img/blog/author.png"
               alt=""
              />
+            {{/if}}
+           
+            {{#each details}}
+            <form action="/add_profile_image" method="post" enctype="multipart/form-data" ></form>
+            <label for="image">
+      <input type="file" name="image" id="image" style="display:none;"/>
+            <img
+              class="author_img rounded-circle" style="width:120px;height:120px;"
+              src="{{this.image}}"
+              alt=""
+             />
+             </label>
+             </form>
+             {{!-- <div class="form-group">
+                            <form action="/add_profile_image" method="post" enctype="multipart/form-data" > --}}
+                                {{!-- <div class="form-group">
+                                <div class="file-field">
+                                    
+                                    <div class="file-field">
+                                        <input name="myImage" type="file" >
+                                    </div>
+                                </div>
+
+
+                            </div> --}}
+                            {{!-- <label>File</lable>
+	                                <input type="image" src="http://upload.wikimedia.org/wikipedia/commons/c/ca/Button-Lightblue.svg" width="30px"/>
+                                  <input type="file" name="myImage" id="my_file" style="display: none;" /> --}}
+                                {{!-- <button type="submit" class="genric-btn primary-border circle arrow"></button> --}}
+                           {{!-- <label for="image">
+      <input type="file" name="image" id="image" style="display:none;"/>
+      <img src="IMAGE URL"/>
+   </label>
+                           </form> --}}
+
+                            
+
+                            {{!-- </div> --}}
 
             <h4>
               {{s_name}}
@@ -537,3 +574,13 @@
   
   <!-- Central Modal Small -->
 </section>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.83.0/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+$("input[type='file']").click(function() {
+    $("input[id='image']").focus().click();
+  });
+
+}
+</script>
