@@ -1,0 +1,321 @@
+<br/>
+<br/>
+
+<br/>
+<section class="blog_area">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+        {{!-- <div class="comment-form" style="margin-top: 0px;">
+                            <h4>Leave a Reply</h4>
+                            <form action="/addpost" method="post" enctype="multipart/form-data">
+                                
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="subject" placeholder="Subject" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Subject'" name="subject" required="" >
+                                </div>
+                                <div class="form-group">
+                                    <textarea class="form-control mb-10" rows="5" name="message" placeholder="Messege" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Messege'" required="" name="message"></textarea>
+                                </div>
+                                <div class="form-group">
+                                <label for="image" id="lab"> Add Image
+                                    <input type="file" name="image" id="image" />
+                                </label>
+                                </div>
+                               <button type="submit" class="genric-btn primary-border circle arrow">
+                Sign In
+                <span class="lnr lnr-arrow-right"></span>
+              </button>	
+                            </form>
+        </div> --}}
+        <div class="blog_left_sidebar">
+          
+          {{#each post}}
+          <article class="row blog_item">
+            <div class="col-md-3">
+              <div class="blog_info text-right">
+                <div class="post_tag">
+                  <a href="#">
+                    Food,
+                  </a>
+                  <a class="active" href="#">
+                    Technology,
+                  </a>
+                  <a href="#">
+                    Politics,
+                  </a>
+                  <a href="#">
+                    Lifestyle
+                  </a>
+                </div>
+                <ul class="blog_meta list">
+                  <li>
+                    <a href="#">
+                      Mark wiens
+                      <i class="lnr lnr-user"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      12 Dec, 2017
+                      <i class="lnr lnr-calendar-full"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      1.2M Views
+                      <i class="lnr lnr-eye"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      06 Comments
+                      <i class="lnr lnr-bubble"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-9">
+              <div class="blog_post">
+                <img src="{{this.image_path}}" alt="" />
+                <div class="blog_details">
+                  <a href="single-blog.html">
+                    <h2>
+                      {{this.title}}
+                    </h2>
+                  </a>
+                  <p>
+                    {{this.description}}
+                  </p>
+                  <a href="single-blog.html" class="blog_btn">
+                    View More
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
+          {{/each}}
+          
+          {{!-- <nav class="blog-pagination justify-content-center d-flex">
+            <ul class="pagination">
+              <li class="page-item">
+                <a href="#" class="page-link" aria-label="Previous">
+                  <span aria-hidden="true">
+                    <span class="lnr lnr-chevron-left"></span>
+                  </span>
+                </a>
+              </li>
+              <li class="page-item">
+                <a href="#" class="page-link">
+                  01
+                </a>
+              </li>
+              <li class="page-item active">
+                <a href="#" class="page-link">
+                  02
+                </a>
+              </li>
+              <li class="page-item">
+                <a href="#" class="page-link">
+                  03
+                </a>
+              </li>
+              <li class="page-item">
+                <a href="#" class="page-link">
+                  04
+                </a>
+              </li>
+              <li class="page-item">
+                <a href="#" class="page-link">
+                  09
+                </a>
+              </li>
+              <li class="page-item">
+                <a href="#" class="page-link" aria-label="Next">
+                  <span aria-hidden="true">
+                    <span class="lnr lnr-chevron-right"></span>
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </nav> --}}
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="blog_right_sidebar">
+          <aside class="single_sidebar_widget search_widget">
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search Posts"
+               />
+
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">
+                  <i class="lnr lnr-magnifier"></i>
+                </button>
+              </span>
+            </div>
+            <!-- /input-group -->
+            <div class="br"></div>
+             {{!-- <a href="/update_details">
+              <img class="img-fluid" src="img/images.png" alt="sssssssssss" style="width:10px;height:10px;float: right;"/>
+            </a> --}}
+          </aside>
+          <aside class="single_sidebar_widget author_widget">
+            
+           
+            {{#each details}}
+            {{!-- <form action="/add_profile_image" method="post" enctype="multipart/form-data" >
+            <div>
+            <label for="image" id="lab">
+      <input type="file" name="image" id="image" style="display:none;"/>
+            <img
+              id="ima" class="author_img rounded-circle" style="width:120px;height:120px;"
+              src="{{this.image}}"
+              alt=""
+             />
+             
+             
+             </label>
+             </div>
+             <button id="sub" type="submit" >change picture</button>
+             </form> --}}
+
+             <img
+              class="author_img rounded-circle" style="width:120px;height:120px;"
+              src="{{this.image}}"
+              alt=""
+             />
+             
+             {{!-- <div class="form-group">
+                            <form action="/add_profile_image" method="post" enctype="multipart/form-data" > --}}
+                                {{!-- <div class="form-group">
+                                <div class="file-field">
+                                    
+                                    <div class="file-field">
+                                        <input name="myImage" type="file" >
+                                    </div>
+                                </div>
+
+
+                            </div> --}}
+                            {{!-- <label>File</lable>
+	                                <input type="image" src="http://upload.wikimedia.org/wikipedia/commons/c/ca/Button-Lightblue.svg" width="30px"/>
+                                  <input type="file" name="myImage" id="my_file" style="display: none;" /> --}}
+                                {{!-- <button type="submit" class="genric-btn primary-border circle arrow"></button> --}}
+                           {{!-- <label for="image">
+      <input type="file" name="image" id="image" style="display:none;"/>
+      <img src="IMAGE URL"/>
+   </label>
+                           </form> --}}
+
+                            
+
+                            {{!-- </div> --}}
+
+            <h4>
+              {{s_name}}
+            </h4>
+            <p>
+              University Student
+            </p>
+            
+            {{!-- <div class="social_icon">
+              <a href="#">
+                <i class="fa fa-facebook"></i>
+              </a>
+              <a href="#">
+                <i class="fa fa-twitter"></i>
+              </a>
+              <a href="#">
+                <i class="fa fa-github"></i>
+              </a>
+              <a href="#">
+                <i class="fa fa-behance"></i>
+              </a>
+            </div> --}}
+            <p>
+              {{overal_description}}
+            </p>
+            <div class="br"></div>
+            {{/each}}
+          </aside>
+          
+          <aside class="single_sidebar_widget popular_post_widget">
+            <h3 class="widget_title">
+              Telents
+            </h3>
+            {{#each talents}}
+            <div class="media post_item">
+              <img src="img/blog/popular-post/post1.jpg" alt="post" />
+              <div class="media-body">
+                <a href="blog-details.html">
+                  <h3>
+                    {{this.s_t_name}}
+                  </h3>
+                </a>
+                <p>
+                  {{this.own_description}}
+                </p>
+              </div>
+            </div>
+            {{/each}}
+            
+            
+            <div class="br"></div>
+          </aside>
+          {{!-- <aside class="single_sidebar_widget ads_widget">
+            <a href="#">
+              <img class="img-fluid" src="img/blog/add.jpg" alt="" />
+            </a>
+            <div class="br"></div>
+          </aside> --}}
+          <aside class="single_sidebar_widget post_category_widget">
+             {{#each details}}
+            <h4 class="widget_title">
+              Contect Details
+            
+            
+            </h4>
+            
+            <ul class="list cat-list">
+              
+              
+              <li>
+                <a href="#" class="d-flex justify-content-between">
+                  <p>
+                    Mobile
+                  </p>
+                  <p>
+                    {{mobile}}
+                  </p>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="d-flex justify-content-between">
+                  <p>
+                    Email
+                  </p>
+                  <p>
+                    {{u_email}}
+                  </p>
+                </a>
+              </li>
+         
+            </ul>
+            <div class="br"></div>
+            {{/each}}
+          </aside>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- Central Modal Small -->
+</section>
+
+

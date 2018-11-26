@@ -4,84 +4,25 @@
       <div class="col-lg-8 posts-list">
         <h1>service providers under selected sub category</h1>
         <div class="single-post row">
+          {{#each rows}}
           <div class="col-lg-6 col-md-6">
             <div class="feature_item">
               <img src="img/team/sp-2.jpg" alt="" />
-              <a href="#">
+              <a href="provider_profile{{this.s_p_id}}">
                 <h3>
-                  Architecture
+                  {{this.s_name}}
                 </h3>
               </a>
               <p>
-                If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may see some for as low as $17 each.
+                {{this.own_description}}
               </p>
             </div>
           </div>
-          <div class="col-lg-6 col-md-6">
-        <div class="feature_item">
-          <img src="img/team/sp-2.jpg" alt="" />
-          <a href="#">
-            <h3>
-              Architecture
-            </h3>
-          </a>
-          <p>
-            If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may see some for as low as $17 each.
-          </p>
-        </div>
-      </div>
-      <div class="col-lg-6 col-md-6">
-        <div class="feature_item">
-          <img src="img/team/sp-2.jpg" alt="" />
-          <a href="#">
-            <h3>
-              Architecture
-            </h3>
-          </a>
-          <p>
-            If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may see some for as low as $17 each.
-          </p>
-        </div>
-      </div>
-      <div class="col-lg-6 col-md-6">
-        <div class="feature_item">
-          <img src="img/team/sp-2.jpg" alt="" />
-          <a href="#">
-            <h3>
-              Architecture
-            </h3>
-          </a>
-          <p>
-            If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may see some for as low as $17 each.
-          </p>
-        </div>
-      </div>
-      <div class="col-lg-6 col-md-6">
-        <div class="feature_item">
-          <img src="img/team/sp-2.jpg" alt="" />
-          <a href="#">
-            <h3>
-              Architecture
-            </h3>
-          </a>
-          <p>
-            If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may see some for as low as $17 each.
-          </p>
-        </div>
-      </div>
-      <div class="col-lg-6 col-md-6">
-        <div class="feature_item">
-          <img src="img/team/sp-2.jpg" alt="" />
-          <a href="#">
-            <h3>
-              Architecture
-            </h3>
-          </a>
-          <p>
-            If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may see some for as low as $17 each.
-          </p>
-        </div>
-      </div>
+         
+        {{/each}}
+      
+      
+      
         </div>
       </div>
       <div class="col-lg-4 ">

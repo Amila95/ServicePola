@@ -8,13 +8,18 @@
       <div class="col-lg-8">
         <div class="comment-form" style="margin-top: 0px;">
                             <h4>Leave a Reply</h4>
-                            <form action="/addpost" method="post">
+                            <form action="/addpost" method="post" enctype="multipart/form-data">
                                 
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="subject" placeholder="Subject" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Subject'" name="subject" required="" >
                                 </div>
                                 <div class="form-group">
                                     <textarea class="form-control mb-10" rows="5" name="message" placeholder="Messege" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Messege'" required="" name="message"></textarea>
+                                </div>
+                                <div class="form-group">
+                                <label for="image" id="lab"> Add Image
+                                    <input type="file" name="image" id="image" />
+                                </label>
                                 </div>
                                <button type="submit" class="genric-btn primary-border circle arrow">
                 Sign In
@@ -23,70 +28,7 @@
                             </form>
         </div>
         <div class="blog_left_sidebar">
-          {{!-- <article class="row blog_item">
-            <div class="col-md-3">
-              <div class="blog_info text-right">
-                <div class="post_tag">
-                  <a href="#">
-                    Food,
-                  </a>
-                  <a class="active" href="#">
-                    Technology,
-                  </a>
-                  <a href="#">
-                    Politics,
-                  </a>
-                  <a href="#">
-                    Lifestyle
-                  </a>
-                </div>
-                <ul class="blog_meta list">
-                  <li>
-                    <a href="#">
-                      Mark wiens
-                      <i class="lnr lnr-user"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      12 Dec, 2017
-                      <i class="lnr lnr-calendar-full"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      1.2M Views
-                      <i class="lnr lnr-eye"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      06 Comments
-                      <i class="lnr lnr-bubble"></i>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-md-9">
-              <div class="blog_post">
-                <img src="img/blog/main-blog/m-blog-1.jpg" alt="" />
-                <div class="blog_details">
-                  <a href="single-blog.html">
-                    <h2>
-                      Astronomy Binoculars A Great Alternative
-                    </h2>
-                  </a>
-                  <p>
-                    MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction.
-                  </p>
-                  <a href="single-blog.html" class="blog_btn">
-                    View More
-                  </a>
-                </div>
-              </div>
-            </div>
-          </article> --}}
+          
           {{#each post}}
           <article class="row blog_item">
             <div class="col-md-3">
@@ -135,7 +77,7 @@
             </div>
             <div class="col-md-9">
               <div class="blog_post">
-                <img src="img/blog/main-blog/m-blog-2.jpg" alt="" />
+                <img src="{{this.image_path}}" alt="" />
                 <div class="blog_details">
                   <a href="single-blog.html">
                     <h2>
@@ -153,198 +95,7 @@
             </div>
           </article>
           {{/each}}
-          {{!-- <article class="row blog_item">
-            <div class="col-md-3">
-              <div class="blog_info text-right">
-                <div class="post_tag">
-                  <a href="#">
-                    Food,
-                  </a>
-                  <a class="active" href="#">
-                    Technology,
-                  </a>
-                  <a href="#">
-                    Politics,
-                  </a>
-                  <a href="#">
-                    Lifestyle
-                  </a>
-                </div>
-                <ul class="blog_meta list">
-                  <li>
-                    <a href="#">
-                      Mark wiens
-                      <i class="lnr lnr-user"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      12 Dec, 2017
-                      <i class="lnr lnr-calendar-full"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      1.2M Views
-                      <i class="lnr lnr-eye"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      06 Comments
-                      <i class="lnr lnr-bubble"></i>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-md-9">
-              <div class="blog_post">
-                <img src="img/blog/main-blog/m-blog-3.jpg" alt="" />
-                <div class="blog_details">
-                  <a href="single-blog.html">
-                    <h2>
-                      The Glossary Of Telescopes
-                    </h2>
-                  </a>
-                  <p>
-                    MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction.
-                  </p>
-                  <a href="single-blog.html" class="blog_btn">
-                    View More
-                  </a>
-                </div>
-              </div>
-            </div>
-          </article> --}}
-          {{!-- <article class="row blog_item">
-            <div class="col-md-3">
-              <div class="blog_info text-right">
-                <div class="post_tag">
-                  <a href="#">
-                    Food,
-                  </a>
-                  <a class="active" href="#">
-                    Technology,
-                  </a>
-                  <a href="#">
-                    Politics,
-                  </a>
-                  <a href="#">
-                    Lifestyle
-                  </a>
-                </div>
-                <ul class="blog_meta list">
-                  <li>
-                    <a href="#">
-                      Mark wiens
-                      <i class="lnr lnr-user"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      12 Dec, 2017
-                      <i class="lnr lnr-calendar-full"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      1.2M Views
-                      <i class="lnr lnr-eye"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      06 Comments
-                      <i class="lnr lnr-bubble"></i>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-md-9">
-              <div class="blog_post">
-                <img src="img/blog/main-blog/m-blog-4.jpg" alt="" />
-                <div class="blog_details">
-                  <a href="single-blog.html">
-                    <h2>
-                      The Night Sky
-                    </h2>
-                  </a>
-                  <p>
-                    MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction.
-                  </p>
-                  <a href="single-blog.html" class="blog_btn">
-                    View More
-                  </a>
-                </div>
-              </div>
-            </div>
-          </article> --}}
-          {{!-- <article class="row blog_item">
-            <div class="col-md-3">
-              <div class="blog_info text-right">
-                <div class="post_tag">
-                  <a href="#">
-                    Food,
-                  </a>
-                  <a class="active" href="#">
-                    Technology,
-                  </a>
-                  <a href="#">
-                    Politics,
-                  </a>
-                  <a href="#">
-                    Lifestyle
-                  </a>
-                </div>
-                <ul class="blog_meta list">
-                  <li>
-                    <a href="#">
-                      Mark wiens
-                      <i class="lnr lnr-user"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      12 Dec, 2017
-                      <i class="lnr lnr-calendar-full"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      1.2M Views
-                      <i class="lnr lnr-eye"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      06 Comments
-                      <i class="lnr lnr-bubble"></i>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-md-9">
-              <div class="blog_post">
-                <img src="img/blog/main-blog/m-blog-5.jpg" alt="" />
-                <div class="blog_details">
-                  <a href="single-blog.html">
-                    <h2>
-                      Telescopes 101
-                    </h2>
-                  </a>
-                  <p>
-                    MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction.
-                  </p>
-                  <a href="single-blog.html" class="blog_btn">
-                    View More
-                  </a>
-                </div>
-              </div>
-            </div>
-          </article> --}}
+          
           <nav class="blog-pagination justify-content-center d-flex">
             <ul class="pagination">
               <li class="page-item">
@@ -422,15 +173,19 @@
             {{/if}}
            
             {{#each details}}
-            <form action="/add_profile_image" method="post" enctype="multipart/form-data" ></form>
-            <label for="image">
+            <form action="/add_profile_image" method="post" enctype="multipart/form-data" >
+            <div>
+            <label for="image" id="lab">
       <input type="file" name="image" id="image" style="display:none;"/>
             <img
-              class="author_img rounded-circle" style="width:120px;height:120px;"
+              id="ima" class="author_img rounded-circle" style="width:120px;height:120px;"
               src="{{this.image}}"
               alt=""
              />
+             
              </label>
+             </div>
+             <button id="sub" type="submit" >change picture</button>
              </form>
              {{!-- <div class="form-group">
                             <form action="/add_profile_image" method="post" enctype="multipart/form-data" > --}}
@@ -575,12 +330,13 @@
   <!-- Central Modal Small -->
 </section>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.83.0/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-$("input[type='file']").click(function() {
-    $("input[id='image']").focus().click();
+$("#image").mouseenter(function() {
+  console.log("brh");
+    //$("#sub").hide()
   });
 
-}
+})
 </script>

@@ -61,9 +61,40 @@ router.get('/sub_category:id', function (req, res, next) {
   })
 });
 
-router.get('/service_provider_list', function (req, res, next) {
-  res.render('service_provider_list');
+router.get('/service_provider_list:id', function (req, res, next) {
+  var id = req.params.id;
+  connection.query('SELECT * FROM provider_talent INNER JOIN service_provider ON provider_talent.s_p_id = service_provider.s_p_id WHERE s_t_id = ?',[id],function(err,rows){
+    res.render('service_provider_list',{rows:rows});
+  })
+  
 });
+
+router.get('/provider_profile:id',function(req,res,next){
+  var id = req.params.id;
+  //const user_id = req.user.user_id;
+  
+  //console.log(user_id);
+ // console.log(req.isAuthenticated());
+  connection.query('SELECT * FROM service_provider  WHERE s_p_id=?',[id],function(err,rows){
+      const s_p_id = rows[0].s_p_id;
+      
+      //console.log(s_p_id);
+      connection.query('SELECT *  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?',[s_p_id],function(err,row1){
+        // if(row1.length<3){
+        //   add_more= true;
+        // }
+        connection.query('SELECT * FROM main_talent',function(err,row2){
+          connection.query('SELECT * FROM post WHERE s_p_id = ?',[s_p_id],function(err,row3){
+            res.render('profile_viewr',{details:rows,talents:row1,main:row2,post:row3});
+          })
+        
+        })
+      })
+      
+   
+  })
+
+})
 //test comment by pathum
 //test comment by Amila
 router.get('/profile', function (req, res, next) {
@@ -535,8 +566,15 @@ router.get('/maincatagerious',function(req,res){
 })
 
 router.post('/addpost',function(req,res){
-  var subject = req.body.subject;
+  upload(req, res, function(err) {
+    if (err) {
+      console.log('erro');
+       
+    }
+    if(req.files[0]==undefined){
+      var subject = req.body.subject;
   var message = req.body.message;
+  //const logo = '../upload/'+req.files[0].filename;
   const user_id = req.user.user_id;
   console.log(req.isAuthenticated());
   console.log(user_id);
@@ -548,6 +586,24 @@ router.post('/addpost',function(req,res){
     res.redirect('/profile');
   })
   })
+    }else{
+
+  var subject = req.body.subject;
+  var message = req.body.message;
+  const logo = '../upload/'+req.files[0].filename;
+  const user_id = req.user.user_id;
+  console.log(req.isAuthenticated());
+  console.log(user_id);
+  connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
+    console.log(row2);
+    var s_p_id = row2[0].s_p_id;
+  connection.query('INSERT INTO post (title,description,s_p_id,image_path) VALUES(?,?,?,?)',[subject,message,s_p_id,logo],function(err,rows){
+    if (err) throw err;
+    res.redirect('/profile');
+  })
+  })
+}
+})
 })
 
 router.get('/update_details',function(req,res){
@@ -587,7 +643,7 @@ router.post('/add_profile_image',function(req,res){
       console.log('erro');
        
     }
-
+  if(req.files[0]==undefined){}else{
   const user_id = req.user.user_id;
   console.log(user_id);
   connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
@@ -597,6 +653,7 @@ router.post('/add_profile_image',function(req,res){
     res.redirect('/profile');
   })
   })
+}
 })
 })
 
