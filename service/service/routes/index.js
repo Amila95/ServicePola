@@ -45,9 +45,16 @@ connection.connect(function (err) {
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  connection.query('SELECT * FROM main_talent',function(err,main_talents){
-    res.render('index',{main_talents:main_talents});
-  })
+  if(req.isAuthenticated()){
+    connection.query('SELECT * FROM main_talent',function(err,main_talents){
+      res.render('home',{main_talents:main_talents});
+      })
+  }else{
+    connection.query('SELECT * FROM main_talent',function(err,main_talents){
+      res.render('index',{main_talents:main_talents});
+    })
+  }
+  
 });
 
 router.get('/sidebar', function (req, res, next) {
@@ -56,6 +63,7 @@ router.get('/sidebar', function (req, res, next) {
 
 router.get('/sub_category:id', function (req, res, next) {
   var id=req.params.id;
+  
   connection.query('SELECT * FROM sub_talent WHERE m_t_id=?',[id],function(err,sub_talents){
     res.render('sub_category',{sub_talents:sub_talents});
   })
@@ -115,7 +123,8 @@ router.get('/profile', function (req, res, next) {
           add_more= true;
         }
         connection.query('SELECT * FROM main_talent',function(err,row2){
-          connection.query('SELECT * FROM post WHERE s_p_id = ?',[s_p_id],function(err,row3){
+          connection.query('SELECT * FROM post WHERE s_p_id = ? ORDER BY p_id DESC',[s_p_id],function(err,row3){
+            console.log(row3);
             res.render('profile',{details:rows,talents:row1,main:row2,add_more:add_more,post:row3,defult:defult});
           })
         
@@ -159,7 +168,9 @@ router.get('/add_thired:id', function (req, res, next) {
 })
 
 router.get('/home', function (req, res, next) {
-  res.render('home');
+  connection.query('SELECT * FROM main_talent',function(err,main_talents){
+  res.render('home',{main_talents:main_talents});
+  })
 })
 
 router.get('/signin', function (req, res, next) {
@@ -167,14 +178,14 @@ router.get('/signin', function (req, res, next) {
 })
 
 router.post('/login', passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/signin'
+  successRedirect: '/home',
+  failureRedirect: '/'
 }));
 
 router.get('/logout', function (req, res, next) {
   req.logOut();
   req.session.destroy();
-  res.redirect('/signin');
+  res.redirect('/');
 })
 
 router.post('/register', function (req, res) {
@@ -183,6 +194,7 @@ router.post('/register', function (req, res) {
   req.checkBody('email', 'Enter a valid email address.').isEmail();
   req.checkBody('address', 'Address field connot be empty.').notEmpty();
   req.checkBody('phone_no', 'Mobile field connot be empty.').notEmpty();
+  req.checkBody('phone_no', 'Mobile number is not valid.').len(10);
   req.checkBody('dis', 'Discription field connot be empty.').notEmpty();
   req.checkBody('password', 'Password field connot be empty.').notEmpty();
   req.checkBody('district', 'District field connot be empty.').notEmpty();
@@ -339,6 +351,172 @@ router.post('/register', function (req, res) {
 
 
 })
+
+
+router.post('/registerfornt', function (req, res) {
+  req.checkBody('name', 'Username field connot be empty.').notEmpty();
+  req.checkBody('email', 'Email field connot be empty.').notEmpty();
+  req.checkBody('email', 'Enter a valid email address.').isEmail();
+  //req.checkBody('address', 'Address field connot be empty.').notEmpty();
+  req.checkBody('phone_no', 'Mobile field connot be empty.').notEmpty();
+  req.checkBody('phone_no', 'Mobile number is not valid.').len(10);
+  //req.checkBody('dis', 'Discription field connot be empty.').notEmpty();
+  req.checkBody('password', 'Password field connot be empty.').notEmpty();
+  //req.checkBody('district', 'District field connot be empty.').notEmpty();
+  //req.checkBody('city', 'City field connot be empty.').notEmpty();
+  //req.checkBody('dob', 'DOB field connot be empty.').notEmpty();
+  req.checkBody('re_password', 'Re Password field connot be empty.').notEmpty();
+  var namer='';
+  var emailer="";
+  //var addresser = "";
+  var phone_noer = "";
+  //var diser = "";
+  var passworder = "";
+  //var districter = "";
+  //var cityer = "";
+  //var dober = "";
+  var re_passworder = "";
+  
+  var errors = req.validationErrors();
+  console.log(errors);
+  if (errors) {
+    //console.log('errors: ${JSON.stringify(errors)}');
+    for(i=0;i<errors.length;i++){
+      if(errors[i].param == 'name')
+      {
+        //console.log("dbj");
+        namer= errors[i].msg;
+        //console.log(req.session.error);
+      }
+      
+      if(errors[i].param == 'email')
+      {
+        //console.log("dbj");
+        emailer= errors[i].msg;
+        //console.log(req.session.error);
+      }
+      // if(errors[i].param == 'address')
+      // {
+      //   console.log("dbj");
+      //   addresser= errors[i].msg;
+      //   //console.log(req.session.error);
+      // }
+      if(errors[i].param == 'phone_no')
+      {
+        console.log("dbj");
+        phone_noer= errors[i].msg;
+        //console.log(req.session.error);
+      }
+      // if(errors[i].param == 'dis')
+      // {
+      //   console.log("dbj");
+      //   diser= errors[i].msg;
+      //   //console.log(req.session.error);
+      // }
+      if(errors[i].param == 'password')
+      {
+        console.log("dbj");
+        passworder= errors[i].msg;
+        //console.log(req.session.error);
+      }
+      // if(errors[i].param == 'district')
+      // {
+      //   console.log("dbj");
+      //   districter= errors[i].msg;
+      //   //console.log(req.session.error);
+      // }
+      // if(errors[i].param == 'city')
+      // {
+      //   console.log("dbj");
+      //   cityer= errors[i].msg;
+      //   //console.log(req.session.error);
+      // }
+      // if(errors[i].param == 'dob')
+      // {
+      //   console.log("dbj");
+      //   dober= errors[i].msg;
+      //   //console.log(req.session.error);
+      // }
+      if(errors[i].param == 're_password')
+      {
+        //console.log("dbj");
+        re_passworder= errors[i].msg;
+        //console.log(req.session.error);
+      }
+      
+    }
+   
+    
+    req.session.errors = errors;
+    req.session.success = false;
+    res.render('index',{namer:namer,emailer:emailer,phone_noer:phone_noer,
+      passworder:passworder,re_passworder:re_passworder})
+
+  }
+  else {
+    var name = req.body.name;
+    var email = req.body.email;
+    //var address = req.body.address;
+    var phone_no = req.body.phone_no;
+    var dis = req.body.dis;
+    var password = req.body.password;
+    //var district = req.body.district;
+    //var city = req.body.city;
+    //var dob = req.body.dob;
+    var re_password = req.body.re_password;
+    if(password == re_password){
+      bcrypt.hash(password, saltRounds, function (err, hash) {
+        connection.query('INSERT INTO service_provider(s_name,email,mobile,overal_description) VALUES(?,?,?,?)', [name, email,  phone_no, dis], function (err, result) {
+          if (err) throw err;
+          connection.query('SELECT LAST_INSERT_ID() as s_p_id', function (err, results, fields) {
+            if (err) throw err;
+            var s_p_id = results[0].s_p_id;
+            //console.log(s_p_id);
+  
+            connection.query('INSERT INTO users(u_email,u_name,u_password,u_group,u_status,s_p_id) VALUES(?,?,?,?,?,?)', [email, name, hash, '1', '1', s_p_id], function (err, result) {
+              if (err) throw err;
+              connection.query('SELECT LAST_INSERT_ID() as u_id', function (err, results, fields) {
+                if (err) throw err;
+                  const user_id = results[0].u_id;
+                  console.log(results[0].u_id);
+                  //req.login(user_id, function (err) {
+                   console.log(user_id);
+                  // res.render('add_telent',{user_id:user_id});
+  
+                   //connection.query('SELECT * FROM main_talent',function(err,rows){
+                    //connection.query('SELECT * FROM sub_talent',function(err,row1){
+                      //res.render('add_telent',{main:rows,sub:row1,user_id:user_id});
+                      res.redirect('/home');
+                    //})
+                
+               //   })
+                 //})
+              })  
+             
+            })
+  
+            })
+          })
+  
+  
+  
+        })
+
+    }
+    else{
+      re_passworder= "Not Match Password and RE Enter Password";
+      res.redirect('index',{re_passworder:re_passworder})
+    }
+    // console.log(district);
+    
+    
+
+  }
+
+
+
+})
+
 
 
 router.post('/fristadd',function(req, res){
@@ -543,9 +721,9 @@ function authenticationMiddleware() {
       'req.session.passport.user:${JSON.stringify(req.session.passport)}'
     );
     if (req.isAuthenticated()) return next();
-    res.redirect('/signin');
+    res.redirect('/');
   }
-  res.redirect('/signin');
+  res.redirect('/');
 }
 
 router.post('/textdata',function(req,res){
@@ -581,7 +759,7 @@ router.post('/addpost',function(req,res){
   connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
     console.log(row2);
     var s_p_id = row2[0].s_p_id;
-  connection.query('INSERT INTO post (title,description,s_p_id) VALUES(?,?,?)',[subject,message,s_p_id],function(err,rows){
+  connection.query('INSERT INTO post (title,description,s_p_id,publish_date) VALUES(?,?,?,NOW())',[subject,message,s_p_id],function(err,rows){
     if (err) throw err;
     res.redirect('/profile');
   })
@@ -597,7 +775,7 @@ router.post('/addpost',function(req,res){
   connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
     console.log(row2);
     var s_p_id = row2[0].s_p_id;
-  connection.query('INSERT INTO post (title,description,s_p_id,image_path) VALUES(?,?,?,?)',[subject,message,s_p_id,logo],function(err,rows){
+  connection.query('INSERT INTO post (title,description,s_p_id,image_path,publish_date) VALUES(?,?,?,?,NOW())',[subject,message,s_p_id,logo],function(err,rows){
     if (err) throw err;
     res.redirect('/profile');
   })
@@ -643,9 +821,12 @@ router.post('/add_profile_image',function(req,res){
       console.log('erro');
        
     }
-  if(req.files[0]==undefined){}else{
+  if(req.files[0]==undefined){
+    console.log("fnv");
+  }else{
   const user_id = req.user.user_id;
   console.log(user_id);
+  console.log("fnv1");
   connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
     var s_p_id = row2[0].s_p_id;
   const logo = '../upload/'+req.files[0].filename;
