@@ -12,6 +12,9 @@
         </div>
         <div class="col-lg-6">
           <div class="banner_content">
+            <br />
+            <br />
+            <br />
             <h3>
               Welcome to
             </h3>
@@ -21,184 +24,197 @@
             <p>
               You will begin your career here.so welcome again to Sri Lnkan Parttime Job Portal
             </p>
-           
-          <h3 class="mb-30 title_color">
-            <center>Create a New Account</center>
-          </h3>
-         
-          <form action="/registerfornt" method="post">
+            <hr>
+            <form action="/search" method="GET" class="form-inline active-cyan-3 active-cyan-4">
+              <div class="col-lg-9 col-md-9">
+                <input
+                  type="text"
+                  name="search"
+                  placeholder="Search the service you want"
+                  onfocus="this.placeholder = ''"
+                  onblur="this.placeholder = 'Search the service you want'"
+                  class="single-input circle"
+                  style="background:#e5fafb;"
+                 />
 
-            <div class="mt-10">
-              <div class="row">
-              <div class="col-lg-3 col-md-3">
-              <label></label>
               </div>
-              <div class="col-lg-9 col-md-9">
-              <input
-                type="text"
-                name="name"
-                
-                placeholder="User Name"
-                onfocus="this.placeholder = ''"
-                onblur="this.placeholder = 'First Name'"
-                
-                class="single-input circle"
-                required
-                style="background:#7373c8;"
-               />
-               {{# if namer }}
-                
-                  
-                      <p style="color:red">{{ this.namer }}</p>
-                
-              {{/if}}
-               </div>
-            </div>
-            </div>
-           
-            
-            <div class="mt-10">
-              <div class="row">
-              <div class="col-lg-3 col-md-3">
-              <label></label>
+              <div class="mt-10">
+                <button
+                  type="submit"
+                  class="genric-btn info-border circle arrow"
+                  style="float: right;margin-top: -12px"
+                >
+                  Search
+                  <span class="lnr lnr-arrow-right"></span>
+                </button>
               </div>
-              <div class="col-lg-9 col-md-9">
-              <input
-                type="email"
-                name="email"
-                placeholder="Email address"
-                onfocus="this.placeholder = ''"
-                onblur="this.placeholder = 'Email address'"
-                
-                class="single-input circle"
-                style="background:#7373c8;"
-                required
-               />
-               {{# if emailer }}
-                
-                  
-                      <p style="color:red">{{ this.emailer }}</p>
-                
-            {{/if}}
-               </div>
+            </form>
+            <hr />
+            <h3 class="mb-30 title_color">
+              <center>
+                Create a New Account
+              </center>
+            </h3>
+            <form action="/registerfornt" method="post">
+              <div class="mt-10">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3">
+                    <label></label>
+                  </div>
+                  <div class="col-lg-9 col-md-9">
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder="User Name"
+                      onfocus="this.placeholder = ''"
+                      onblur="this.placeholder = 'First Name'"
+                      class="single-input circle"
+                      required
+                      style="background:#7373c8;"
+                     />
 
-            </div>
-            </div>
-            
-            
-            
-            
-            <div class="mt-10">
-               <div class="row">
-              <div class="col-lg-3 col-md-3">
-              <label></label>
+                    {{#if namer}}
+                      <p style="color:red">
+                        {{this.namer}}
+                      </p>
+                    {{/if}}
+                  </div>
+                </div>
               </div>
-              <div class="col-lg-9 col-md-9">
-              <input
-                type="text"
-                name="phone_no"
-                placeholder="Tel Phone Number"
-                onfocus="this.placeholder = ''"
-                onblur="this.placeholder = 'Tel Phone Number'"
-                
-                class="single-input circle"
-                style="background:#7373c8;"
-                required
-               />
-               {{# if phone_noer }}
-                
-                  
-                      <p style="color:red">{{ this.phone_noer }}</p>
-                
-            {{/if}}
-            </div>
-            </div>
-            </div>
-            <div class="mt-10">
-               <div class="row">
-              <div class="col-lg-3 col-md-3">
-              <label> </label>
+              <div class="mt-10">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3">
+                    <label></label>
+                  </div>
+                  <div class="col-lg-9 col-md-9">
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Email address"
+                      onfocus="this.placeholder = ''"
+                      onblur="this.placeholder = 'Email address'"
+                      class="single-input circle"
+                      style="background:#7373c8;"
+                      required
+                     />
+
+                    {{#if emailer}}
+                      <p style="color:red">
+                        {{this.emailer}}
+                      </p>
+                    {{/if}}
+                  </div>
+                </div>
               </div>
-              <div class="col-lg-9 col-md-9">
-              <textarea
-                class="single-textarea circle"
-                name="dis"
-                placeholder="Discribtion About User Self"
-                onfocus="this.placeholder = ''"
-                onblur="this.placeholder = 'Discribtion About User Self'"
-                style="background:#7373c8;"
-                required
-              ></textarea>
-              {{# if diser }}
-                
-                  
-                      <p style="color:red">{{ this.diser }}</p>
-                
-            {{/if}}
+              <div class="mt-10">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3">
+                    <label></label>
+                  </div>
+                  <div class="col-lg-9 col-md-9">
+                    <input
+                      type="text"
+                      name="phone_no"
+                      placeholder="Tel Phone Number"
+                      onfocus="this.placeholder = ''"
+                      onblur="this.placeholder = 'Tel Phone Number'"
+                      class="single-input circle"
+                      style="background:#7373c8;"
+                      required
+                     />
+
+                    {{#if phone_noer}}
+                      <p style="color:red">
+                        {{this.phone_noer}}
+                      </p>
+                    {{/if}}
+                  </div>
+                </div>
               </div>
-            </div>
-            </div>
-            <div class="mt-10">
-               <div class="row">
-              <div class="col-lg-3 col-md-3">
-              <label></label>
+              <div class="mt-10">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3">
+                    <label></label>
+                  </div>
+                  <div class="col-lg-9 col-md-9">
+                    <textarea
+                      class="single-textarea circle"
+                      name="dis"
+                      placeholder="Discribtion About User Self"
+                      onfocus="this.placeholder = ''"
+                      onblur="this.placeholder = 'Discribtion About User Self'"
+                      style="background:#7373c8;"
+                      required
+                    ></textarea>
+                    {{#if diser}}
+                      <p style="color:red">
+                        {{this.diser}}
+                      </p>
+                    {{/if}}
+                  </div>
+                </div>
               </div>
-              <div class="col-lg-9 col-md-9">
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                onfocus="this.placeholder = ''"
-                onblur="this.placeholder = 'Password'"
-                
-                class="single-input circle"
-                style="background:#7373c8;"
-                required
-               />
-               {{# if passworder }}
-                
-                  
-                      <p style="color:red">{{ this.passworder }}</p>
-                
-            {{/if}}
+              <div class="mt-10">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3">
+                    <label></label>
+                  </div>
+                  <div class="col-lg-9 col-md-9">
+                    <input
+                      type="password"
+                      name="password"
+                      placeholder="Password"
+                      onfocus="this.placeholder = ''"
+                      onblur="this.placeholder = 'Password'"
+                      class="single-input circle"
+                      style="background:#7373c8;"
+                      required
+                     />
+
+                    {{#if passworder}}
+                      <p style="color:red">
+                        {{this.passworder}}
+                      </p>
+                    {{/if}}
+                  </div>
+                </div>
               </div>
-            </div>
-            </div>
-            <div class="mt-10">
-               <div class="row">
-              <div class="col-lg-3 col-md-3">
-              <label></label>
+              <div class="mt-10">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3">
+                    <label></label>
+                  </div>
+                  <div class="col-lg-9 col-md-9">
+                    <input
+                      type="password"
+                      name="re_password"
+                      placeholder="RE Password"
+                      onfocus="this.placeholder = ''"
+                      onblur="this.placeholder = 'RE Password'"
+                      class="single-input circle"
+                      style="background:#7373c8;"
+                      required
+                     />
+
+                    {{#if re_passworder}}
+                      <p style="color:red">
+                        {{this.re_passworder}}
+                      </p>
+                    {{/if}}
+                  </div>
+                </div>
               </div>
-              <div class="col-lg-9 col-md-9">
-              <input
-                type="password"
-                name="re_password"
-                placeholder="RE Password"
-                onfocus="this.placeholder = ''"
-                onblur="this.placeholder = 'RE Password'"
-                
-                class="single-input circle"
-                style="background:#7373c8;"
-                required
-               />
-               {{# if re_passworder }}
-                
-                  
-                      <p style="color:red">{{ this.re_passworder }}</p>
-                
-            {{/if}}
+              <div class="mt-10">
+                <button
+                  type="submit"
+                  class="genric-btn info-border circle arrow"
+                  style="float: right;"
+                >
+                  Sign Up
+                  <span class="lnr lnr-arrow-right"></span>
+                </button>
               </div>
-            </div>
-            </div>
-            <div class="mt-10">
-              <button type="submit" class="genric-btn info-border circle arrow" style="float: right;">
-                Sign Up
-                <span class="lnr lnr-arrow-right"></span>
-              </button>
-            </div>
-          </form>
-        
-            
+            </form>
           </div>
         </div>
       </div>

@@ -4,17 +4,18 @@ var mysql = require('mysql');
 var expressValidator = require('express-validator');
 var passport = require('passport');
 var multer = require('multer');
+var emailCheck = require('email-check');
 
 
 var bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 var Storage = multer.diskStorage({
-  destination: function(req, file, callback) {
-      callback(null, 'public/upload/');
+  destination: function (req, file, callback) {
+    callback(null, 'public/upload/');
   },
-  filename: function(req, file, callback) {
-      callback(null, file.fieldname + "_" + Date.now() + "_" + file.originalname);
+  filename: function (req, file, callback) {
+    callback(null, file.fieldname + "_" + Date.now() + "_" + file.originalname);
   }
 });
 
@@ -45,19 +46,21 @@ connection.connect(function (err) {
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  if(req.isAuthenticated()){
-    const user_id = req.user.user_id;
-    connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?',[user_id],function(err,rows){
-      connection.query('SELECT * FROM main_talent',function(err,main_talents){
-      res.render('home',{main_talents:main_talents,details:rows});
-      })
-      })
-  }else{
-    connection.query('SELECT * FROM main_talent',function(err,main_talents){
-      res.render('index',{main_talents:main_talents});
+
+  if (req.isAuthenticated()) {
+    connection.query('SELECT * FROM main_talent', function (err, main_talents) {
+      res.render('home', {
+        main_talents: main_talents
+      });
+    })
+  } else {
+    connection.query('SELECT * FROM main_talent', function (err, main_talents) {
+      res.render('index', {
+        main_talents: main_talents
+      });
     })
   }
-  
+
 });
 
 router.get('/sidebar', function (req, res, next) {
@@ -65,44 +68,53 @@ router.get('/sidebar', function (req, res, next) {
 });
 
 router.get('/sub_category:id', function (req, res, next) {
-  var id=req.params.id;
-  
-  connection.query('SELECT * FROM sub_talent WHERE m_t_id=?',[id],function(err,sub_talents){
-    res.render('sub_category',{sub_talents:sub_talents});
+  var id = req.params.id;
+
+  connection.query('SELECT * FROM sub_talent WHERE m_t_id=?', [id], function (err, sub_talents) {
+    res.render('sub_category', {
+      sub_talents: sub_talents
+    });
   })
 });
 
 router.get('/service_provider_list:id', function (req, res, next) {
   var id = req.params.id;
-  connection.query('SELECT * FROM provider_talent INNER JOIN service_provider ON provider_talent.s_p_id = service_provider.s_p_id WHERE s_t_id = ?',[id],function(err,rows){
-    res.render('service_provider_list',{rows:rows});
+  connection.query('SELECT * FROM provider_talent INNER JOIN service_provider ON provider_talent.s_p_id = service_provider.s_p_id WHERE s_t_id = ?', [id], function (err, rows) {
+    res.render('service_provider_list', {
+      rows: rows
+    });
   })
-  
+
 });
 
-router.get('/provider_profile:id',function(req,res,next){
+router.get('/provider_profile:id', function (req, res, next) {
   var id = req.params.id;
   //const user_id = req.user.user_id;
-  
+
   //console.log(user_id);
- // console.log(req.isAuthenticated());
-  connection.query('SELECT * FROM service_provider  WHERE s_p_id=?',[id],function(err,rows){
-      const s_p_id = rows[0].s_p_id;
-      
-      //console.log(s_p_id);
-      connection.query('SELECT *  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?',[s_p_id],function(err,row1){
-        // if(row1.length<3){
-        //   add_more= true;
-        // }
-        connection.query('SELECT * FROM main_talent',function(err,row2){
-          connection.query('SELECT * FROM post WHERE s_p_id = ?',[s_p_id],function(err,row3){
-            res.render('profile_viewr',{details:rows,talents:row1,main:row2,post:row3});
-          })
-        
+  // console.log(req.isAuthenticated());
+  connection.query('SELECT * FROM service_provider  WHERE s_p_id=?', [id], function (err, rows) {
+    const s_p_id = rows[0].s_p_id;
+
+    //console.log(s_p_id);
+    connection.query('SELECT *  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?', [s_p_id], function (err, row1) {
+      // if(row1.length<3){
+      //   add_more= true;
+      // }
+      connection.query('SELECT * FROM main_talent', function (err, row2) {
+        connection.query('SELECT * FROM post WHERE s_p_id = ?', [s_p_id], function (err, row3) {
+          res.render('profile_viewr', {
+            details: rows,
+            talents: row1,
+            main: row2,
+            post: row3
+          });
         })
+
       })
-      
-   
+    })
+
+
   })
 
 })
@@ -114,48 +126,58 @@ router.get('/profile', function (req, res, next) {
   var defult = false;
   console.log(user_id);
   console.log(req.isAuthenticated());
-  connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?',[user_id],function(err,rows){
-      const s_p_id = rows[0].s_p_id;
-      const ima = rows[0].image;
-      if(ima == 'NULL'){
-        defult = true;
+  connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id], function (err, rows) {
+    const s_p_id = rows[0].s_p_id;
+    const ima = rows[0].image;
+    if (ima == 'NULL') {
+      defult = true;
+    }
+    console.log(s_p_id);
+    connection.query('SELECT *  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?', [s_p_id], function (err, row1) {
+      if (row1.length < 3) {
+        add_more = true;
       }
-      console.log(s_p_id);
-      connection.query('SELECT *  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?',[s_p_id],function(err,row1){
-        if(row1.length<3){
-          add_more= true;
-        }
-        connection.query('SELECT * FROM main_talent',function(err,row2){
-          connection.query('SELECT * FROM post WHERE s_p_id = ? ORDER BY p_id DESC',[s_p_id],function(err,row3){
-            console.log(row3);
-            res.render('profile',{details:rows,talents:row1,main:row2,add_more:add_more,post:row3,defult:defult});
-          })
-        
+      connection.query('SELECT * FROM main_talent', function (err, row2) {
+        connection.query('SELECT * FROM post WHERE s_p_id = ? ORDER BY p_id DESC', [s_p_id], function (err, row3) {
+          console.log(row3);
+          res.render('profile', {
+            details: rows,
+            talents: row1,
+            main: row2,
+            add_more: add_more,
+            post: row3,
+            defult: defult
+          });
         })
+
       })
-      
-   
-  }) 
+    })
+
+
+  })
 
 })
 
 router.get('/registion', function (req, res, next) {
   //req.session.errors = null;
   res.render('registion');
-  
+
 })
 
 router.get('/add_telenet', function (req, res, next) {
   //console.log(req.isAuthenticated());
   //console.log(user_id);
-  connection.query('SELECT * FROM main_talent',function(err,rows){
-    connection.query('SELECT * FROM sub_talent',function(err,row1){
-      res.render('add_telent',{main:rows,sub:row1});
+  connection.query('SELECT * FROM main_talent', function (err, rows) {
+    connection.query('SELECT * FROM sub_talent', function (err, row1) {
+      res.render('add_telent', {
+        main: rows,
+        sub: row1
+      });
     })
 
   })
 
-  
+
 })
 
 router.get('/add_secound', function (req, res, next) {
@@ -164,10 +186,12 @@ router.get('/add_secound', function (req, res, next) {
 
 router.get('/add_thired:id', function (req, res, next) {
   var m_t_id = req.params.id;
-  connection.query('SELECT * FROM sub_talent WHERE m_t_id = ?',[m_t_id],function(err,rows){
-    res.render('add_thired',{sub:rows});
+  connection.query('SELECT * FROM sub_talent WHERE m_t_id = ?', [m_t_id], function (err, rows) {
+    res.render('add_thired', {
+      sub: rows
+    });
   })
-  
+
 })
 
 router.get('/home', function (req, res, next) {
@@ -185,10 +209,6 @@ router.get('/home', function (req, res, next) {
       })
   }
   
-  
-  
-  
-
 })
 
 router.get('/signin', function (req, res, next) {
@@ -219,8 +239,8 @@ router.post('/register', function (req, res) {
   req.checkBody('city', 'City field connot be empty.').notEmpty();
   req.checkBody('dob', 'DOB field connot be empty.').notEmpty();
   req.checkBody('re_password', 'Re Password field connot be empty.').notEmpty();
-  var namer='';
-  var emailer="";
+  var namer = '';
+  var emailer = "";
   var addresser = "";
   var phone_noer = "";
   var diser = "";
@@ -229,84 +249,83 @@ router.post('/register', function (req, res) {
   var cityer = "";
   var dober = "";
   var re_passworder = "";
-  
+
   var errors = req.validationErrors();
   console.log(errors);
   if (errors) {
     //console.log('errors: ${JSON.stringify(errors)}');
-    for(i=0;i<errors.length;i++){
-      if(errors[i].param == 'name')
-      {
+    for (i = 0; i < errors.length; i++) {
+      if (errors[i].param == 'name') {
         console.log("dbj");
-        namer= errors[i].msg;
+        namer = errors[i].msg;
         //console.log(req.session.error);
       }
-      
-      if(errors[i].param == 'email')
-      {
+
+      if (errors[i].param == 'email') {
         console.log("dbj");
-        emailer= errors[i].msg;
+        emailer = errors[i].msg;
         //console.log(req.session.error);
       }
-      if(errors[i].param == 'address')
-      {
+      if (errors[i].param == 'address') {
         console.log("dbj");
-        addresser= errors[i].msg;
+        addresser = errors[i].msg;
         //console.log(req.session.error);
       }
-      if(errors[i].param == 'phone_no')
-      {
+      if (errors[i].param == 'phone_no') {
         console.log("dbj");
-        phone_noer= errors[i].msg;
+        phone_noer = errors[i].msg;
         //console.log(req.session.error);
       }
-      if(errors[i].param == 'dis')
-      {
+      if (errors[i].param == 'dis') {
         console.log("dbj");
-        diser= errors[i].msg;
+        diser = errors[i].msg;
         //console.log(req.session.error);
       }
-      if(errors[i].param == 'password')
-      {
+      if (errors[i].param == 'password') {
         console.log("dbj");
-        passworder= errors[i].msg;
+        passworder = errors[i].msg;
         //console.log(req.session.error);
       }
-      if(errors[i].param == 'district')
-      {
+      if (errors[i].param == 'district') {
         console.log("dbj");
-        districter= errors[i].msg;
+        districter = errors[i].msg;
         //console.log(req.session.error);
       }
-      if(errors[i].param == 'city')
-      {
+      if (errors[i].param == 'city') {
         console.log("dbj");
-        cityer= errors[i].msg;
+        cityer = errors[i].msg;
         //console.log(req.session.error);
       }
-      if(errors[i].param == 'dob')
-      {
+      if (errors[i].param == 'dob') {
         console.log("dbj");
-        dober= errors[i].msg;
+        dober = errors[i].msg;
         //console.log(req.session.error);
       }
-      if(errors[i].param == 're_password')
-      {
+      if (errors[i].param == 're_password') {
         console.log("dbj");
-        re_passworder= errors[i].msg;
+        re_passworder = errors[i].msg;
         //console.log(req.session.error);
       }
-      
+
     }
-   
-    
+
+
     req.session.errors = errors;
     req.session.success = false;
-    res.render('registion',{namer:namer,emailer:emailer,addresser:addresser,phone_noer:phone_noer,diser:diser,
-      passworder:passworder,districter:districter,cityer:cityer,dober:dober,re_passworder:re_passworder})
+    res.render('registion', {
+      namer: namer,
+      emailer: emailer,
+      addresser: addresser,
+      phone_noer: phone_noer,
+      diser: diser,
+      passworder: passworder,
+      districter: districter,
+      cityer: cityer,
+      dober: dober,
+      re_passworder: re_passworder
+    })
 
-  }
-  else {
+  } else {
     var name = req.body.name;
     var email = req.body.email;
     var address = req.body.address;
@@ -317,7 +336,7 @@ router.post('/register', function (req, res) {
     var city = req.body.city;
     var dob = req.body.dob;
     var re_password = req.body.re_password;
-    if(password == re_password){
+    if (password == re_password) {
       bcrypt.hash(password, saltRounds, function (err, hash) {
         connection.query('INSERT INTO service_provider(s_name,email,address,mobile,overal_description,district,dob,town) VALUES(?,?,?,?,?,?,?,?)', [name, email, address, phone_no, dis, district, dob, city], function (err, result) {
           if (err) throw err;
@@ -325,44 +344,45 @@ router.post('/register', function (req, res) {
             if (err) throw err;
             var s_p_id = results[0].s_p_id;
             //console.log(s_p_id);
-  
+
             connection.query('INSERT INTO users(u_email,u_name,u_password,u_group,u_status,s_p_id) VALUES(?,?,?,?,?,?)', [email, name, hash, '1', '1', s_p_id], function (err, result) {
               if (err) throw err;
               connection.query('SELECT LAST_INSERT_ID() as u_id', function (err, results, fields) {
                 if (err) throw err;
-                  const user_id = results[0].u_id;
-                  console.log(results[0].u_id);
-                  //req.login(user_id, function (err) {
-                   console.log(user_id);
-                  // res.render('add_telent',{user_id:user_id});
-  
-                   //connection.query('SELECT * FROM main_talent',function(err,rows){
-                    //connection.query('SELECT * FROM sub_talent',function(err,row1){
-                      //res.render('add_telent',{main:rows,sub:row1,user_id:user_id});
-                      res.redirect('/home');
-                    //})
-                
-               //   })
-                 //})
-              })  
-             
+                const user_id = results[0].u_id;
+                console.log(results[0].u_id);
+                //req.login(user_id, function (err) {
+                console.log(user_id);
+                // res.render('add_telent',{user_id:user_id});
+
+                //connection.query('SELECT * FROM main_talent',function(err,rows){
+                //connection.query('SELECT * FROM sub_talent',function(err,row1){
+                //res.render('add_telent',{main:rows,sub:row1,user_id:user_id});
+                res.redirect('/home');
+                //})
+
+                //   })
+                //})
+              })
+
             })
-  
-            })
+
           })
-  
-  
-  
         })
 
-    }
-    else{
-      re_passworder= "Not Match Password and RE Enter Password";
-      res.render('registion',{re_passworder:re_passworder})
+
+
+      })
+
+    } else {
+      re_passworder = "Not Match Password and RE Enter Password";
+      res.render('registion', {
+        re_passworder: re_passworder
+      })
     }
     // console.log(district);
-    
-    
+
+
 
   }
 
@@ -384,8 +404,8 @@ router.post('/registerfornt', function (req, res) {
   //req.checkBody('city', 'City field connot be empty.').notEmpty();
   //req.checkBody('dob', 'DOB field connot be empty.').notEmpty();
   req.checkBody('re_password', 'Re Password field connot be empty.').notEmpty();
-  var namer='';
-  var emailer="";
+  var namer = '';
+  var emailer = "";
   //var addresser = "";
   var phone_noer = "";
   //var diser = "";
@@ -394,23 +414,21 @@ router.post('/registerfornt', function (req, res) {
   //var cityer = "";
   //var dober = "";
   var re_passworder = "";
-  
+
   var errors = req.validationErrors();
   console.log(errors);
   if (errors) {
     //console.log('errors: ${JSON.stringify(errors)}');
-    for(i=0;i<errors.length;i++){
-      if(errors[i].param == 'name')
-      {
+    for (i = 0; i < errors.length; i++) {
+      if (errors[i].param == 'name') {
         //console.log("dbj");
-        namer= errors[i].msg;
+        namer = errors[i].msg;
         //console.log(req.session.error);
       }
-      
-      if(errors[i].param == 'email')
-      {
+
+      if (errors[i].param == 'email') {
         //console.log("dbj");
-        emailer= errors[i].msg;
+        emailer = errors[i].msg;
         //console.log(req.session.error);
       }
       // if(errors[i].param == 'address')
@@ -419,10 +437,9 @@ router.post('/registerfornt', function (req, res) {
       //   addresser= errors[i].msg;
       //   //console.log(req.session.error);
       // }
-      if(errors[i].param == 'phone_no')
-      {
+      if (errors[i].param == 'phone_no') {
         console.log("dbj");
-        phone_noer= errors[i].msg;
+        phone_noer = errors[i].msg;
         //console.log(req.session.error);
       }
       // if(errors[i].param == 'dis')
@@ -431,10 +448,9 @@ router.post('/registerfornt', function (req, res) {
       //   diser= errors[i].msg;
       //   //console.log(req.session.error);
       // }
-      if(errors[i].param == 'password')
-      {
+      if (errors[i].param == 'password') {
         console.log("dbj");
-        passworder= errors[i].msg;
+        passworder = errors[i].msg;
         //console.log(req.session.error);
       }
       // if(errors[i].param == 'district')
@@ -455,23 +471,26 @@ router.post('/registerfornt', function (req, res) {
       //   dober= errors[i].msg;
       //   //console.log(req.session.error);
       // }
-      if(errors[i].param == 're_password')
-      {
+      if (errors[i].param == 're_password') {
         //console.log("dbj");
-        re_passworder= errors[i].msg;
+        re_passworder = errors[i].msg;
         //console.log(req.session.error);
       }
-      
+
     }
-   
-    
+
+
     req.session.errors = errors;
     req.session.success = false;
-    res.render('index',{namer:namer,emailer:emailer,phone_noer:phone_noer,
-      passworder:passworder,re_passworder:re_passworder})
+    res.render('index', {
+      namer: namer,
+      emailer: emailer,
+      phone_noer: phone_noer,
+      passworder: passworder,
+      re_passworder: re_passworder
+    })
 
-  }
-  else {
+  } else {
     var name = req.body.name;
     var email = req.body.email;
     //var address = req.body.address;
@@ -482,53 +501,55 @@ router.post('/registerfornt', function (req, res) {
     //var city = req.body.city;
     //var dob = req.body.dob;
     var re_password = req.body.re_password;
-    //var image = "../upload/image_1544251653066_lina2.jpg";
-    if(password == re_password){
+
+    if (password == re_password) {
       bcrypt.hash(password, saltRounds, function (err, hash) {
-        connection.query('INSERT INTO service_provider(s_name,email,mobile,overal_description,image) VALUES(?,?,?,?)', [name, email,  phone_no, dis], function (err, result) {
+        connection.query('INSERT INTO service_provider(s_name,email,mobile,overal_description) VALUES(?,?,?,?)', [name, email, phone_no, dis], function (err, result) {
+
           if (err) throw err;
           connection.query('SELECT LAST_INSERT_ID() as s_p_id', function (err, results, fields) {
             if (err) throw err;
             var s_p_id = results[0].s_p_id;
             //console.log(s_p_id);
-  
+
             connection.query('INSERT INTO users(u_email,u_name,u_password,u_group,u_status,s_p_id) VALUES(?,?,?,?,?,?)', [email, name, hash, '1', '1', s_p_id], function (err, result) {
               if (err) throw err;
               connection.query('SELECT LAST_INSERT_ID() as u_id', function (err, results, fields) {
                 if (err) throw err;
-                  const user_id = results[0].u_id;
-                  console.log(results[0].u_id);
-                  //req.login(user_id, function (err) {
-                   console.log(user_id);
-                  // res.render('add_telent',{user_id:user_id});
-  
-                   //connection.query('SELECT * FROM main_talent',function(err,rows){
-                    //connection.query('SELECT * FROM sub_talent',function(err,row1){
-                      //res.render('add_telent',{main:rows,sub:row1,user_id:user_id});
-                      res.redirect('/home');
-                    //})
-                
-               //   })
-                 //})
-              })  
-             
+                const user_id = results[0].u_id;
+                console.log(results[0].u_id);
+                //req.login(user_id, function (err) {
+                console.log(user_id);
+                // res.render('add_telent',{user_id:user_id});
+
+                //connection.query('SELECT * FROM main_talent',function(err,rows){
+                //connection.query('SELECT * FROM sub_talent',function(err,row1){
+                //res.render('add_telent',{main:rows,sub:row1,user_id:user_id});
+                res.redirect('/home');
+                //})
+
+                //   })
+                //})
+              })
+
             })
-  
-            })
+
           })
-  
-  
-  
         })
 
-    }
-    else{
-      re_passworder= "Not Match Password and RE Enter Password";
-      res.redirect('index',{re_passworder:re_passworder})
+
+
+      })
+
+    } else {
+      re_passworder = "Not Match Password and RE Enter Password";
+      res.redirect('index', {
+        re_passworder: re_passworder
+      })
     }
     // console.log(district);
-    
-    
+
+
 
   }
 
@@ -538,187 +559,191 @@ router.post('/registerfornt', function (req, res) {
 
 
 
-router.post('/fristadd',function(req, res){
+router.post('/fristadd', function (req, res) {
   req.checkBody('main', 'main field connot be empty.').notEmpty();
   req.checkBody('sub', 'sub field connot be empty.').notEmpty();
   req.checkBody('dis', 'dis field connot be empty.').notEmpty();
 
-  var mainer='';
-  var suber="";
+  var mainer = '';
+  var suber = "";
   var diser = "";
-  
+
   var errors = req.validationErrors();
 
-  if(errors){
-    for(i=0;i<errors.length;i++){
-      if(errors[i].param == 'main')
-      {
+  if (errors) {
+    for (i = 0; i < errors.length; i++) {
+      if (errors[i].param == 'main') {
         console.log("dbj");
-        mainer= errors[i].msg;
+        mainer = errors[i].msg;
         //console.log(req.session.error);
       }
-      
-      if(errors[i].param == 'sub')
-      {
+
+      if (errors[i].param == 'sub') {
         console.log("dbj");
-        suber= errors[i].msg;
+        suber = errors[i].msg;
         //console.log(req.session.error);
       }
-      if(errors[i].param == 'dis')
-      {
+      if (errors[i].param == 'dis') {
         console.log("dbj");
-        diser= errors[i].msg;
+        diser = errors[i].msg;
         //console.log(req.session.error);
       }
     }
     req.session.errors = errors;
     req.session.success = false;
-    res.render('add_telent',{mainer:mainer,suber:suber,diser:diser})
+    res.render('add_telent', {
+      mainer: mainer,
+      suber: suber,
+      diser: diser
+    })
 
-  }
-  else{
+  } else {
     var main = req.body.main;
 
-  var sub = req.body.sub;
-  var dis = req.body.dis;
-  var user_id = req.body.user;
-  console.log(req.isAuthenticated());
-  console.log(user_id);
-  connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
-    var s_p_id = row2[0].s_p_id;
-    console.log(s_p_id);
-    connection.query('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [s_p_id, sub, dis], function (err, result) {
-      if (err) throw err;
-      res.render('add_secound', { user_id: user_id });
+    var sub = req.body.sub;
+    var dis = req.body.dis;
+    var user_id = req.body.user;
+    console.log(req.isAuthenticated());
+    console.log(user_id);
+    connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
+      var s_p_id = row2[0].s_p_id;
+      console.log(s_p_id);
+      connection.query('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [s_p_id, sub, dis], function (err, result) {
+        if (err) throw err;
+        res.render('add_secound', {
+          user_id: user_id
+        });
+      })
     })
-  })
 
   }
-  
+
 
 })
 
 
-router.post('/secoundadd',function(req, res){
+router.post('/secoundadd', function (req, res) {
   req.checkBody('main', 'main field connot be empty.').notEmpty();
   req.checkBody('sub', 'sub field connot be empty.').notEmpty();
   req.checkBody('dis', 'dis field connot be empty.').notEmpty();
 
-  var mainer="";
-  var suber="";
+  var mainer = "";
+  var suber = "";
   var diser = "";
-  
+
   var errors = req.validationErrors();
 
-  if(errors){
-    for(i=0;i<errors.length;i++){
-      if(errors[i].param == 'main')
-      {
+  if (errors) {
+    for (i = 0; i < errors.length; i++) {
+      if (errors[i].param == 'main') {
         console.log("dbj");
-        mainer= errors[i].msg;
+        mainer = errors[i].msg;
         //console.log(req.session.error);
       }
-      
-      if(errors[i].param == 'sub')
-      {
+
+      if (errors[i].param == 'sub') {
         console.log("dbj");
-        suber= errors[i].msg;
+        suber = errors[i].msg;
         //console.log(req.session.error);
       }
-      if(errors[i].param == 'dis')
-      {
+      if (errors[i].param == 'dis') {
         console.log("dbj");
-        diser= errors[i].msg;
+        diser = errors[i].msg;
         //console.log(req.session.error);
       }
     }
     req.session.errors = errors;
     req.session.success = false;
-    res.render('add_secound',{mainer:mainer,suber:suber,diser:diser})
-
-  }
-  else{
-//
-  var main = req.body.main;
-  var sub = req.body.sub;
-  var dis = req.body.dis;
-  var user_id = req.body.user;
-  console.log(req.isAuthenticated());
-  console.log(user_id);
-  connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
-    console.log(row2);
-    var s_p_id = row2[0].s_p_id;
-    connection.query('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [s_p_id, sub, dis], function (err, result) {
-      if (err) throw err;
-      res.render('add_thired', { user_id: user_id });
+    res.render('add_secound', {
+      mainer: mainer,
+      suber: suber,
+      diser: diser
     })
 
-  })
+  } else {
+    //
+    var main = req.body.main;
+    var sub = req.body.sub;
+    var dis = req.body.dis;
+    var user_id = req.body.user;
+    console.log(req.isAuthenticated());
+    console.log(user_id);
+    connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
+      console.log(row2);
+      var s_p_id = row2[0].s_p_id;
+      connection.query('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [s_p_id, sub, dis], function (err, result) {
+        if (err) throw err;
+        res.render('add_thired', {
+          user_id: user_id
+        });
+      })
+
+    })
 
 
 
-// })
+    // })
 
-// router.post('/thiredadd', function (req, res) {
-// =======
-}
+    // router.post('/thiredadd', function (req, res) {
+    // =======
+  }
 
 })
 
-router.post('/thiredadd',function(req, res){
+router.post('/thiredadd', function (req, res) {
   //req.checkBody('main', 'main field connot be empty.').notEmpty();
   req.checkBody('sub', 'sub field connot be empty.').notEmpty();
   req.checkBody('dis', 'dis field connot be empty.').notEmpty();
 
   //var mainer='';
-  var suber="";
+  var suber = "";
   var diser = "";
-  
+
   var errors = req.validationErrors();
 
-  if(errors){
-    for(i=0;i<errors.length;i++){
+  if (errors) {
+    for (i = 0; i < errors.length; i++) {
       // if(errors[i].param == 'main')
       // {
       //   console.log("dbj");
       //   mainer= errors[i].msg;
       //   //console.log(req.session.error);
       // }
-      
-      if(errors[i].param == 'sub')
-      {
+
+      if (errors[i].param == 'sub') {
         console.log("dbj");
-        suber= errors[i].msg;
+        suber = errors[i].msg;
         //console.log(req.session.error);
       }
-      if(errors[i].param == 'dis')
-      {
+      if (errors[i].param == 'dis') {
         console.log("dbj");
-        diser= errors[i].msg;
+        diser = errors[i].msg;
         //console.log(req.session.error);
       }
     }
     req.session.errors = errors;
     req.session.success = false;
-    res.render('add_thired',{suber:suber,diser:diser})
-
-  }
-  else{
-
-  //var main = req.body.main;
-  var sub = req.body.sub;
-  var dis = req.body.dis;
-  const user_id = req.user.user_id;
-  console.log(req.isAuthenticated());
-  console.log(user_id);
-
-  connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
-    var s_p_id = row2[0].s_p_id;
-    connection.query('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [s_p_id, sub, dis], function (err, result) {
-      if (err) throw err;
-      res.redirect('/profile');
+    res.render('add_thired', {
+      suber: suber,
+      diser: diser
     })
-  })
+
+  } else {
+
+    //var main = req.body.main;
+    var sub = req.body.sub;
+    var dis = req.body.dis;
+    const user_id = req.user.user_id;
+    console.log(req.isAuthenticated());
+    console.log(user_id);
+
+    connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
+      var s_p_id = row2[0].s_p_id;
+      connection.query('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [s_p_id, sub, dis], function (err, result) {
+        if (err) throw err;
+        res.redirect('/profile');
+      })
+    })
 
   }
 
@@ -745,73 +770,77 @@ function authenticationMiddleware() {
   res.redirect('/');
 }
 
-router.post('/textdata',function(req,res){
+router.post('/textdata', function (req, res) {
   var m_t_id = req.body.branch;
 
   console.log(m_t_id);
-  connection.query('SELECT * FROM sub_talent WHERE m_t_id = ?',[m_t_id], function(err,rows){
+  connection.query('SELECT * FROM sub_talent WHERE m_t_id = ?', [m_t_id], function (err, rows) {
     console.log(rows);
     res.send(rows);
   })
 
 })
 
-router.get('/maincatagerious',function(req,res){
-  connection.query('SELECT * FROM main_talent',function(err,rows){
-  res.render('main_catagerious', {main:rows})
+router.get('/maincatagerious', function (req, res) {
+  connection.query('SELECT * FROM main_talent', function (err, rows) {
+    res.render('main_catagerious', {
+      main: rows
+    })
   })
 })
 
-router.post('/addpost',function(req,res){
-  upload(req, res, function(err) {
+router.post('/addpost', function (req, res) {
+  upload(req, res, function (err) {
     if (err) {
       console.log('erro');
-       
+
     }
-    if(req.files[0]==undefined){
+    if (req.files[0] == undefined) {
       var subject = req.body.subject;
-  var message = req.body.message;
-  //const logo = '../upload/'+req.files[0].filename;
-  const user_id = req.user.user_id;
-  console.log(req.isAuthenticated());
-  console.log(user_id);
-  connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
-    console.log(row2);
-    var s_p_id = row2[0].s_p_id;
-  connection.query('INSERT INTO post (title,description,s_p_id,publish_date) VALUES(?,?,?,NOW())',[subject,message,s_p_id],function(err,rows){
-    if (err) throw err;
-    res.redirect('/profile');
-  })
-  })
-    }else{
+      var message = req.body.message;
+      //const logo = '../upload/'+req.files[0].filename;
+      const user_id = req.user.user_id;
+      console.log(req.isAuthenticated());
+      console.log(user_id);
+      connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
+        console.log(row2);
+        var s_p_id = row2[0].s_p_id;
+        connection.query('INSERT INTO post (title,description,s_p_id,publish_date) VALUES(?,?,?,NOW())', [subject, message, s_p_id], function (err, rows) {
+          if (err) throw err;
+          res.redirect('/profile');
+        })
+      })
+    } else {
 
-  var subject = req.body.subject;
-  var message = req.body.message;
-  const logo = '../upload/'+req.files[0].filename;
-  const user_id = req.user.user_id;
-  console.log(req.isAuthenticated());
-  console.log(user_id);
-  connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
-    console.log(row2);
-    var s_p_id = row2[0].s_p_id;
-  connection.query('INSERT INTO post (title,description,s_p_id,image_path,publish_date) VALUES(?,?,?,?,NOW())',[subject,message,s_p_id,logo],function(err,rows){
-    if (err) throw err;
-    res.redirect('/profile');
+      var subject = req.body.subject;
+      var message = req.body.message;
+      const logo = '../upload/' + req.files[0].filename;
+      const user_id = req.user.user_id;
+      console.log(req.isAuthenticated());
+      console.log(user_id);
+      connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
+        console.log(row2);
+        var s_p_id = row2[0].s_p_id;
+        connection.query('INSERT INTO post (title,description,s_p_id,image_path,publish_date) VALUES(?,?,?,?,NOW())', [subject, message, s_p_id, logo], function (err, rows) {
+          if (err) throw err;
+          res.redirect('/profile');
+        })
+      })
+    }
   })
-  })
-}
-})
 })
 
-router.get('/update_details',function(req,res){
+router.get('/update_details', function (req, res) {
   const user_id = req.user.user_id;
   connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
     var s_p_id = row2[0].s_p_id;
-    connection.query('SELECT * FROM service_provider WHERE s_p_id = ?',[s_p_id],function(err,rows){
-      res.render('update_profile',{details:rows});
-    }) 
+    connection.query('SELECT * FROM service_provider WHERE s_p_id = ?', [s_p_id], function (err, rows) {
+      res.render('update_profile', {
+        details: rows
+      });
+    })
   })
-  
+
 })
 
 router.post('/update_profile',function(req,res){
@@ -903,30 +932,77 @@ router.post('/update_profile',function(req,res){
 }
 })
 
-router.post('/add_profile_image',function(req,res){
-  upload(req, res, function(err) {
+router.post('/suggestions', function (req, res, next) {
+
+  req.checkBody('idea', 'Idea field field connot be empty.').notEmpty();
+  req.checkBody('sug_email', 'Email field connot be empty.').notEmpty();
+
+  var idea = '';
+
+  var errors = req.validationErrors();
+
+  if (errors) {
+    for (i = 0; i < errors.length; i++) {
+      if (errors[i].param == 'idea') {
+        console.log("dbj");
+        idea_er = errors[i].msg;
+        //console.log(req.session.error);
+      }
+    }
+    req.session.errors = errors;
+    req.session.success = false;
+
+    res.redirect('/');
+
+  } else {
+
+    var idea = req.body.idea;
+
+    connection.query('INSERT INTO notification(content,content_type) VALUES(?,1)', [idea], function (err, result) {
+      if (err) throw err;
+      res.redirect('/');
+    });
+
+  }
+
+});
+
+router.post('/add_profile_image', function (req, res) {
+  upload(req, res, function (err) {
     if (err) {
       console.log('erro');
-       
+
     }
-  if(req.files[0]==undefined){
-    console.log("fnv");
-  }else{
-  const user_id = req.user.user_id;
-  console.log(user_id);
-  console.log("fnv1");
-  connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
-    var s_p_id = row2[0].s_p_id;
-  const logo = '../upload/'+req.files[0].filename;
-  connection.query('UPDATE service_provider SET image =? WHERE s_p_id = ?',[logo,s_p_id],function(err,rows){
-    res.redirect('/profile');
+    if (req.files[0] == undefined) {
+      console.log("fnv");
+    } else {
+      const user_id = req.user.user_id;
+      console.log(user_id);
+      console.log("fnv1");
+      connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
+        var s_p_id = row2[0].s_p_id;
+        const logo = '../upload/' + req.files[0].filename;
+        connection.query('UPDATE service_provider SET image =? WHERE s_p_id = ?', [logo, s_p_id], function (err, rows) {
+          res.redirect('/profile');
+        })
+      })
+    }
   })
-  })
-}
 })
+router.get('/search', (req, res) => {
+  console.log('in serch method');
+  var serch_text = req.param('search');
+  console.log(serch_text);
+  connection.query('SELECT * FROM sub_talent INNER JOIN provider_talent ON sub_talent.s_t_id = provider_talent.s_t_id ' +
+    'INNER JOIN service_provider ON provider_talent.s_p_id= service_provider.s_p_id WHERE sub_talent.s_t_name LIKE "%'+serch_text+'%"',
+    function (err, searched_s_p_list) {
+      console.log(searched_s_p_list);
+      res.render('service_provider_list', {
+        rows: searched_s_p_list
+      });
+
+    });
 })
-
-
 
 module.exports = router;
 

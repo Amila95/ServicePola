@@ -1,4 +1,2 @@
 #eclude node_modules folder
 /service/service/node_modules/*
-
-service/service/package-lock\.json

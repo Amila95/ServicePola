@@ -3,12 +3,14 @@ var router = express.Router();
 var mysql = require('mysql');
 var expressValidator = require('express-validator');
 
+
 var connection = mysql.createConnection({
   host: 'localhost',
   database: 'servicepoladb',
   user: 'root',
   password: '',
 });
+
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -142,5 +144,6 @@ router.get('/suggessions/viewed/:id', function (req, res, next) {
     res.redirect('/admin');
   })
 });
+
 
 module.exports = router;
