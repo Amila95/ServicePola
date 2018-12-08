@@ -32,6 +32,7 @@ app.engine('hbs', hbs({ extname: 'hbs', defaultLayout: 'home_layout', layoutDir:
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
