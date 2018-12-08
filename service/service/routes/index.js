@@ -46,8 +46,11 @@ connection.connect(function (err) {
 /* GET home page. */
 router.get('/', function (req, res, next) {
   if(req.isAuthenticated()){
-    connection.query('SELECT * FROM main_talent',function(err,main_talents){
-      res.render('home',{main_talents:main_talents});
+    const user_id = req.user.user_id;
+    connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?',[user_id],function(err,rows){
+      connection.query('SELECT * FROM main_talent',function(err,main_talents){
+      res.render('home',{main_talents:main_talents,details:rows});
+      })
       })
   }else{
     connection.query('SELECT * FROM main_talent',function(err,main_talents){
@@ -168,9 +171,24 @@ router.get('/add_thired:id', function (req, res, next) {
 })
 
 router.get('/home', function (req, res, next) {
-  connection.query('SELECT * FROM main_talent',function(err,main_talents){
-  res.render('home',{main_talents:main_talents});
-  })
+  if(req.user.user_id){
+    var user_id = req.user.user_id;
+    connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?',[user_id],function(err,rows){
+    connection.query('SELECT * FROM main_talent',function(err,main_talents){
+      res.render('home',{main_talents:main_talents,details:rows});
+      })
+    })
+
+  }else{
+    connection.query('SELECT * FROM main_talent',function(err,main_talents){
+      res.render('home',{main_talents:main_talents});
+      })
+  }
+  
+  
+  
+  
+
 })
 
 router.get('/signin', function (req, res, next) {
@@ -464,9 +482,10 @@ router.post('/registerfornt', function (req, res) {
     //var city = req.body.city;
     //var dob = req.body.dob;
     var re_password = req.body.re_password;
+    //var image = "../upload/image_1544251653066_lina2.jpg";
     if(password == re_password){
       bcrypt.hash(password, saltRounds, function (err, hash) {
-        connection.query('INSERT INTO service_provider(s_name,email,mobile,overal_description) VALUES(?,?,?,?)', [name, email,  phone_no, dis], function (err, result) {
+        connection.query('INSERT INTO service_provider(s_name,email,mobile,overal_description,image) VALUES(?,?,?,?)', [name, email,  phone_no, dis], function (err, result) {
           if (err) throw err;
           connection.query('SELECT LAST_INSERT_ID() as s_p_id', function (err, results, fields) {
             if (err) throw err;
@@ -796,10 +815,78 @@ router.get('/update_details',function(req,res){
 })
 
 router.post('/update_profile',function(req,res){
+  req.checkBody('name', 'Username field connot be empty.').notEmpty();
+  req.checkBody('email', 'Email field connot be empty.').notEmpty();
+  req.checkBody('email', 'Enter a valid email address.').isEmail();
+  
+  req.checkBody('phone_no', 'Mobile field connot be empty.').notEmpty();
+  req.checkBody('phone_no', 'Mobile number is not valid.').len(10);
+  req.checkBody('dis', 'Discription field connot be empty.').notEmpty();
+  var namer='';
+  var emailer="";
+  //var addresser = "";
+  var phone_noer = "";
+  var diser = "";
+  //var passworder = "";
+  //var districter = "";
+  //var cityer = "";
+  //var dober = "";
+  //var re_passworder = "";
+  
+  var errors = req.validationErrors();
+  console.log(errors);
+  if (errors) {
+    //console.log('errors: ${JSON.stringify(errors)}');
+    for(i=0;i<errors.length;i++){
+      if(errors[i].param == 'name')
+      {
+        console.log("dbj");
+        namer= errors[i].msg;
+        //console.log(req.session.error);
+      }
+      
+      if(errors[i].param == 'email')
+      {
+        console.log("dbj");
+        emailer= errors[i].msg;
+        //console.log(req.session.error);
+      }
+     
+      if(errors[i].param == 'phone_no')
+      {
+        console.log("dbj");
+        phone_noer= errors[i].msg;
+        //console.log(req.session.error);
+      }
+      if(errors[i].param == 'dis')
+      {
+        console.log("dbj");
+        diser= errors[i].msg;
+        //console.log(req.session.error);
+      }
+     
+      
+    }
+    const user_id = req.user.user_id;
+  connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
+    var s_p_id = row2[0].s_p_id;
+    connection.query('SELECT * FROM service_provider WHERE s_p_id = ?',[s_p_id],function(err,rows){
+      
+   
+   
+    
+    req.session.errors = errors;
+    req.session.success = false;
+    res.render('update_profile',{details:rows,namer:namer,emailer:emailer,phone_noer:phone_noer,diser:diser})
+  }) 
+})
+  }
+  else{
+
   const user_id = req.user.user_id;
     var name = req.body.name;
     var email = req.body.email;
-    var address = req.body.address;
+   // var address = req.body.address;
     var phone_no = req.body.phone_no;
     var dis = req.body.dis;
     
@@ -809,10 +896,11 @@ router.post('/update_profile',function(req,res){
     
   connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
     var s_p_id = row2[0].s_p_id;
-    connection.query('UPDATE service_provider SET s_name = ?,email = ?,overal_description = ?,town = ?,address = ?,mobile = ?,district= ? WHERE s_p_id = ?',[name,email,dis,city,address,phone_no,district,s_p_id],function(err,rows){
+    connection.query('UPDATE service_provider SET s_name = ?,email = ?,overal_description = ?,mobile = ? WHERE s_p_id = ?',[name,email,dis,phone_no,s_p_id],function(err,rows){
       res.redirect('/profile');
     })
   })
+}
 })
 
 router.post('/add_profile_image',function(req,res){
@@ -841,3 +929,4 @@ router.post('/add_profile_image',function(req,res){
 
 
 module.exports = router;
+

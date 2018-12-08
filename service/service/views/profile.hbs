@@ -518,7 +518,8 @@
           <!-- /input-group -->
             <div class="br"></div>
              <a href="/update_details">
-              <img class="img-fluid" src="img/images.png" alt="sssssssssss" style="width:10px;height:10px;float: right;"/>
+              <img class="img-fluid" src="img/images.png" alt="sssssssssss" style="width:10px;height:10px;float: right;" />
+              
             </a>
           </aside>
           <aside class="single_sidebar_widget author_widget">
@@ -533,15 +534,15 @@
             {{#each details}}
             {{!-- <form action="/add_profile_image" method="post" enctype="multipart/form-data" > --}}
             <div>
-            <label for="image" id="lab">
-      <input type="file" name="image" id="image"/>
+            
+     
             <img
               id="ima" class="author_img rounded-circle" style="width:120px;height:120px;"
               src="{{this.image}}"
               alt=""
              />
              
-             </label>
+            
              </div>
              <button id="sub"  data-toggle="modal" data-target="#exampleModalLong" >change picture</button>
              {{!-- </form> --}}
@@ -690,7 +691,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        {{!-- <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5> --}}
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -710,10 +711,9 @@
              </div>
              <button id="sub"  data-toggle="modal" data-target="#exampleModalLong" >change picture</button> --}}
              
-        <div class="profile">
+       <div class="profile">
         <div class="photo">
-           <input type="file" name="image" id="image"/>
-            {{!-- <input type="file" name="image" accept="image/*"> --}}
+            <input type="file" name="image" accept="image/*">
             <div class="photo__helper">
                 <div class="photo__frame photo__frame--circle">
                     <canvas class="photo__canvas"></canvas>
@@ -746,19 +746,13 @@
             </div>
         </div>
     </div>
-    
 
     <hr>
-    <button type="submit" >Preview</button>
+    <button type="submit" id="previewBtn">Preview</button>
     <hr>
-    {{!-- <img src="" alt="" class="preview">
-    <img src="" alt="" class="preview preview--rounded"> --}}
-    
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+    <img src="" alt="" class="preview">
+    <img src="" alt="" class="preview preview--rounded">
+      
     </div>
   </div>
   </form>
@@ -776,7 +770,7 @@ $("#image").mouseenter(function() {
 })
 </script>
 <script>
-  /**
+ /**
  * Profile picture
  * @author Daniel Salvagni <danielsalvagni@gmail.com>
  */
@@ -1087,7 +1081,7 @@ $("#image").mouseenter(function() {
             self.element.on('change', 'input[type=file]', function (e) {
                 if (this.files && this.files.length) {
                     readFile(this.files[0]);
-                    this.value = '';
+                    this.value = this.files[0];
                 }
             });
             /**
@@ -1494,6 +1488,7 @@ $(function() {
 
     
 });
+
 
 
 </script>
