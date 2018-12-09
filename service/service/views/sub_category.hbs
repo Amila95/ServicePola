@@ -2,73 +2,35 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 posts-list">
-        <h1>Serveices we provide under selected category</h1>
-        <div class="single-post row ">
+        <h1>
+          Serveices we provide under selected category
+        </h1>
+        <div class="single-post row">
           {{#each sub_talents}}
-          <div class="col-lg-4 col-sm-6 brand work">
-            <div class="projects_item">
-              <img class="img-fluid" src="img/projects/projects-2.jpg" alt="" />
-              <div class="projects_text">
-                <a href="service_provider_list{{this.s_t_id}}">
-                  <h4>
-                    {{this.s_t_name}}
-                  </h4>
-                </a>
-                <p>
-                  {{this.s_t_description}}
-                </p>
+            <div class="col-lg-4 col-sm-6 brand work">
+              <div class="projects_item">
+                <img
+                  class="img-fluid"
+                  src="img/projects/project-2.jpg"
+                  alt=""
+                 />
+
+                <div class="projects_text">
+                  <a href="service_provider_list{{this.s_t_id}}">
+                    <h4>
+                      {{this.s_t_name}}
+                    </h4>
+                  </a>
+                  <p>
+                    {{this.s_t_description}}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
           {{/each}}
-          {{!-- <div class="col-lg-4 col-sm-6 brand work">
-            <div class="projects_item">
-              <img class="img-fluid" src="img/projects/projects-2.jpg" alt="" />
-              <div class="projects_text">
-                <a href="service_provider_list">
-                  <h4>
-                    3D Helmet Design
-                  </h4>
-                </a>
-                <p>
-                  Client Project
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-sm-6 brand work">
-            <div class="projects_item">
-              <img class="img-fluid" src="img/projects/projects-2.jpg" alt="" />
-              <div class="projects_text">
-                <a href="service_provider_list">
-                  <h4>
-                    3D Helmet Design
-                  </h4>
-                </a>
-                <p>
-                  Client Project
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-sm-6 brand work">
-            <div class="projects_item">
-              <img class="img-fluid" src="img/projects/projects-2.jpg" alt="" />
-              <div class="projects_text">
-                <a href="service_provider_list">
-                  <h4>
-                    3D Helmet Design
-                  </h4>
-                </a>
-                <p>
-                  Client Project
-                </p>
-              </div>
-            </div>
-          </div> --}}
         </div>
       </div>
-      <div class="col-lg-4 ">
+      <div class="col-lg-4">
         <div class="blog_right_sidebar">
           <aside class="single_sidebar_widget popular_post_widget">
             <h3 class="widget_title">
@@ -76,12 +38,12 @@
             </h3>
             <div class="br"></div>
           </aside>
-          {{!-- <aside class="single_sidebar_widget ads_widget">
+          {{! <aside class="single_sidebar_widget ads_widget">
             <a href="#">
               <img class="img-fluid" src="img/blog/add.jpg" alt="" />
             </a>
             <div class="br"></div>
-          </aside> --}}
+          </aside> }}
           <aside class="single_sidebar_widget ads_widget">
             <a href="#">
               <img class="img-fluid" src="img/blog/add.jpg" alt="" />
