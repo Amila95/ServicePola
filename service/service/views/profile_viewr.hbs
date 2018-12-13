@@ -31,36 +31,23 @@
           
           {{#each post}}
           <article class="row blog_item">
-            <div class="col-md-3">
+             <div class="col-md-3">
               <div class="blog_info text-right">
-                <div class="post_tag">
-                  <a href="#">
-                    Food,
-                  </a>
-                  <a class="active" href="#">
-                    Technology,
-                  </a>
-                  <a href="#">
-                    Politics,
-                  </a>
-                  <a href="#">
-                    Lifestyle
-                  </a>
-                </div>
+                
                 <ul class="blog_meta list">
-                  <li>
+                  {{!-- <li>
                     <a href="#">
                       Mark wiens
                       <i class="lnr lnr-user"></i>
                     </a>
-                  </li>
+                  </li> --}}
                   <li>
                     <a href="#">
-                      12 Dec, 2017
+                      {{this.publish_date}}
                       <i class="lnr lnr-calendar-full"></i>
                     </a>
                   </li>
-                  <li>
+                  {{!-- <li>
                     <a href="#">
                       1.2M Views
                       <i class="lnr lnr-eye"></i>
@@ -71,7 +58,7 @@
                       06 Comments
                       <i class="lnr lnr-bubble"></i>
                     </a>
-                  </li>
+                  </li> --}}
                 </ul>
               </div>
             </div>
@@ -93,6 +80,11 @@
             </div>
           </article>
           {{/each}}
+          {{#if no_post}}
+          <hr>
+          <p>No Post</p>
+          <hr>
+          {{/if}}
           
           {{!-- <nav class="blog-pagination justify-content-center d-flex">
             <ul class="pagination">

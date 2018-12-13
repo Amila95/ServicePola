@@ -49,15 +49,15 @@
                                 {{!-- <li class="nav-item"><a class="nav-link" href="/profile">Profile</a></li>
                                 <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li> --}}
                                 <li class="nav-item submenu dropdown">
-                                     {{#each details}}
-									<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{s_name}} <nbsp><nbsp></nbsp><img class="img" src={{image}} height="42" width="42"></a>
+                                     
+									<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{this.nav_name}} <nbsp><nbsp></nbsp><img class="img" src={{nav_image}} height="42" width="42"></a>
 									
                                     <ul class="dropdown-menu">
-										<li class="nav-item"><a class="nav-link" href="/profile">Profile</a></li>
+										<li class="nav-item"><a class="nav-link" href="/post1">Profile</a></li>
                                         <li class="nav-item"><a class="nav-link" href="/update_details">Update Profile</a></li>
 										<li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
 									</ul>
-                                     {{/each}}
+                                     
 								</li> 
                                 {{else}}
                                
@@ -75,11 +75,11 @@
                 name="username"
                 placeholder="User Name"
                 onfocus="this.placeholder = ''"
-                onblur="this.placeholder = 'First Name'"
-                 style="background:#c4c4ca;"
+                onblur="this.placeholder = 'User Name'"
+                 style="background:#e5fafb;height:90%;width:70%"
                 required
                 class="single-input"
-               
+               size="15"
                />
                </div>
             </div>
@@ -96,10 +96,11 @@
                 placeholder="Password"
                 onfocus="this.placeholder = ''"
                 onblur="this.placeholder = 'Password'"
-                 style="background:#c4c4ca;"
+                 style="background:#e5fafb; height:90%;width:70%"
                 required
                 class="single-input"
-                style=" margin-top: -10px;"
+                
+                
                />
                 </div>
             </div>
@@ -107,7 +108,7 @@
             <button 
                 type="submit"
                 class="genric-btn info-border circle arrow"
-                style=" margin-top: 20px;"
+                style=" margin-top: 10px;  "
               >
                 Log In
                 <span class="lnr lnr-arrow-right"></span>
