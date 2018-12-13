@@ -40,8 +40,34 @@ connection.connect(function (err) {
 });
 
 
+// function nav_image(id){
+//   user_id = id;
+//   var nav_image;
+//   console.log(user_id);
+//   connection.query('SELECT * FROM users WHERE u_id = ?',[user_id],function(err,rows){
+//     console.log(rows);
+//     s_p_id=rows[0].s_p_id;
+//     connection.query('SELECT * FROM service_provider WHERE s_p_id = ?',[s_p_id],function(err,row1){
+//       console.log(row1[0].image);
+//       this.nav_image = row1[0].image;
+//       return this.nav_image;
+//     })
+//   })
 
+// };
+// function nav_name(id){
+//   user_id = id;
+//   console.log(user_id);
+//   connection.query('SELECT * FROM users WHERE u_id = ?',[user_id],function(err,rows){
+//     console.log(rows);
+//     s_p_id=rows[0].s_p_id;
+//     connection.query('SELECT * FROM service_provider WHERE s_p_id = ?',[s_p_id],function(err,row1){
+//       console.log(row1[0].s_name);
+//       return row1[0].s_name;
+//     })
+//   })
 
+// };
 
 
 /* GET home page. */
@@ -49,10 +75,19 @@ router.get('/', function (req, res, next) {
 
   if (req.isAuthenticated()) {
     connection.query('SELECT * FROM main_talent', function (err, main_talents) {
+      var u_id = req.user.user_id;
+      console.log(u_id);
+      connection.query('SELECT * FROM users WHERE u_id = ?',[u_id],function(err,rows){
+        var s_p_id = rows[0].s_p_id;
+        connection.query('SELECT * FROM service_provider WHERE s_p_id=?',[s_p_id],function(err,row1){
+          var image=row1[0].image;
+          var name=row1[0].s_name;
       res.render('home', {
-        main_talents: main_talents
+        main_talents: main_talents,nav_image:image,nav_name:name
       });
     })
+    })
+  })
   } else {
     connection.query('SELECT * FROM main_talent', function (err, main_talents) {
       res.render('index', {
@@ -69,30 +104,126 @@ router.get('/sidebar', function (req, res, next) {
 
 router.get('/sub_category:id', function (req, res, next) {
   var id = req.params.id;
+  if(req.isAuthenticated()){
+    var u_id = req.user.user_id;
+      console.log(u_id);
+      connection.query('SELECT * FROM users WHERE u_id = ?',[u_id],function(err,rows){
+        var s_p_id = rows[0].s_p_id;
+        connection.query('SELECT * FROM service_provider WHERE s_p_id=?',[s_p_id],function(err,row1){
+          var image=row1[0].image;
+          var name=row1[0].s_name;
+          connection.query('SELECT * FROM sub_talent WHERE m_t_id=?', [id], function (err, sub_talents) {
+            res.render('sub_category', {
+              sub_talents: sub_talents,
+              nav_image:image,
+              nav_name:name
+            });
+          })
+        })
+      })
 
+  }
+ else{
   connection.query('SELECT * FROM sub_talent WHERE m_t_id=?', [id], function (err, sub_talents) {
     res.render('sub_category', {
       sub_talents: sub_talents
     });
   })
+}
+
 });
 
 router.get('/service_provider_list:id', function (req, res, next) {
-  var id = req.params.id;
-  connection.query('SELECT * FROM provider_talent INNER JOIN service_provider ON provider_talent.s_p_id = service_provider.s_p_id WHERE s_t_id = ?', [id], function (err, rows) {
+  
+  if(req.isAuthenticated()){
+    var id = req.params.id;
+    var u_id = req.user.user_id;
+      console.log(id);
+      connection.query('SELECT * FROM users WHERE u_id = ?',[u_id],function(err,rows){
+        var s_p_id = rows[0].s_p_id;
+        connection.query('SELECT * FROM service_provider WHERE s_p_id=?',[s_p_id],function(err,row1){
+          var image=row1[0].image;
+          var name=row1[0].s_name;
+          connection.query('SELECT * FROM provider_talent INNER JOIN service_provider ON provider_talent.s_p_id = service_provider.s_p_id WHERE s_t_id = ?', [id], function (err, row2) {
+           console.log(row2);
+            res.render('service_provider_list', {
+              rows: row2,
+              nav_image:image,
+              nav_name:name
+            });
+          })
+        })
+      })
+
+  }
+  else{
+    var id = req.params.id;
+  connection.query('SELECT * FROM provider_talent INNER JOIN service_provider ON provider_talent.s_p_id = service_provider.s_p_id WHERE s_t_id = ?', [id], function (err, row2) {
+    console.log("bu");
+    console.log(row2);
     res.render('service_provider_list', {
-      rows: rows
+      rows: row2
     });
   })
+}
 
 });
 
 router.get('/provider_profile:id', function (req, res, next) {
   var id = req.params.id;
+  var no_post=false;
   //const user_id = req.user.user_id;
 
   //console.log(user_id);
-  // console.log(req.isAuthenticated());
+  if(req.isAuthenticated()){
+    connection.query('SELECT * FROM service_provider  WHERE s_p_id=?', [id], function (err, rows) {
+      const s_p_id = rows[0].s_p_id;
+      user_id = req.user.user_id;
+      //var nav_image = nav_image(user_id); 
+  
+      //console.log(s_p_id);
+      connection.query('SELECT *  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?', [s_p_id], function (err, row1) {
+        // if(row1.length<3){
+        //   add_more= true;
+        // }
+        connection.query('SELECT * FROM main_talent', function (err, row2) {
+          connection.query('SELECT * FROM post WHERE s_p_id = ?', [id], function (err, row3) {
+            console.log(row3);
+            if(row3.length){
+              
+            }
+            else{
+              no_post=true;
+            }
+           //console.log(row4);
+           connection.query('SELECT * FROM users WHERE u_id=?',[user_id],function(err,row5){
+
+           var s_p_id= row5[0].s_p_id;
+            connection.query('SELECT * FROM service_provider  WHERE s_p_id=?', [s_p_id], function (err, row4) {
+              var nav_image=row4[0].image;
+              var nav_name=row4[0].s_name;
+              //console.log(row4);
+              res.render('profile_viewr', {
+              
+              details: rows,
+              talents: row1,
+              main: row2,
+              post: row3,
+              nav_image: nav_image,
+              nav_name: nav_name,
+              no_post:no_post
+            });
+          })
+        })
+  
+        })
+      })
+    })
+  
+    })
+
+  }
+  else{
   connection.query('SELECT * FROM service_provider  WHERE s_p_id=?', [id], function (err, rows) {
     const s_p_id = rows[0].s_p_id;
 
@@ -104,10 +235,12 @@ router.get('/provider_profile:id', function (req, res, next) {
       connection.query('SELECT * FROM main_talent', function (err, row2) {
         connection.query('SELECT * FROM post WHERE s_p_id = ?', [s_p_id], function (err, row3) {
           res.render('profile_viewr', {
+            
             details: rows,
             talents: row1,
             main: row2,
-            post: row3
+            post: row3,
+            
           });
         })
 
@@ -116,6 +249,7 @@ router.get('/provider_profile:id', function (req, res, next) {
 
 
   })
+}
 
 })
 //test comment by pathum
@@ -195,15 +329,20 @@ router.get('/add_thired:id', function (req, res, next) {
 })
 
 router.get('/home', function (req, res, next) {
-  if(req.user.user_id){
+  if(req.isAuthenticated()){
+
     var user_id = req.user.user_id;
+    console.log(user_id);
     connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?',[user_id],function(err,rows){
-    connection.query('SELECT * FROM main_talent',function(err,main_talents){
-      res.render('home',{main_talents:main_talents,details:rows});
+      var image=rows[0].image;
+      var name = rows[0].s_name;
+      connection.query('SELECT * FROM main_talent',function(err,main_talents){
+      res.render('home',{main_talents:main_talents,details:rows,nav_image:image,nav_name:name});
       })
     })
 
   }else{
+    console.log("bnj");
     connection.query('SELECT * FROM main_talent',function(err,main_talents){
       res.render('home',{main_talents:main_talents});
       })
@@ -216,9 +355,22 @@ router.get('/signin', function (req, res, next) {
 })
 
 router.post('/login', passport.authenticate('local', {
-  successRedirect: '/home',
+  
   failureRedirect: '/'
-}));
+}),
+    function(req,res){
+      console.log(req.user.user_id);
+      connection.query('SELECT * FROM users WHERE u_id = ? ',[req.user.user_id],function(err,rows){
+        console.log(rows);
+        if(rows[0].u_group === 1){
+          res.redirect('/home');
+        }
+        else{
+          res.redirect('/admin');
+        }
+      })
+    }
+);
 
 router.get('/logout', function (req, res, next) {
   req.logOut();
@@ -835,8 +987,10 @@ router.get('/update_details', function (req, res) {
   connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
     var s_p_id = row2[0].s_p_id;
     connection.query('SELECT * FROM service_provider WHERE s_p_id = ?', [s_p_id], function (err, rows) {
+      nav_image=rows[0].image;
+      nav_name=rows[0].s_name;
       res.render('update_profile', {
-        details: rows
+        details: rows,nav_image:nav_image,nav_name:nav_name
       });
     })
   })
@@ -1003,6 +1157,62 @@ router.get('/search', (req, res) => {
 
     });
 })
+
+router.get('/post:id',function (req, res){
+  var page_no = req.params.id;
+  console.log(page_no);
+  var offset = (page_no-1)*10;
+  
+
+
+  const user_id = req.user.user_id;
+  var add_more = false;
+  var defult = false;
+  var no_post = false;
+  console.log(user_id);
+  console.log(req.isAuthenticated());
+  connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id], function (err, rows) {
+    const s_p_id = rows[0].s_p_id;
+    const ima = rows[0].image;
+    if (ima == 'NULL') {
+      defult = true;
+    }
+    console.log(s_p_id);
+    connection.query('SELECT *  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?', [s_p_id], function (err, row1) {
+      if (row1.length < 3) {
+        add_more = true;
+      }
+      connection.query('SELECT * FROM main_talent', function (err, row2) {
+        connection.query('SELECT * FROM post WHERE s_p_id = ? ORDER BY p_id DESC LIMIT 10 OFFSET ?', [s_p_id,offset], function (err, row3) {
+          console.log(row3);
+          if(row3.length){
+            console.log("ndjf");
+            
+          }
+          else{
+            no_post = true;
+            console.log("aaaaa");
+          }
+          res.render('profile', {
+            details: rows,
+            talents: row1,
+            main: row2,
+            add_more: add_more,
+            post: row3,
+            no_post:no_post,
+            defult: defult
+          });
+        })
+
+      })
+    })
+
+
+  })
+
+
+
+});
 
 module.exports = router;
 
