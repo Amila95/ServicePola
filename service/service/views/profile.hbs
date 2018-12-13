@@ -453,48 +453,54 @@
             </div>
           </article>
           {{/each}}
+          {{#if no_post}}
+            <hr>
+            <p>No Post</p>
+            <hr>
+
+          {{/if}}
           
           <nav class="blog-pagination justify-content-center d-flex">
             <ul class="pagination">
-              <li class="page-item">
+              {{!-- <li class="page-item">
                 <a href="#" class="page-link" aria-label="Previous">
                   <span aria-hidden="true">
                     <span class="lnr lnr-chevron-left"></span>
                   </span>
                 </a>
-              </li>
+              </li> --}}
               <li class="page-item">
-                <a href="#" class="page-link">
+                <a href="/post1" class="page-link">
                   01
                 </a>
               </li>
-              <li class="page-item active">
-                <a href="#" class="page-link">
+              <li class="page-item ">
+                <a href="/post2" class="page-link">
                   02
                 </a>
               </li>
               <li class="page-item">
-                <a href="#" class="page-link">
+                <a href="/post3" class="page-link">
                   03
                 </a>
               </li>
               <li class="page-item">
-                <a href="#" class="page-link">
+                <a href="/post4" class="page-link">
                   04
                 </a>
               </li>
               <li class="page-item">
-                <a href="#" class="page-link">
-                  09
+                <a href="/post5" class="page-link">
+                  05
                 </a>
               </li>
-              <li class="page-item">
+              {{!-- <li class="page-item">
                 <a href="#" class="page-link" aria-label="Next">
                   <span aria-hidden="true">
                     <span class="lnr lnr-chevron-right"></span>
                   </span>
                 </a>
-              </li>
+              </li> --}}
             </ul>
           </nav>
         </div>
@@ -749,9 +755,7 @@
 
     <hr>
     <button type="submit" id="previewBtn">Preview</button>
-    <hr>
-    <img src="" alt="" class="preview">
-    <img src="" alt="" class="preview preview--rounded">
+   
       
     </div>
   </div>
