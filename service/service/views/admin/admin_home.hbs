@@ -20,7 +20,7 @@
               aria-controls="pills-home"
               aria-selected="true"
             >
-              New Users
+              Activated Users
             </a>
           </li>
           <li class="nav-item">
@@ -133,14 +133,13 @@
                       <td>
                         <a
                           target="_blank"
-                          href="admin/all_user/more/{{this.s_p_id}}"
+                          href="/provider_profile{{this.s_p_id}}"
                           class="btn btn-outline-success"
                         >
                           VIew details..
                         </a>
                         <a
-                          target="_blank"
-                          href="admin/all_user/more/{{this.s_p_id}}"
+                          href="/admin/delete/user{{this.s_p_id}}"
                           class="btn btn-outline-danger"
                         >
                           Delete User
@@ -165,59 +164,30 @@
               <thead>
                 <tr>
                   <th scope="col">
-                    #
+                    User Name
                   </th>
                   <th scope="col">
-                    First
+                    Email
                   </th>
                   <th scope="col">
-                    Last
-                  </th>
-                  <th scope="col">
-                    Handle
+                    Action
                   </th>
                 </tr>
               </thead>
               <tbody>
+                {{#each deleted_users}}
                 <tr>
-                  <th scope="row">
-                    1
-                  </th>
                   <td>
-                    Mark
+                    {{this.u_name}}
                   </td>
                   <td>
-                    Otto
+                    {{this.u_email}}
                   </td>
                   <td>
-                    @mdo
+                    <a class="btn btn-outline-success" href="/admin/activate/user{{this.u_id}}">Activate User</a>
                   </td>
                 </tr>
-                <tr>
-                  <th scope="row">
-                    2
-                  </th>
-                  <td>
-                    Jacob
-                  </td>
-                  <td>
-                    Thornton
-                  </td>
-                  <td>
-                    @fat
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">
-                    3
-                  </th>
-                  <td colspan="2">
-                    Larry the Bird
-                  </td>
-                  <td>
-                    @twitter
-                  </td>
-                </tr>
+                {{/each}}
               </tbody>
             </table>
           </div>
@@ -227,9 +197,9 @@
             role="tabpanel"
             aria-labelledby="pills-edit-talents-tab"
           >
-            <h4>
-              Edit Maiin Talents :
-            </h4>
+            <h2>
+              Edit Main Talents :
+            </h2>
             <table class="table table-hover">
               <thead>
                 <tr>
@@ -252,6 +222,42 @@
                   </th>
                   <td>
                     {{this.m_t_description}}
+                  </td>
+                  <td>
+                    buttons
+                  </td>
+                </tr>
+                {{/each}}
+              </tbody>
+            </table>
+            <br>
+            <hr>
+            <br>
+            <h2>
+              Edit Sub Talents :
+            </h2>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">
+                    Sub Talent
+                  </th>
+                  <th scope="col">
+                    Description
+                  </th>
+                  <th scope="col">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each sub_talent}}
+                <tr>
+                  <th scope="row">
+                    {{this.s_t_name}}
+                  </th>
+                  <td>
+                    {{this.s_t_description}}
                   </td>
                   <td>
                     buttons
