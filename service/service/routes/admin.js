@@ -246,11 +246,8 @@ router.get('/activate/user:id', function (req, res, next) {
 
 });
 //to get a mian talent
-<<<<<<< Updated upstream
-router.get('/edit_main_talent:m_t_id?', function(req, res,next){
-=======
+
 router.get('/edit_main_talent/:m_t_id?', function (req, res, next) {
->>>>>>> Stashed changes
   console.log("in edit main talent");
   var m_t_id = req.params.m_t_id;
   connection.query('SELECT * FROM main_talent WHERE m_t_id = ?', [m_t_id], function (err, main_talent) {
@@ -259,7 +256,7 @@ router.get('/edit_main_talent/:m_t_id?', function (req, res, next) {
       layout: 'admin_layout',
       main_talent: main_talent,
       sub_talent: null
-      
+
     });
   })
 });
@@ -274,7 +271,7 @@ router.get('/edit_sub_talent/:s_t_id?', function (req, res, next) {
       console.log(main_talents);
       res.render('admin/edit_talent', {
         sub_talent: sub_talent,
-        main_talents:main_talents,
+        main_talents: main_talents,
         main_talent: null,
         layout: 'admin_layout'
       });
@@ -314,13 +311,13 @@ router.post('/edit/sub_talent/:s_t_id', function (req, res) {
   if (req.isAuthenticated()) {
     connection.query('SELECT * FROM users WHERE u_id= ?', [user_id], function (err, rows) {
       if (rows[0].u_group == 2) {
-        var m_t_id= req.body.m_t_id;
+        var m_t_id = req.body.m_t_id;
         var s_talent = req.body.s_talent;
         var s_t_description = req.body.s_t_description;
         console.log(m_t_id);
         console.log(s_talent);
         console.log(s_t_description);
-        connection.query('UPDATE sub_talent SET s_t_name=? , s_t_description=? , m_t_id=? WHERE s_t_id=?', [s_talent, s_t_description, m_t_id,s_t_id], function (err, result) {
+        connection.query('UPDATE sub_talent SET s_t_name=? , s_t_description=? , m_t_id=? WHERE s_t_id=?', [s_talent, s_t_description, m_t_id, s_t_id], function (err, result) {
           if (err) throw err;
           res.redirect('/admin');
         })
