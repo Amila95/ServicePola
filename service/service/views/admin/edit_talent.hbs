@@ -8,8 +8,9 @@
         </h4>
         {{#if main_talent}}
           {{! main talent editing form }}
-          <form action="/edit/main_talent" method="post">
-            {{#each main_talent}}
+          {{#each main_talent}}
+          <form action="/admin/edit/main_talent/{{this.m_t_id}}" method="post">
+            
               <div class="mt-10">
                 <div class="row">
                   <div class="col-lg-4 col-md-2">
@@ -20,7 +21,7 @@
                   <div class="col-lg-8 col-md-10">
                     <input
                       type="text"
-                      name="stalent"
+                      name="mtalent"
                       value="{{this.m_t_name}}"
                       required
                       class="single-input"
@@ -39,7 +40,7 @@
                   <div class="col-lg-8 col-md-10">
                     <input
                       type="text"
-                      name="stdescription"
+                      name="mtdescription"
                       value={{this.m_t_description}}
                       required
                       class="single-input"
@@ -57,14 +58,16 @@
                   Edit Main Talent
                 </button>
               </div>
-            {{/each}}
+            
           </form>
+          {{/each}}
         {{/if}}
 
         {{#if sub_talent}}
           {{! main talent editing form }}
-          <form action="/edit/sub_talent" method="post">
-            {{#each sub_talent}}
+          {{#each sub_talent}}
+          <form action="/admin/edit/sub_talent/{{this.s_t_id}}" method="post">
+            
               <div class="mt-10">
                 <div class="row">
                   <div class="col-lg-4 col-md-2">
@@ -73,17 +76,25 @@
                     </label>
                   </div>
                   <div class="col-lg-8 col-md-10">
-                    <input
-                      type="text"
-                      name="stalent"
-                      value="{{this.m_t_name}}"
-                      required
-                      class="single-input"
-                     />
-
+                    <div class="form-select" id="default-select">
+                      <select name="m_t_id">
+                        <option value="{{this.m_t_id}}">
+                          {{this.m_t_name}}
+                        </option>
+            {{/each}}
+            {{#each main_talents}}
+                          '
+                          <option value={{this.m_t_id}}>
+                            {{this.m_t_name}}
+                          </option>
+                          '  ;
+            {{/each}}
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
+            {{#each sub_talent}}
               <div class="mt-10">
                 <div class="row">
                   <div class="col-lg-4 col-md-2">
@@ -94,7 +105,7 @@
                   <div class="col-lg-8 col-md-10">
                     <input
                       type="text"
-                      name="stalent"
+                      name="s_talent"
                       value="{{this.s_t_name}}"
                       required
                       class="single-input"
@@ -113,7 +124,7 @@
                   <div class="col-lg-8 col-md-10">
                     <input
                       type="text"
-                      name="stdescription"
+                      name="s_t_description"
                       value={{this.s_t_description}}
                       required
                       class="single-input"
