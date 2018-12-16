@@ -353,23 +353,32 @@ router.get('/home', function (req, res, next) {
 })
 
 router.get('/signin', function (req, res, next) {
-  res.render('signin');
+  res.render('signin',{layout: 'sign_layouts'});
 })
 
 router.post('/login', passport.authenticate('local', {
+
   
-  failureRedirect: '/'
+  failureRedirect: '/signin',
+  failureFlash: true ,
+  message: 'The email you entered is incorrect'
 }),
+
     function(req,res){
       console.log(req.user.user_id);
       connection.query('SELECT * FROM users WHERE u_id = ? ',[req.user.user_id],function(err,rows){
         console.log(rows);
+        if(rows){
         if(rows[0].u_group === 1){
           res.redirect('/home');
         }
         else{
           res.redirect('/admin');
         }
+      }else{
+        console.log("fhbru");
+        res.redirect('/signin');
+      }
       })
     }
 );
@@ -569,6 +578,8 @@ router.post('/registerfornt', function (req, res) {
   //var dober = "";
   var re_passworder = "";
 
+  
+
   var errors = req.validationErrors();
   console.log(errors);
   if (errors) {
@@ -655,6 +666,24 @@ router.post('/registerfornt', function (req, res) {
     //var city = req.body.city;
     //var dob = req.body.dob;
     var re_password = req.body.re_password;
+   console.log(email);
+  connection.query('SELECT * FROM service_provider WHERE email = ?',[email],function (err,rows){
+  
+    console.log(rows);
+    if(rows){
+      connection.query('SELECT * FROM main_talent',function(err,main_talents){
+      emailer = "Email is alreay exit";
+      res.render('index', {
+        emailer: emailer,main_talents:main_talents
+      })
+    })
+    
+      
+    }
+    else{
+
+    
+  
 
     if (password == re_password) {
       bcrypt.hash(password, saltRounds, function (err, hash) {
@@ -691,21 +720,22 @@ router.post('/registerfornt', function (req, res) {
           })
         })
 
-
+    
 
       })
 
     } else {
       re_passworder = "Not Match Password and RE Enter Password";
-      res.redirect('index', {
+      res.render('index', {
         re_passworder: re_passworder
       })
     }
     // console.log(district);
-
-
+ }
+})
 
   }
+
 
 
 

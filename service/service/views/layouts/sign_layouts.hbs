@@ -42,99 +42,7 @@
 							<span class="icon-bar"></span>
 						</button>
 						<!-- Collect the nav links, forms, and other content for toggling -->
-						<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-							<ul class="nav  menu_nav ml-auto">
-								
-                                {{#if isAuthenticated}}
-                                {{!-- <li class="nav-item"><a class="nav-link" href="/profile">Profile</a></li>
-                                <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li> --}}
-                                <li class="nav-item submenu dropdown">
-                                     
-									<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{this.nav_name}} <nbsp><nbsp></nbsp><img class="img" src={{nav_image}} height="42" width="42"></a>
-									
-                                    <ul class="dropdown-menu">
-										<li class="nav-item"><a class="nav-link" href="/post1">Profile</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="/update_details">Update Profile</a></li>
-										<li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
-									</ul>
-                                     
-								</li> 
-                                {{else}}
-                               
-                                
-								
-            <li class="nav-item" style="
-    margin-right: 10px;
-    width: 250px;
-    border-right-width: 10px;
-    padding-right: 0px;"><form action="/login" method="post"><div class="mt-10">
-                                    
-              <div class="row">
-              <div class="col-lg-2 col-md-2" style=" margin-top: -10px;">
-              <label>Email</label>
-              </div>
-              <div class="col-lg-12 col-md-12" style=" margin-top: -10px;">
-              <input
-                type="email"
-                name="username"
-                placeholder="Email"
-                onfocus="this.placeholder = ''"
-                onblur="this.placeholder = 'Email'"
-                 style="background:#e5fafb;height:90%;width:250px"
-                required
-                class="single-input"
-               
-               />
-               </div>
-            </div>
-            </li>
-                                <li class="nav-item"  style="
-    margin-right: 10px;
-    width: 250px;
-    border-right-width: 10px;
-    padding-right: 0px;"><div class="mt-10">
-              <div class="row">
-              <div class="col-lg-2 col-md-2" style=" margin-top: -10px;">
-              <label>Password</label>
-              </div>
-              <div class="col-lg-12 col-md-12" style=" margin-top: -10px;">
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                onfocus="this.placeholder = ''"
-                onblur="this.placeholder = 'Password'"
-                 style="background:#e5fafb; height:90%;width:250px"
-                required
-                class="single-input"
-                
-               />
-                </div>
-            </div>
-            <li class="nav-item"  style="
-    
-    width: 150px;
-    border-right-width: px;
-    padding-right: 0px;">
-            <button 
-                type="submit"
-                class="genric-btn info-border circle arrow small"
-                style=" margin-top: 15px;  "
-              >
-                Log In
-                <span class="lnr lnr-arrow-right"></span>
-              </button>
-            </li>
-
-            </div></form></li>
-             
-                                {{/if}}
-                                
-                            
-								
-								
-							</ul>
-						</div> 
+					
 					</div>
             	</nav>
             </div>
@@ -171,21 +79,6 @@
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </form>
                             </div>
-        			</div>
-        			{{!-- <div class="col-lg-2">
-        				<aside class="f_widget social_widget">
-        					<div class="f_title">
-        						<h3>Follow Me</h3>
-        					</div>
-        					<p>Let us be social</p>
-        					<ul class="list">
-        						<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-        						<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-        						<li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-        						<li><a href="#"><i class="fa fa-behance"></i></a></li>
-        					</ul>
-        				</aside>
-        			</div> --}}
         		</div>
         	</div>
         </footer>

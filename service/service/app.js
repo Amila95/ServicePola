@@ -77,8 +77,9 @@ app.use('/admin',adminRouter);
 
 
 passport.use(new LocalStrategy(
-  function (username, password, done) {
-    console.log(username);
+  
+  function (email, password, done) {
+    console.log(email);
     console.log(password);
     //return done(null,'njgm');
     
@@ -96,7 +97,7 @@ passport.use(new LocalStrategy(
 
       console.log("Connected!");
 
-      con.query('SELECT u_password,u_id FROM users WHERE u_name = ?', [username], function (err, result, fields) {
+      con.query('SELECT u_password,u_id FROM users WHERE u_email = ?', [email], function (err, result, fields) {
         if (err) {
           done(err)
         }
