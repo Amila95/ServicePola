@@ -246,15 +246,16 @@ router.get('/activate/user:id', function (req, res, next) {
 
 });
 //to get a mian talent
-router.get('/edit_main_talent/:m_t_id?', function(req, res,next){
+router.get('/edit_main_talent:m_t_id?', function(req, res,next){
   console.log("in edit main talent");
   var m_t_id = req.params.m_t_id;
   connection.query('SELECT * FROM main_talent WHERE m_t_id = ?', [m_t_id], function (err, main_talent) {
     console.log(main_talent[0].m_t_name);
     res.render('admin/edit_talent', {
+      layout: 'admin_layout',
       main_talent: main_talent,
-      sub_talent: null,
-      layout: 'admin_layout'
+      sub_talent: null
+      
     });
   })
 });
