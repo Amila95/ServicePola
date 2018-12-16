@@ -224,7 +224,13 @@
                     {{this.m_t_description}}
                   </td>
                   <td>
-                    buttons
+                    <a
+                      target="_blank"
+                      href="/admin/edit_main_talent{{this.m_t_id}}"
+                      class="btn btn-outline-primary"
+                      >
+                      Edit
+                    </a>
                   </td>
                 </tr>
                 {{/each}}
@@ -243,6 +249,9 @@
                     Sub Talent
                   </th>
                   <th scope="col">
+                    Main Talent Category
+                  </th>
+                  <th scope="col">
                     Description
                   </th>
                   <th scope="col">
@@ -256,11 +265,20 @@
                   <th scope="row">
                     {{this.s_t_name}}
                   </th>
+                  <th scope="row">
+                    {{this.m_t_name}}
+                  </th>
                   <td>
                     {{this.s_t_description}}
                   </td>
                   <td>
-                    buttons
+                    <a
+                      target="_blank"
+                      href="/admin/edit_sub_talent{{this.s_t_id}}"
+                      class="btn btn-outline-primary"
+                      >
+                      Edit
+                    </a>
                   </td>
                 </tr>
                 {{/each}}

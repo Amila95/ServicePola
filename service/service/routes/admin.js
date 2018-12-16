@@ -21,7 +21,7 @@ router.get('/', function (req, res, next) {
       if (rows[0].u_group == 2) {
         connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id=users.s_p_id WHERE users.u_status=1', function (err, allusers) {
           connection.query('SELECT * FROM main_talent', function (err, main_talents) {
-            connection.query('SELECT * FROM sub_talent', function (err, sub_talent) {
+            connection.query('SELECT * FROM sub_talent INNER JOIN main_talent ON sub_talent.m_t_id=main_talent.m_t_id', function (err, sub_talent) {
               connection.query('SELECT * FROM notification WHERE content_type=1 ORDER BY status,n_id DESC', function (err, site_suggesions) {
                 connection.query('SELECT u_name,u_email,u_id FROM users WHERE u_status=0', function (err, deleted_users) {
                   connection.query('SELECT * FROM notification WHERE content_type=2 AND status=0', function (err, new_notifications_count) {
@@ -247,22 +247,21 @@ router.get('/activate/user:id', function (req, res, next) {
 });
 //to get a mian talent
 
-router.get('/edit_main_talent/:m_t_id?', function (req, res, next) {
+router.get('/edit_main_talent:m_t_id?', function (req, res, next) {
   console.log("in edit main talent");
   var m_t_id = req.params.m_t_id;
   connection.query('SELECT * FROM main_talent WHERE m_t_id = ?', [m_t_id], function (err, main_talent) {
     console.log(main_talent[0].m_t_name);
     res.render('admin/edit_talent', {
-      layout: 'admin_layout',
       main_talent: main_talent,
-      sub_talent: null
-
+      sub_talent: null,
+      layout: 'admin_layout'
     });
   })
 });
 
 //to get sub talent
-router.get('/edit_sub_talent/:s_t_id?', function (req, res, next) {
+router.get('/edit_sub_talent:s_t_id?', function (req, res, next) {
   console.log("in edit sub talent");
   var s_t_id = req.params.s_t_id;
   connection.query('SELECT * FROM sub_talent INNER JOIN main_talent ON sub_talent.m_t_id=main_talent.m_t_id WHERE sub_talent.s_t_id = ?', [s_t_id], function (err, sub_talent) {
@@ -278,7 +277,7 @@ router.get('/edit_sub_talent/:s_t_id?', function (req, res, next) {
     })
   })
 });
-
+// to edit main talent
 router.post('/edit/main_talent/:m_t_id', function (req, res) {
   var user_id = req.user.user_id;
   var m_t_id = req.params.m_t_id;
