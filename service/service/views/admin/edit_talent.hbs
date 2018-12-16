@@ -1,0 +1,141 @@
+<section class="blog_area single-post-area p_120">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-1"></div>
+      <div class="col-lg-10">
+        <h4>
+          Edit Talents
+        </h4>
+        {{#if main_talent}}
+          {{! main talent editing form }}
+          <form action="/edit/main_talent" method="post">
+            {{#each main_talent}}
+              <div class="mt-10">
+                <div class="row">
+                  <div class="col-lg-4 col-md-2">
+                    <label>
+                      Main Talent Name
+                    </label>
+                  </div>
+                  <div class="col-lg-8 col-md-10">
+                    <input
+                      type="text"
+                      name="stalent"
+                      value="{{this.m_t_name}}"
+                      required
+                      class="single-input"
+                     />
+
+                  </div>
+                </div>
+              </div>
+              <div class="mt-10">
+                <div class="row">
+                  <div class="col-lg-4 col-md-2">
+                    <label>
+                      Main Talent Description
+                    </label>
+                  </div>
+                  <div class="col-lg-8 col-md-10">
+                    <input
+                      type="text"
+                      name="stdescription"
+                      value={{this.m_t_description}}
+                      required
+                      class="single-input"
+                     />
+
+                  </div>
+                </div>
+              </div>
+              <div class="mt-10">
+                <button
+                  style="float: center;"
+                  type="submit"
+                  class="btn btn-outline-primary"
+                >
+                  Edit Main Talent
+                </button>
+              </div>
+            {{/each}}
+          </form>
+        {{/if}}
+
+        {{#if sub_talent}}
+          {{! main talent editing form }}
+          <form action="/edit/sub_talent" method="post">
+            {{#each sub_talent}}
+              <div class="mt-10">
+                <div class="row">
+                  <div class="col-lg-4 col-md-2">
+                    <label>
+                      Main Talent Category
+                    </label>
+                  </div>
+                  <div class="col-lg-8 col-md-10">
+                    <input
+                      type="text"
+                      name="stalent"
+                      value="{{this.m_t_name}}"
+                      required
+                      class="single-input"
+                     />
+
+                  </div>
+                </div>
+              </div>
+              <div class="mt-10">
+                <div class="row">
+                  <div class="col-lg-4 col-md-2">
+                    <label>
+                      Sub Talent Name
+                    </label>
+                  </div>
+                  <div class="col-lg-8 col-md-10">
+                    <input
+                      type="text"
+                      name="stalent"
+                      value="{{this.s_t_name}}"
+                      required
+                      class="single-input"
+                     />
+
+                  </div>
+                </div>
+              </div>
+              <div class="mt-10">
+                <div class="row">
+                  <div class="col-lg-4 col-md-2">
+                    <label>
+                      Sub Talent Description
+                    </label>
+                  </div>
+                  <div class="col-lg-8 col-md-10">
+                    <input
+                      type="text"
+                      name="stdescription"
+                      value={{this.s_t_description}}
+                      required
+                      class="single-input"
+                     />
+
+                  </div>
+                </div>
+              </div>
+              <div class="mt-10">
+                <button
+                  style="float: center;"
+                  type="submit"
+                  class="btn btn-outline-primary"
+                >
+                  Edit Main Talent
+                </button>
+              </div>
+            {{/each}}
+          </form>
+        {{/if}}
+      </div>
+      <div class="col-lg-1"></div>
+    </div>
+  </div>
+</section>

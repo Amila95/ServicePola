@@ -328,6 +328,8 @@ router.get('/add_thired:id', function (req, res, next) {
 
 })
 
+
+
 router.get('/home', function (req, res, next) {
   if(req.isAuthenticated()){
 
@@ -1089,7 +1091,7 @@ router.post('/update_profile',function(req,res){
 router.post('/suggestions', function (req, res, next) {
 
   req.checkBody('idea', 'Idea field field connot be empty.').notEmpty();
-  req.checkBody('sug_email', 'Email field connot be empty.').notEmpty();
+  //req.checkBody('sug_email', 'Email field connot be empty.').notEmpty();
 
   var idea = '';
 
@@ -1105,13 +1107,13 @@ router.post('/suggestions', function (req, res, next) {
     }
     req.session.errors = errors;
     req.session.success = false;
-
+    //console.log("error in req body");
     res.redirect('/');
 
   } else {
 
     var idea = req.body.idea;
-
+    console.log(idea);
     connection.query('INSERT INTO notification(content,content_type) VALUES(?,1)', [idea], function (err, result) {
       if (err) throw err;
       res.redirect('/');
