@@ -257,15 +257,14 @@ router.get('/provider_profile:id', function (req, res, next) {
 router.get('/profile', function (req, res, next) {
   const user_id = req.user.user_id;
   var add_more = false;
-  var defult = false;
+  var no_post=true;
   console.log(user_id);
   console.log(req.isAuthenticated());
   connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id], function (err, rows) {
     const s_p_id = rows[0].s_p_id;
     const ima = rows[0].image;
-    if (ima == 'NULL') {
-      defult = true;
-    }
+    var nav_image = rows[0].image;
+    var nav_name = rows[0].s_name;
     console.log(s_p_id);
     connection.query('SELECT *  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?', [s_p_id], function (err, row1) {
       if (row1.length < 3) {
@@ -274,13 +273,19 @@ router.get('/profile', function (req, res, next) {
       connection.query('SELECT * FROM main_talent', function (err, row2) {
         connection.query('SELECT * FROM post WHERE s_p_id = ? ORDER BY p_id DESC', [s_p_id], function (err, row3) {
           console.log(row3);
+          if(row3.lenght){
+            no_post=false;
+          }
           res.render('profile', {
             details: rows,
             talents: row1,
             main: row2,
             add_more: add_more,
             post: row3,
-            defult: defult
+            nav_image:nav_image,
+            nav_name:nav_name,
+            no_post:no_post
+            
           });
         })
 
@@ -319,12 +324,39 @@ router.get('/add_secound', function (req, res, next) {
 })
 
 router.get('/add_thired:id', function (req, res, next) {
-  var m_t_id = req.params.id;
-  connection.query('SELECT * FROM sub_talent WHERE m_t_id = ?', [m_t_id], function (err, rows) {
-    res.render('add_thired', {
-      sub: rows
-    });
-  })
+  if(req.isAuthenticated()){
+    var user_id = req.user.user_id;
+    console.log(user_id);
+    connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?',[user_id],function(err,rows){
+      var s_p_id = rows[0].s_p_id;
+      connection.query('SELECT *  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?', [s_p_id], function (err, row5){
+        //console.log(row5);
+        if(row5.length>3){
+          res.redirect('/post1');
+        }else{
+          var image=rows[0].image;
+          var name = rows[0].s_name;
+      var m_t_id = req.params.id;
+      connection.query('SELECT * FROM main_talent WHERE m_t_id = ?',[m_t_id],function(err,row2){
+        connection.query('SELECT * FROM sub_talent WHERE m_t_id = ?', [m_t_id], function (err, row) {
+          console.log(row);
+          res.render('add_thired', {
+            main:row2,
+            sub: row,
+            nav_image:image,
+            nav_name:name
+          });
+        })
+      })
+        }
+      })
+     
+ 
+})
+  }
+  else{
+    res.redirect('/');
+  }
 
 })
 
@@ -905,13 +937,18 @@ router.post('/thiredadd', function (req, res) {
         //console.log(req.session.error);
       }
     }
+    var sub = req.body.sub;
     req.session.errors = errors;
     req.session.success = false;
-    res.render('add_thired', {
-      suber: suber,
-      diser: diser
-    })
+    var main = req.body.main;
+    console.log(main);
+    // res.render('add_thired', {
 
+    //   suber: suber,
+    //   diser: diser
+    // })
+    res.redirect('/add_thired'+sub)
+    
   } else {
 
     //var main = req.body.main;
@@ -966,11 +1003,29 @@ router.post('/textdata', function (req, res) {
 })
 
 router.get('/maincatagerious', function (req, res) {
+  if(req.isAuthenticated()){
+    var user_id = req.user.user_id;
+    console.log(user_id);
+    connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?',[user_id],function(err,rows){
+      var image=rows[0].image;
+      var name = rows[0].s_name;
+      connection.query('SELECT * FROM main_talent', function (err, rows) {
+        res.render('main_catagerious', {
+          main: rows,
+          nav_image:image,
+          nav_name:name
+        })
+      })
+    })
+
+  }
+  else{
   connection.query('SELECT * FROM main_talent', function (err, rows) {
     res.render('main_catagerious', {
       main: rows
     })
   })
+}
 })
 
 router.post('/addpost', function (req, res) {
@@ -991,7 +1046,7 @@ router.post('/addpost', function (req, res) {
         var s_p_id = row2[0].s_p_id;
         connection.query('INSERT INTO post (title,description,s_p_id,publish_date) VALUES(?,?,?,NOW())', [subject, message, s_p_id], function (err, rows) {
           if (err) throw err;
-          res.redirect('/profile');
+          res.redirect('/post1');
         })
       })
     } else {
@@ -1169,7 +1224,7 @@ router.post('/add_profile_image', function (req, res) {
         var s_p_id = row2[0].s_p_id;
         const logo = '../upload/' + req.files[0].filename;
         connection.query('UPDATE service_provider SET image =? WHERE s_p_id = ?', [logo, s_p_id], function (err, rows) {
-          res.redirect('/profile');
+          res.redirect('/post1');
         })
       })
     }
@@ -1205,17 +1260,17 @@ router.get('/post:id',function (req, res){
   console.log(req.isAuthenticated());
   connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id], function (err, rows) {
     const s_p_id = rows[0].s_p_id;
-    const ima = rows[0].image;
-    if (ima == 'NULL') {
-      defult = true;
-    }
+    var nav_image = rows[0].image;
+    var nav_name = rows[0].s_name;
+
+   
     console.log(s_p_id);
     connection.query('SELECT *  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?', [s_p_id], function (err, row1) {
       if (row1.length < 3) {
         add_more = true;
       }
       connection.query('SELECT * FROM main_talent', function (err, row2) {
-        connection.query('SELECT * FROM post WHERE s_p_id = ? ORDER BY p_id DESC LIMIT 10 OFFSET ?', [s_p_id,offset], function (err, row3) {
+        connection.query('SELECT * FROM post WHERE s_p_id = ? ORDER BY p_id DESC ', [s_p_id], function (err, row3) {
           console.log(row3);
           if(row3.length){
             console.log("ndjf");
@@ -1232,7 +1287,9 @@ router.get('/post:id',function (req, res){
             add_more: add_more,
             post: row3,
             no_post:no_post,
-            defult: defult
+            defult: defult,
+            nav_image:nav_image,
+            nav_name:nav_name
           });
         })
 
