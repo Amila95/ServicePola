@@ -187,7 +187,7 @@ router.get('/provider_profile:id', function (req, res, next) {
         //   add_more= true;
         // }
         connection.query('SELECT * FROM main_talent', function (err, row2) {
-          connection.query('SELECT * FROM post WHERE s_p_id = ?', [id], function (err, row3) {
+          connection.query('SELECT * FROM post WHERE s_p_id = ? ORDER BY p_id DESC', [id], function (err, row3) {
             console.log(row3);
             if(row3.length){
               
@@ -199,7 +199,7 @@ router.get('/provider_profile:id', function (req, res, next) {
            connection.query('SELECT * FROM users WHERE u_id=?',[user_id],function(err,row5){
 
            var s_p_id= row5[0].s_p_id;
-            connection.query('SELECT * FROM service_provider  WHERE s_p_id=?', [s_p_id], function (err, row4) {
+            connection.query('SELECT * FROM service_provider  WHERE s_p_id=? ', [s_p_id], function (err, row4) {
               var nav_image=row4[0].image;
               var nav_name=row4[0].s_name;
               //console.log(row4);
@@ -233,7 +233,7 @@ router.get('/provider_profile:id', function (req, res, next) {
       //   add_more= true;
       // }
       connection.query('SELECT * FROM main_talent', function (err, row2) {
-        connection.query('SELECT * FROM post WHERE s_p_id = ?', [s_p_id], function (err, row3) {
+        connection.query('SELECT * FROM post WHERE s_p_id = ? ORDER BY p_id DESC', [s_p_id], function (err, row3) {
           res.render('profile_viewr', {
             
             details: rows,
