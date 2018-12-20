@@ -265,6 +265,8 @@ router.get('/profile', function (req, res, next) {
     const ima = rows[0].image;
     var nav_image = rows[0].image;
     var nav_name = rows[0].s_name;
+    console.log(nav_image);
+    console.log(nav_name);
     console.log(s_p_id);
     connection.query('SELECT *  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?', [s_p_id], function (err, row1) {
       if (row1.length < 3) {
@@ -590,24 +592,14 @@ router.post('/registerfornt', function (req, res) {
   req.checkBody('name', 'Username field connot be empty.').notEmpty();
   req.checkBody('email', 'Email field connot be empty.').notEmpty();
   req.checkBody('email', 'Enter a valid email address.').isEmail();
-  //req.checkBody('address', 'Address field connot be empty.').notEmpty();
   req.checkBody('phone_no', 'Mobile field connot be empty.').notEmpty();
   req.checkBody('phone_no', 'Mobile number is not valid.').len(10);
-  //req.checkBody('dis', 'Discription field connot be empty.').notEmpty();
   req.checkBody('password', 'Password field connot be empty.').notEmpty();
-  //req.checkBody('district', 'District field connot be empty.').notEmpty();
-  //req.checkBody('city', 'City field connot be empty.').notEmpty();
-  //req.checkBody('dob', 'DOB field connot be empty.').notEmpty();
   req.checkBody('re_password', 'Re Password field connot be empty.').notEmpty();
   var namer = '';
   var emailer = "";
-  //var addresser = "";
   var phone_noer = "";
-  //var diser = "";
   var passworder = "";
-  //var districter = "";
-  //var cityer = "";
-  //var dober = "";
   var re_passworder = "";
 
   
@@ -615,63 +607,24 @@ router.post('/registerfornt', function (req, res) {
   var errors = req.validationErrors();
   console.log(errors);
   if (errors) {
-    //console.log('errors: ${JSON.stringify(errors)}');
     for (i = 0; i < errors.length; i++) {
       if (errors[i].param == 'name') {
-        //console.log("dbj");
         namer = errors[i].msg;
-        //console.log(req.session.error);
       }
 
       if (errors[i].param == 'email') {
-        //console.log("dbj");
         emailer = errors[i].msg;
-        //console.log(req.session.error);
       }
-      // if(errors[i].param == 'address')
-      // {
-      //   console.log("dbj");
-      //   addresser= errors[i].msg;
-      //   //console.log(req.session.error);
-      // }
       if (errors[i].param == 'phone_no') {
         console.log("dbj");
         phone_noer = errors[i].msg;
-        //console.log(req.session.error);
       }
-      // if(errors[i].param == 'dis')
-      // {
-      //   console.log("dbj");
-      //   diser= errors[i].msg;
-      //   //console.log(req.session.error);
-      // }
       if (errors[i].param == 'password') {
         console.log("dbj");
         passworder = errors[i].msg;
-        //console.log(req.session.error);
       }
-      // if(errors[i].param == 'district')
-      // {
-      //   console.log("dbj");
-      //   districter= errors[i].msg;
-      //   //console.log(req.session.error);
-      // }
-      // if(errors[i].param == 'city')
-      // {
-      //   console.log("dbj");
-      //   cityer= errors[i].msg;
-      //   //console.log(req.session.error);
-      // }
-      // if(errors[i].param == 'dob')
-      // {
-      //   console.log("dbj");
-      //   dober= errors[i].msg;
-      //   //console.log(req.session.error);
-      // }
       if (errors[i].param == 're_password') {
-        //console.log("dbj");
         re_passworder = errors[i].msg;
-        //console.log(req.session.error);
       }
 
     }
@@ -690,19 +643,15 @@ router.post('/registerfornt', function (req, res) {
   } else {
     var name = req.body.name;
     var email = req.body.email;
-    //var address = req.body.address;
     var phone_no = req.body.phone_no;
     var dis = req.body.dis;
     var password = req.body.password;
-    //var district = req.body.district;
-    //var city = req.body.city;
-    //var dob = req.body.dob;
     var re_password = req.body.re_password;
    console.log(email);
   connection.query('SELECT * FROM service_provider WHERE email = ?',[email],function (err,rows){
   
     console.log(rows);
-    if(rows){
+    if(rows.lenght>0){
       connection.query('SELECT * FROM main_talent',function(err,main_talents){
       emailer = "Email is alreay exit";
       res.render('index', {
@@ -1086,8 +1035,8 @@ router.get('/update_details', function (req, res) {
 
 router.post('/update_profile',function(req,res){
   req.checkBody('name', 'Username field connot be empty.').notEmpty();
-  req.checkBody('email', 'Email field connot be empty.').notEmpty();
-  req.checkBody('email', 'Enter a valid email address.').isEmail();
+  // req.checkBody('email', 'Email field connot be empty.').notEmpty();
+  // req.checkBody('email', 'Enter a valid email address.').isEmail();
   
   req.checkBody('phone_no', 'Mobile field connot be empty.').notEmpty();
   req.checkBody('phone_no', 'Mobile number is not valid.').len(10);
@@ -1115,12 +1064,12 @@ router.post('/update_profile',function(req,res){
         //console.log(req.session.error);
       }
       
-      if(errors[i].param == 'email')
-      {
-        console.log("dbj");
-        emailer= errors[i].msg;
-        //console.log(req.session.error);
-      }
+      // if(errors[i].param == 'email')
+      // {
+      //   console.log("dbj");
+      //   emailer= errors[i].msg;
+      //   //console.log(req.session.error);
+      // }
      
       if(errors[i].param == 'phone_no')
       {
@@ -1147,7 +1096,8 @@ router.post('/update_profile',function(req,res){
     
     req.session.errors = errors;
     req.session.success = false;
-    res.render('update_profile',{details:rows,namer:namer,emailer:emailer,phone_noer:phone_noer,diser:diser})
+    
+    res.render('update_profile',{details:rows,namer:namer,phone_noer:phone_noer,diser:diser})
   }) 
 })
   }
@@ -1302,6 +1252,77 @@ router.get('/post:id',function (req, res){
 
 
 });
+
+router.get('/change_password',function(req,res){
+  const user_id = req.user.user_id;
+  connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id], function (err, rows) {
+    const s_p_id = rows[0].s_p_id;
+    var nav_image = rows[0].image;
+    var nav_name = rows[0].s_name;
+    res.render('update_password_view',{
+      users:rows,
+      nav_image:nav_image,
+            nav_name:nav_name
+    })
+  })
+})
+
+router.post('/change_password_post',function(req,res){
+  const user_id = req.user.user_id;
+  var old_password = req.body.password;
+  var new_password = req.body.new_password;
+  var re_new_password = req.body.re_new_password;
+  var re_new_passworder;
+  var old_passworder;
+  console.log(old_password);
+  console.log(new_password);
+  console.log(re_new_password);
+  connection.query('SELECT u_password FROM users WHERE u_id = ?',[user_id],function(err,rows){
+    if(err){
+      done(err)
+    }
+    const hash = rows[0].u_password.toString();
+    bcrypt.compare(old_password, hash, function (err, response) {
+      if (response === true) {
+        if(new_password == re_new_password){
+          bcrypt.hash(new_password, saltRounds, function (err, hash) {
+          connection.query('UPDATE Users SET u_password = ? WHERE u_id = ?',[hash,user_id],function(err,rows){
+            res.redirect('/profile');
+          })
+        })
+        }
+        else{
+          connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id], function (err, rows) {
+          console.log("fvn");
+          re_new_passworder = "Not Match Password and RE Enter Password";
+          var nav_image = rows[0].image;
+          var nav_name = rows[0].s_name;
+          res.render('update_password_view', {
+            users:rows,
+          re_new_passworder :re_new_passworder,
+          nav_image:nav_image,
+            nav_name:nav_name
+          })
+        })
+        }
+      }else {
+        console.log("hhbhbhj");
+        connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id], function (err, rows) {
+        old_passworder = "Old Password is worng";
+        var nav_image = rows[0].image;
+          var nav_name = rows[0].s_name;
+        res.render('update_password_view', {
+          users:rows,
+          old_passworder :old_passworder,
+          nav_image:nav_image,
+          nav_name:nav_name
+        })
+      })
+      }
+  })
+  
+})
+})
 
 module.exports = router;
 
