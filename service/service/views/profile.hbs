@@ -369,6 +369,44 @@
 .profile.is-dragover .message.is-wrong-image-size {
   display: none;
 }
+.dropbtn {
+  background-color: #3498DB;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #2980B9;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown a:hover {background-color: #ddd;}
+
+.show {display: block;}
 
 </style>
 <br/>
@@ -379,7 +417,7 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8">
-        <div class="comment-form" style="margin-top: 0px;">
+        <div class="comment-form" style="margin-top: 0px;margin-bottom: 0px;">
                             <h4>Make New Post</h4>
                             <form action="/addpost" method="post" enctype="multipart/form-data">
                                 
@@ -403,7 +441,7 @@
         <div class="blog_left_sidebar">
           
           {{#each post}}
-          <article class="row blog_item">
+          <article class="row blog_item" style="margin-bottom: 0px;">
             <div class="col-md-2">
               <div class="blog_info text-right">
                 
@@ -439,11 +477,27 @@
               <div class="blog_post">
                 <img src="{{this.image_path}}" alt="" />
                 <div class="blog_details">
-                  <a href="single-blog.html">
+                  
+                     {{!-- <div class="dropdown pull-right">
+  <button onclick="myFunction({{this.p_id}})" class="dropbtn"  style="
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+" background: url(img/images.png)> <img class="img-fluid" src="img/images.png" alt="sssssssssss" style="width:10px;height:10px;float: right;" /> </button>
+   
+  <div id="myDropdown{{this.p_id}}" class="dropdown-content">
+    <a href="/edit_post{{this.p_id}}">Edit</a>
+    <a href="/delete_post{{this.pid}}">Delete</a>
+   
+  </div>
+</div> --}}
                     <h2>
                       {{this.title}}
+                      
                     </h2>
-                  </a>
+                  
+                 
                   <p >
                     {{this.description}}
                   </p>
@@ -452,6 +506,7 @@
               </div>
             </div>
           </article>
+         <hr>
           {{/each}}
           {{#if no_post}}
             <hr>
@@ -523,12 +578,13 @@
             </div> --}}
           <!-- /input-group -->
             <div class="br"></div>
-             <a href="/update_details">
+             {{!-- <a href="/update_details">
               <img class="img-fluid" src="img/images.png" alt="sssssssssss" style="width:10px;height:10px;float: right;" />
               
-            </a>
+            </a> --}}
           </aside>
           <aside class="single_sidebar_widget author_widget">
+            
             {{#if defult }}
               <img
               class="author_img rounded-circle"
@@ -553,51 +609,13 @@
              <br/>
              <button  class="genric-btn success-border medium" id="sub"  data-toggle="modal" data-target="#exampleModalLong" >change picture</button>
 
-             {{!-- </form> --}}
-             {{!-- <div class="form-group">
-                            <form action="/add_profile_image" method="post" enctype="multipart/form-data" > --}}
-                                {{!-- <div class="form-group">
-                                <div class="file-field">
-                                    
-                                    <div class="file-field">
-                                        <input name="myImage" type="file" >
-                                    </div>
-                                </div>
-
-
-                            </div> --}}
-                            {{!-- <label>File</lable>
-	                                <input type="image" src="http://upload.wikimedia.org/wikipedia/commons/c/ca/Button-Lightblue.svg" width="30px"/>
-                                  <input type="file" name="myImage" id="my_file" style="display: none;" /> --}}
-                                {{!-- <button type="submit" class="genric-btn primary-border circle arrow"></button> --}}
-                           {{!-- <label for="image">
-      <input type="file" name="image" id="image" style="display:none;"/>
-      <img src="IMAGE URL"/>
-   </label>
-                           </form> --}}
-
-                            
-
-                            {{!-- </div> --}}
+             
 
             <h4>
               {{s_name}}
             </h4>
             
-            {{!-- <div class="social_icon">
-              <a href="#">
-                <i class="fa fa-facebook"></i>
-              </a>
-              <a href="#">
-                <i class="fa fa-twitter"></i>
-              </a>
-              <a href="#">
-                <i class="fa fa-github"></i>
-              </a>
-              <a href="#">
-                <i class="fa fa-behance"></i>
-              </a>
-            </div> --}}
+         
             <p>
               {{overal_description}}
             </p>
@@ -613,16 +631,22 @@
             <div class="media post_item">
               <img src="img/blog/popular-post/post1.jpg" alt="post" />
               <div class="media-body">
-                <a href="blog-details.html">
+                {{!-- <a href="blog-details.html"> --}}
+                   <a href="/update_telant{{s_t_id}}">
+              <img class="img-fluid" src="img/images.png" alt="sssssssssss" style="width:10px;height:10px;float: right;" />
+              
+            </a>
                   <h3>
                     {{this.s_t_name}}
                   </h3>
-                </a>
+                 
+                {{!-- </a> --}}
                 <p>
                   {{this.own_description}}
                 </p>
               </div>
             </div>
+            <hr>
             {{/each}}
             {{#if add_more}}
             <div class="media post_item">
@@ -1492,6 +1516,38 @@ $(function() {
     
 });
 
+//////////////////
+
+
 
 
 </script>
+
+<script>
+  
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+{{#each post}}
+function myFunction(id) {
+  
+  document.getElementById("myDropdown"+id).classList.toggle("show");
+  
+}
+{{/each}}
+ 
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+</script>
+ 

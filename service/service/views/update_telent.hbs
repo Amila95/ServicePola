@@ -1,0 +1,86 @@
+<div class="whole-wrap">
+  <div class="container">
+    <div class="section-top-border">
+      <br/>
+      <div class="row">
+        <div class="col-lg-2 col-md-2"></div>
+        
+        <div class="col-lg-8 col-md-8">
+          <div class="card" >
+          <h3 class="mb-30 title_color">
+            <center>Update Telent From</center>
+          </h3>
+           <form action="/update_sub_telant" method="post">
+            
+            
+            <div class="input-group-icon mt-10">
+              <div class="row">
+              <div class="col-lg-2 col-md-2">
+              <label> Sub Category </label>
+              </div>
+              <div class="col-lg-10 col-md-10">
+              <div class="form-select" id="default-select">
+                <select name="sub">
+                   {{#each telent}}
+                    '<option value={{this.s_t_id}} > {{this.s_t_name}} </option> '  ;               
+                  {{/each}}
+                </select>
+                {{!-- {{# if suber }}
+                
+                  
+                      <p class="alert alert-danger">{{ this.suber }}</p>
+                
+              {{/if}} --}}
+              </div>
+            </div>
+            </div>
+            </div>
+           {{#each telent}}
+            <div class="mt-10" >
+              <div class="row">
+              <div class="col-lg-2 col-md-2">
+              <label> Introduction </label>
+              </div>
+              <div class="col-lg-10 col-md-10">
+              <textarea
+                class="single-textarea"
+                name="dis"
+                placeholder="Discribtion About User Telent(maximum words 250)"
+                onfocus="this.placeholder = ''"
+                onblur="this.placeholder = 'Discribtion About User Telent(maximum words 250)'"
+                required 
+               
+                maxlength="251"
+              > {{this.own_description}}</textarea>
+               {{/each}}
+              {{!-- {{# if diser }}
+                
+                  
+                      <p class="alert alert-danger">{{ this.diser }}</p>
+                
+              {{/if}} --}}
+            </div>
+            </div>
+            </div>
+            {{!-- {{/each}} --}}
+            <div class="mt-10"  hidden>
+             {{!-- <input type="text" name="user" value={{user_id}}> --}}
+            </div>
+            
+              <div class="mt-10">
+              <button style="float: right;"
+                type="submit"
+                class="genric-btn info-border circle arrow"
+              >
+                Update
+                <span class="lnr lnr-arrow-right"></span>
+              </button>
+            
+              
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

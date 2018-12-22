@@ -1011,7 +1011,7 @@ router.post('/addpost', function (req, res) {
         var s_p_id = row2[0].s_p_id;
         connection.query('INSERT INTO post (title,description,s_p_id,image_path,publish_date) VALUES(?,?,?,?,NOW())', [subject, message, s_p_id, logo], function (err, rows) {
           if (err) throw err;
-          res.redirect('/profile');
+          res.redirect('/post1');
         })
       })
     }
@@ -1274,9 +1274,9 @@ router.post('/change_password_post',function(req,res){
   var re_new_password = req.body.re_new_password;
   var re_new_passworder;
   var old_passworder;
-  console.log(old_password);
-  console.log(new_password);
-  console.log(re_new_password);
+  // console.log(old_password);
+  // console.log(new_password);
+  // console.log(re_new_password);
   connection.query('SELECT u_password FROM users WHERE u_id = ?',[user_id],function(err,rows){
     if(err){
       done(err)
@@ -1322,6 +1322,66 @@ router.post('/change_password_post',function(req,res){
   })
   
 })
+})
+
+router.get('/update_telant:id',function(req,res){
+  sub_talent_id = req.params.id;
+  user_id = req.user.user_id;
+  console.log(sub_talent_id);
+  connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id], function (err, rows) {
+    var s_p_id = rows[0].s_p_id;
+  connection.query('SELECT provider_talent.own_description,sub_talent.s_t_name,sub_talent.s_t_id FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id=sub_talent.s_t_id WHERE s_p_id = ? AND sub_talent.s_t_id =?',[s_p_id,sub_talent_id],function(err,row){
+    
+      var nav_image = rows[0].image;
+      var nav_name = rows[0].s_name; 
+      console.log(row);
+      res.render('update_telent',{
+        s_p_id:s_p_id,
+        telent:row,
+        nav_image:nav_image,
+        nav_name:nav_name
+      })
+    }) 
+  })
+
+})
+
+router.post('/update_sub_telant',function(req,res){
+   const user_id = req.user.user_id;
+   //console.log(user_id);
+   var s_t_id = req.body.sub;
+   //console.log(s_t_id);
+   var discrition = req.body.dis;
+   connection.query('SELECT * FROM users WHERE u_id = ?',[user_id],function(err,rows){
+     var s_p_id = rows[0].s_p_id;
+     connection.query('UPDATE provider_talent SET own_description = ? WHERE s_p_id = ? AND s_t_id = ?',[discrition,s_p_id,s_t_id],function(err,rows){
+     res.redirect('/post1');
+
+
+   })
+  })
+   
+   
+   //console.log(discrition);
+})
+
+router.get('/edit_post:id',function(req,res){
+  //console.log("vgmvk");
+  var post_id = req.params.id;
+  const user_id = req.user.user_id;
+  console.log(post_id);
+  connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id], function (err, rows) {
+    var nav_image = rows[0].image;
+      var nav_name = rows[0].s_name;
+    connection.query('SELECT * FROM post WHERE p_id = ?',[post_id],function(err,row){
+      res.render('edit_post',{
+        nav_image:nav_image,
+        nav_name:nav_name,
+        post:row
+       })
+    })
+  })
+
 })
 
 module.exports = router;

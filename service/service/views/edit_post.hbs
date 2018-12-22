@@ -1,0 +1,222 @@
+<br/>
+<br/>
+<div class="whole-wrap">
+  <div class="container">
+    <div class="section-top-border">
+      <div class="row">
+        
+        <div class="col-lg-1 col-md-1">
+
+        </div>
+        <div class="col-lg-10 col-md-10">
+          <div class="card" >
+          <h3 class="mb-30 title_color">
+            <center>Update From</center>
+          </h3>
+         
+          <form action="/update_profile" method="post">
+{{#each details}}
+            <div class="mt-10">
+              <div class="row">
+              <div class="col-lg-2 col-md-2">
+              <label>User Name</label>
+              </div>
+              <div class="col-lg-10 col-md-10">
+              <input
+                type="text"
+                name="name"
+                
+                placeholder="User Name"
+                onfocus="this.placeholder = ''"
+                onblur="this.placeholder = 'First Name'"
+                value={{this.s_name}}
+                class="single-input"
+                required
+               />
+               {{# if namer }}
+                
+                  
+                      <p class="alert alert-danger">{{ this.namer }}</p>
+                
+              {{/if}}
+               </div>
+            </div>
+            </div>
+           
+            
+            {{!-- <div class="mt-10">
+              <div class="row">
+              <div class="col-lg-2 col-md-2">
+              <label>E mail</label>
+              </div>
+              <div class="col-lg-10 col-md-10">
+              <input
+                type="email"
+                name="email"
+                placeholder="Email address"
+                onfocus="this.placeholder = ''"
+                onblur="this.placeholder = 'Email address'"
+                value={{this.email}}
+                class="single-input"
+                required
+               />
+               {{# if emailer }}
+                
+                  
+                      <p class="alert alert-danger">{{ this.emailer }}</p>
+                
+            {{/if}}
+               </div>
+
+            </div>
+            </div> --}}
+            
+            {{!-- <div class="mt-10">
+               <div class="row">
+              <div class="col-lg-2 col-md-2">
+              <label>Address</label>
+              </div>
+              <div class="col-lg-10 col-md-10">
+              <input
+                type="text"
+                name="address"
+                placeholder="Address"
+                onfocus="this.placeholder = ''"
+                onblur="this.placeholder = 'Address'"
+                value={{this.address}}
+                class="single-input"
+                required
+               />
+               {{# if addresser }}
+                
+                  
+                      <p class="alert alert-danger">{{ this.addresser }}</p>
+                
+            {{/if}}
+              </div>
+              </div>
+            </div> --}}
+            {{!-- <div class="mt-10">
+               <div class="row">
+              <div class="col-lg-2 col-md-2">
+              <label>District</label>
+              </div>
+              <div class="col-lg-10 col-md-10">
+              <div class="form-select" id="default-select">
+                <select name="district" value={{this.district}} >
+                  <option value={{this.district}}>
+                    {{this.district}}
+                  </option>
+                  <option value="Colombo">
+                    Colombo
+                  </option>
+                  <option value="Gampaha">
+                    Gampaha
+                  </option>
+                  <option value="Kaluthara">
+                    Kaluthara
+                  </option>
+                  <option value="Ambalangoda">
+                    Ambalangoda
+                  </option>
+                </select>
+              </div>
+              {{# if districter }}
+                
+                  
+                      <p class="alert alert-danger">{{ this.districter }}</p>
+                
+            {{/if}}
+            </div>
+            </div>
+            </div> --}}
+            {{!-- <div class=" mt-10">
+               <div class="row">
+              <div class="col-lg-2 col-md-2">
+              <label>City</label>
+              </div>
+              <div class="col-lg-10 col-md-10">
+              <input
+                type="text"
+                name="city"
+                placeholder="City"
+                onfocus="this.placeholder = ''"
+                onblur="this.placeholder = 'City'"
+                value={{this.town}}
+                class="single-input"
+                required
+               />
+               {{# if cityer }}
+                
+                  
+                      <p class="alert alert-danger">{{ this.cityer }}</p>
+                
+            {{/if}}
+            </div>
+            </div>
+           </div> --}}
+            <div class="mt-10">
+               <div class="row">
+              <div class="col-lg-2 col-md-2">
+              <label>Mobile</label>
+              </div>
+              <div class="col-lg-10 col-md-10">
+              <input
+                type="text"
+                name="phone_no"
+                placeholder="Tel Phone Number"
+                onfocus="this.placeholder = ''"
+                onblur="this.placeholder = 'Tel Phone Number'"
+                value={{this.mobile}}
+                class="single-input"
+                required
+               />
+               {{# if phone_noer }}
+                
+                  
+                      <p class="alert alert-danger">{{ this.phone_noer }}</p>
+                
+            {{/if}}
+            </div>
+            </div>
+            </div>
+            <div class="mt-10">
+               <div class="row">
+              <div class="col-lg-2 col-md-2">
+              <label>Berf Introduction </label>
+              </div>
+              <div class="col-lg-10 col-md-10">
+              <textarea
+                class="single-textarea"
+                name="dis"
+                placeholder="Discribtion About User Self"
+                onfocus="this.placeholder = ''"
+                onblur="this.placeholder = 'Discribtion About User Self'"
+                
+                required
+              >{{this.overal_description}}</textarea>
+              {{# if diser }}
+                
+                  
+                      <p class="alert alert-danger">{{ this.diser }}</p>
+                
+            {{/if}}
+              </div>
+            </div>
+            </div>
+           
+            
+            {{/each}}
+            <div class="mt-10">
+              <button type="submit" class="genric-btn info-border circle arrow" style="float: right;">
+                Update
+                <span class="lnr lnr-arrow-right"></span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
