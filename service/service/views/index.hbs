@@ -259,21 +259,19 @@
     </div>
     <div class="feature_inner row">
       {{#each main_talents}}
-        <div class="col-lg-3 col-md-6 brand work">
-          <div class="projects_item">
-            <img class="img-fluid" src="img/projects/projects-5.jpg" alt="" />
-            <div class="projects_text">
-              <a href="sub_category{{this.m_t_id}}">
-                <h4>
-                  {{this.m_t_name}}
-                </h4>
-              </a>
-              <p>
-                {{this.m_t_description}}
-              </p>
-            </div>
-          </div>
+       <div class="col-lg-3 col-md-6">
+        <div class="feature_item">
+          <i class="flaticon-city"></i>
+          <a href="/add_thired{{this.m_t_id}}">
+            <h3>
+              {{this.m_t_name}}
+            </h3>
+          </a>
+          <p>
+            {{this.m_t_description}}
+          </p>
         </div>
+      </div>
       {{/each}}
     </div>
   </div>

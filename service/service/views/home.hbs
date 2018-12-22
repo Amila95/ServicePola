@@ -5,24 +5,50 @@
       <h3>
         Services we povide for you
       </h3>
+       <hr>
+      <form action="/search" method="GET" class="form-inline active-cyan-3 active-cyan-4">
+              <div class="col-lg-9 col-md-9 col-sm-12">
+                <input
+                  type="text"
+                  name="search"
+                  placeholder="Search the service you want"
+                  onfocus="this.placeholder = ''"
+                  onblur="this.placeholder = 'Search the service you want'"
+                  class="single-input circle"
+                  style="background:#e5fafb;margin-top: 12px;float: right"
+                 />
+
+              </div>
+              <div class="col-lg-2 col-md-2 col-sm-12">
+              <div class="mt-10 ">
+                <button
+                  type="submit"
+                  class="genric-btn info-border circle arrow"
+                  style="float: right;margin-top: 0px margin-top: 30px"
+                 
+                >
+                  Search
+                  <span class="lnr lnr-arrow-right"></span>
+                </button>
+              </div>
+              </div>
+            </form>
     </div>
     <div class="feature_inner row">
       {{#each main_talents}}
-        <div class="col-lg-3 col-md-6 brand work">
-          <div class="projects_item">
-            <img class="img-fluid" src="img/projects/project-5.jpg" alt="" />
-            <div class="projects_text">
-              <a href="sub_category{{this.m_t_id}}">
-                <h4>
-                  {{this.m_t_name}}
-                </h4>
-              </a>
-              <p>
-                {{this.m_t_description}}
-              </p>
-            </div>
-          </div>
+       <div class="col-lg-3 col-md-6">
+        <div class="feature_item">
+          <i class="flaticon-city"></i>
+          <a href="/add_thired{{this.m_t_id}}">
+            <h3>
+              {{this.m_t_name}}
+            </h3>
+          </a>
+          <p>
+            {{this.m_t_description}}
+          </p>
         </div>
+      </div>
       {{/each}}
     </div>
   </div>
