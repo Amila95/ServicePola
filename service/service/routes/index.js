@@ -911,7 +911,7 @@ router.post('/thiredadd', function (req, res) {
       var s_p_id = row2[0].s_p_id;
       connection.query('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [s_p_id, sub, dis], function (err, result) {
         if (err) throw err;
-        res.redirect('/profile');
+        res.redirect('/post1');
       })
     })
 
@@ -1117,7 +1117,7 @@ router.post('/update_profile',function(req,res){
   connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
     var s_p_id = row2[0].s_p_id;
     connection.query('UPDATE service_provider SET s_name = ?,email = ?,overal_description = ?,mobile = ? WHERE s_p_id = ?',[name,email,dis,phone_no,s_p_id],function(err,rows){
-      res.redirect('/profile');
+      res.redirect('/post1');
     })
   })
 }
@@ -1287,7 +1287,7 @@ router.post('/change_password_post',function(req,res){
         if(new_password == re_new_password){
           bcrypt.hash(new_password, saltRounds, function (err, hash) {
           connection.query('UPDATE Users SET u_password = ? WHERE u_id = ?',[hash,user_id],function(err,rows){
-            res.redirect('/profile');
+            res.redirect('/post1');
           })
         })
         }
