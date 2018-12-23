@@ -378,10 +378,11 @@ router.get('/home', function (req, res, next) {
     })
 
   }else{
-    console.log("bnj");
-    connection.query('SELECT * FROM main_talent',function(err,main_talents){
-      res.render('home',{main_talents:main_talents});
-      })
+    // console.log("bnj");
+    // connection.query('SELECT * FROM main_talent',function(err,main_talents){
+    //   res.render('home',{main_talents:main_talents});
+    //   })
+    res.redirect("/")
   }
   
 })
