@@ -190,10 +190,12 @@ router.get('/provider_profile:id', function (req, res, next) {
           connection.query('SELECT * FROM post WHERE s_p_id = ? ORDER BY p_id DESC', [id], function (err, row3) {
             console.log(row3);
             if(row3.length){
+              console.log("ndjf");
               
             }
             else{
-              no_post=true;
+              no_post = true;
+              console.log("aaaaa");
             }
            //console.log(row4);
            connection.query('SELECT * FROM users WHERE u_id=?',[user_id],function(err,row5){
@@ -234,12 +236,21 @@ router.get('/provider_profile:id', function (req, res, next) {
       // }
       connection.query('SELECT * FROM main_talent', function (err, row2) {
         connection.query('SELECT * FROM post WHERE s_p_id = ? ORDER BY p_id DESC', [s_p_id], function (err, row3) {
+          if(row3.length){
+            console.log("ndjf");
+            
+          }
+          else{
+            no_post = true;
+            console.log("aaaaa");
+          }
           res.render('profile_viewr', {
             
             details: rows,
             talents: row1,
             main: row2,
             post: row3,
+            no_post:no_post
             
           });
         })
@@ -378,10 +389,11 @@ router.get('/home', function (req, res, next) {
     })
 
   }else{
-    console.log("bnj");
-    connection.query('SELECT * FROM main_talent',function(err,main_talents){
-      res.render('home',{main_talents:main_talents});
-      })
+    // console.log("bnj");
+    // connection.query('SELECT * FROM main_talent',function(err,main_talents){
+    //   res.render('home',{main_talents:main_talents});
+    //   })
+    res.redirect("/")
   }
   
 })
@@ -911,7 +923,7 @@ router.post('/thiredadd', function (req, res) {
       var s_p_id = row2[0].s_p_id;
       connection.query('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [s_p_id, sub, dis], function (err, result) {
         if (err) throw err;
-        res.redirect('/profile');
+        res.redirect('/post1');
       })
     })
 
@@ -1117,7 +1129,7 @@ router.post('/update_profile',function(req,res){
   connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
     var s_p_id = row2[0].s_p_id;
     connection.query('UPDATE service_provider SET s_name = ?,email = ?,overal_description = ?,mobile = ? WHERE s_p_id = ?',[name,email,dis,phone_no,s_p_id],function(err,rows){
-      res.redirect('/profile');
+      res.redirect('/post1');
     })
   })
 }
@@ -1287,7 +1299,7 @@ router.post('/change_password_post',function(req,res){
         if(new_password == re_new_password){
           bcrypt.hash(new_password, saltRounds, function (err, hash) {
           connection.query('UPDATE Users SET u_password = ? WHERE u_id = ?',[hash,user_id],function(err,rows){
-            res.redirect('/profile');
+            res.redirect('/post1');
           })
         })
         }

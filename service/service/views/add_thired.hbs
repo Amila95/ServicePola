@@ -11,34 +11,7 @@
             Telent From
           </h3>
            <form action="/thiredadd" method="post">
-           <div class="input-group-icon mt-10 hidden">
-               <div class="row">
-              <div class="col-lg-2 col-md-2">
-              <label> Main Category </label>
-              </div>
-              <div class="col-lg-10 col-md-10">
-              <div class="form-select" >
-                <select name="main" >
-                  {{#each main}}
-                  
-                     
-                      '<option value={{this.m_t_id}}> {{this.m_t_name}}  </option> '  ;
-                  
-                   {{/each}}
-                  
-                </select>
-                
-              </div>
-              {{# if mainer }}
-                
-                  
-                      <p class="alert alert-danger">{{ this.mainer }}</p>
-                
-              {{/if}}
-            </div>
-            </div>
-            </div>
-            
+           
             
             <div class="input-group-icon mt-10">
               <div class="row">

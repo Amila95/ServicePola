@@ -9,11 +9,7 @@
         <div class="blog_right_sidebar">
           <aside class="single_sidebar_widget search_widget">
             <div class="input-group">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Search Posts"
-               />
+              
 
               <span class="input-group-btn">
                 <button class="btn btn-default" type="button">
@@ -115,11 +111,11 @@
             <div class="media post_item">
               <img src="img/blog/popular-post/post1.jpg" alt="post" />
               <div class="media-body">
-                <a href="blog-details.html">
+               
                   <h3>
                     {{this.s_t_name}}
                   </h3>
-                </a>
+                
                 <p>
                   {{this.own_description}}
                 </p>
@@ -148,7 +144,7 @@
               
               
               <li>
-                <a href="#" class="d-flex justify-content-between">
+                <a  class="d-flex justify-content-between">
                   <p>
                     Mobile
                   </p>
@@ -158,7 +154,7 @@
                 </a>
               </li>
               <li>
-                <a href="#" class="d-flex justify-content-between">
+                <a  class="d-flex justify-content-between">
                   <p>
                     Email
                   </p>
@@ -212,7 +208,7 @@
                     </a>
                   </li> --}}
                   <li>
-                    <a href="#">
+                    <a >
                       {{this.publish_date}}
                       <i class="lnr lnr-calendar-full"></i>
                     </a>
@@ -236,7 +232,7 @@
               <div class="blog_post" style="padding-top: 0px;">
                 <img src="{{this.image_path}}" alt="" />
                 <div class="blog_details" style="padding-top: 0px;">
-                  <a href="single-blog.html">
+                  <a >
                     <h2>
                       {{this.title}}
                     </h2>
@@ -254,10 +250,11 @@
     margin-bottom: 0px;
 ">
           {{/each}}
-          {{#if no_post}}
-          <hr>
-          <p>No Post</p>
-          <hr>
+            {{#if no_post}}
+            <hr>
+            <p><center><strong>No Post</strong></center></p>
+            <hr>
+
           {{/if}}
           
           {{!-- <nav class="blog-pagination justify-content-center d-flex">
