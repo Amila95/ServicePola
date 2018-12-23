@@ -190,10 +190,12 @@ router.get('/provider_profile:id', function (req, res, next) {
           connection.query('SELECT * FROM post WHERE s_p_id = ? ORDER BY p_id DESC', [id], function (err, row3) {
             console.log(row3);
             if(row3.length){
+              console.log("ndjf");
               
             }
             else{
-              no_post=true;
+              no_post = true;
+              console.log("aaaaa");
             }
            //console.log(row4);
            connection.query('SELECT * FROM users WHERE u_id=?',[user_id],function(err,row5){
@@ -234,12 +236,21 @@ router.get('/provider_profile:id', function (req, res, next) {
       // }
       connection.query('SELECT * FROM main_talent', function (err, row2) {
         connection.query('SELECT * FROM post WHERE s_p_id = ? ORDER BY p_id DESC', [s_p_id], function (err, row3) {
+          if(row3.length){
+            console.log("ndjf");
+            
+          }
+          else{
+            no_post = true;
+            console.log("aaaaa");
+          }
           res.render('profile_viewr', {
             
             details: rows,
             talents: row1,
             main: row2,
             post: row3,
+            no_post:no_post
             
           });
         })
