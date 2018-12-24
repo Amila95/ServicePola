@@ -418,6 +418,13 @@
     <div class="row">
       <div class="col-lg-4">
         <div class="blog_right_sidebar">
+           {{#each details}}
+           <center>
+          <h4>
+              {{s_name}}
+            </h4>
+            </center>
+            {{/each}}
           <aside class="single_sidebar_widget search_widget">
             {{!-- <div class="input-group">
               <input
@@ -467,9 +474,7 @@
 
              
 
-            <h4>
-              {{s_name}}
-            </h4>
+            
             
          
             <p>
@@ -506,7 +511,7 @@
             {{/each}}
             {{#if add_more}}
             <div class="media post_item">
-              <img class="author_img rounded-circle" src="img/images.jfif" alt="post" style="width:50px;height:50px;"/>
+              <img class="author_img rounded-circle" src="img/imagesaa.jpg" alt="post" style="width:50px;height:50px;"/>
               <div class="media-body">
                 <a href="/maincatagerious">
                   <h3>
@@ -584,9 +589,9 @@
                                     
                                 </label>
                                 </div>
-                               <button type="submit" class="genric-btn primary-border circle arrow">
+                               <button type="submit" class="genric-btn success-border circle arrow">
                Post
-                <span class="lnr lnr-arrow-right"></span>
+               
               </button>	
                             </form>
         </div>
@@ -768,7 +773,7 @@
 
     <hr>
     
-    <button type="submit" id="previewBtn">save</button>
+    <button type="submit"  class="genric-btn success-border circle arrow" id="previewBtn ">save</button>
     
    
       
