@@ -6,27 +6,29 @@
         <div class="single-post row">
           {{#each rows}}
           <div class="col-lg-6 col-md-6">
-            <div class="feature_item" style="
-  
-    
-    
-">
-              <img src="{{this.image}}" alt=""  height="75" width="75"/>
-              <a href="/provider_profile{{this.s_p_id}}">
-                <h3>
-                  {{this.s_name}}
-                </h3>
-              </a>
-              <p>
-                {{this.own_description}}
-              </p>
+            <div class="feature_item" style="">
+              <div class="row">
+                <div class="col-md-4">
+                  <img src="{{this.image}}" alt="" height="75" width="75" />
+                </div>
+                <div class="col-md-8">
+                  <p>
+                    {{this.own_description}}
+                  </p>
+                </div>
+                <a href="/provider_profile{{this.s_p_id}}">
+                  <h3>
+                    {{this.s_name}}
+                  </h3>
+                </a>
+              </div>
             </div>
           </div>
-         
-        {{/each}}
-      
-      
-      
+
+          {{/each}}
+
+
+
         </div>
       </div>
       <div class="col-lg-4 ">
