@@ -5,6 +5,7 @@ var expressValidator = require('express-validator');
 var passport = require('passport');
 var multer = require('multer');
 var emailCheck = require('email-check');
+var SqlString = require('sqlstring');
 
 
 var bcrypt = require('bcrypt');
@@ -77,9 +78,9 @@ router.get('/', function (req, res, next) {
     connection.query('SELECT * FROM main_talent', function (err, main_talents) {
       var u_id = req.user.user_id;
       console.log(u_id);
-      connection.query('SELECT * FROM users WHERE u_id = ?',[u_id],function(err,rows){
+      connection.query(SqlString.format('SELECT * FROM users WHERE u_id = ?',[u_id]),function(err,rows){
         var s_p_id = rows[0].s_p_id;
-        connection.query('SELECT * FROM service_provider WHERE s_p_id=?',[s_p_id],function(err,row1){
+        connection.query(SqlString.format('SELECT * FROM service_provider WHERE s_p_id=?',[s_p_id]),function(err,row1){
           var image=row1[0].image;
           var name=row1[0].s_name;
       res.render('home', {
@@ -98,21 +99,21 @@ router.get('/', function (req, res, next) {
 
 });
 
-router.get('/sidebar', function (req, res, next) {
-  res.render('sidebar');
-});
+// router.get('/sidebar', function (req, res, next) {
+//   res.render('sidebar');
+// });
 
 router.get('/sub_category:id', function (req, res, next) {
   var id = req.params.id;
   if(req.isAuthenticated()){
     var u_id = req.user.user_id;
       console.log(u_id);
-      connection.query('SELECT * FROM users WHERE u_id = ?',[u_id],function(err,rows){
+      connection.query(SqlString.format('SELECT * FROM users WHERE u_id = ?',[u_id]),function(err,rows){
         var s_p_id = rows[0].s_p_id;
-        connection.query('SELECT * FROM service_provider WHERE s_p_id=?',[s_p_id],function(err,row1){
+        connection.query(SqlString.format('SELECT * FROM service_provider WHERE s_p_id=?',[s_p_id]),function(err,row1){
           var image=row1[0].image;
           var name=row1[0].s_name;
-          connection.query('SELECT * FROM sub_talent WHERE m_t_id=?', [id], function (err, sub_talents) {
+          connection.query(SqlString.format('SELECT * FROM sub_talent WHERE m_t_id=?', [id]), function (err, sub_talents) {
             res.render('sub_category', {
               sub_talents: sub_talents,
               nav_image:image,
@@ -124,7 +125,7 @@ router.get('/sub_category:id', function (req, res, next) {
 
   }
  else{
-  connection.query('SELECT * FROM sub_talent WHERE m_t_id=?', [id], function (err, sub_talents) {
+  connection.query(SqlString.format('SELECT * FROM sub_talent WHERE m_t_id=?', [id]), function (err, sub_talents) {
     res.render('sub_category', {
       sub_talents: sub_talents
     });
@@ -139,12 +140,12 @@ router.get('/service_provider_list:id', function (req, res, next) {
     var id = req.params.id;
     var u_id = req.user.user_id;
       console.log(id);
-      connection.query('SELECT * FROM users WHERE u_id = ?',[u_id],function(err,rows){
+      connection.query(SqlString.format('SELECT * FROM users WHERE u_id = ?',[u_id]),function(err,rows){
         var s_p_id = rows[0].s_p_id;
-        connection.query('SELECT * FROM service_provider WHERE s_p_id=?',[s_p_id],function(err,row1){
+        connection.query(SqlString.format('SELECT * FROM service_provider WHERE s_p_id=?',[s_p_id]),function(err,row1){
           var image=row1[0].image;
           var name=row1[0].s_name;
-          connection.query('SELECT * FROM provider_talent INNER JOIN service_provider ON provider_talent.s_p_id = service_provider.s_p_id WHERE s_t_id = ?', [id], function (err, row2) {
+          connection.query(SqlString.format('SELECT * FROM provider_talent INNER JOIN service_provider ON provider_talent.s_p_id = service_provider.s_p_id WHERE s_t_id = ?', [id]), function (err, row2) {
            console.log(row2);
             res.render('service_provider_list', {
               rows: row2,
@@ -158,9 +159,9 @@ router.get('/service_provider_list:id', function (req, res, next) {
   }
   else{
     var id = req.params.id;
-  connection.query('SELECT * FROM provider_talent INNER JOIN service_provider ON provider_talent.s_p_id = service_provider.s_p_id WHERE s_t_id = ?', [id], function (err, row2) {
-    console.log("bu");
-    console.log(row2);
+  connection.query(SqlString.format('SELECT * FROM provider_talent INNER JOIN service_provider ON provider_talent.s_p_id = service_provider.s_p_id WHERE s_t_id = ?', [id]), function (err, row2) {
+    //console.log("bu");
+    //console.log(row2);
     res.render('service_provider_list', {
       rows: row2
     });
@@ -176,18 +177,18 @@ router.get('/provider_profile:id', function (req, res, next) {
 
   //console.log(user_id);
   if(req.isAuthenticated()){
-    connection.query('SELECT * FROM service_provider  WHERE s_p_id=?', [id], function (err, rows) {
+    connection.query(SqlString.format('SELECT * FROM service_provider  WHERE s_p_id=?', [id]), function (err, rows) {
       const s_p_id = rows[0].s_p_id;
       user_id = req.user.user_id;
       //var nav_image = nav_image(user_id); 
   
       //console.log(s_p_id);
-      connection.query('SELECT *  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?', [s_p_id], function (err, row1) {
+      connection.query(SqlString.format('SELECT *  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?', [s_p_id]), function (err, row1) {
         // if(row1.length<3){
         //   add_more= true;
         // }
         connection.query('SELECT * FROM main_talent', function (err, row2) {
-          connection.query('SELECT * FROM post WHERE s_p_id = ? ORDER BY p_id DESC', [id], function (err, row3) {
+          connection.query(SqlString.format('SELECT * FROM post WHERE s_p_id = ? ORDER BY p_id DESC', [id]), function (err, row3) {
             console.log(row3);
             if(row3.length){
               console.log("ndjf");
@@ -198,10 +199,10 @@ router.get('/provider_profile:id', function (req, res, next) {
               console.log("aaaaa");
             }
            //console.log(row4);
-           connection.query('SELECT * FROM users WHERE u_id=?',[user_id],function(err,row5){
+           connection.query(SqlString.format('SELECT * FROM users WHERE u_id=?',[user_id]),function(err,row5){
 
            var s_p_id= row5[0].s_p_id;
-            connection.query('SELECT * FROM service_provider  WHERE s_p_id=? ', [s_p_id], function (err, row4) {
+            connection.query(SqlString.format('SELECT * FROM service_provider  WHERE s_p_id=? ', [s_p_id]), function (err, row4) {
               var nav_image=row4[0].image;
               var nav_name=row4[0].s_name;
               //console.log(row4);
@@ -226,18 +227,18 @@ router.get('/provider_profile:id', function (req, res, next) {
 
   }
   else{
-  connection.query('SELECT * FROM service_provider  WHERE s_p_id=?', [id], function (err, rows) {
+  connection.query(SqlString.format('SELECT * FROM service_provider  WHERE s_p_id=?', [id]), function (err, rows) {
     const s_p_id = rows[0].s_p_id;
 
     //console.log(s_p_id);
-    connection.query('SELECT *  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?', [s_p_id], function (err, row1) {
+    connection.query(SqlString.format('SELECT *  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?', [s_p_id]), function (err, row1) {
       // if(row1.length<3){
       //   add_more= true;
       // }
       connection.query('SELECT * FROM main_talent', function (err, row2) {
-        connection.query('SELECT * FROM post WHERE s_p_id = ? ORDER BY p_id DESC', [s_p_id], function (err, row3) {
+        connection.query(SqlString.format('SELECT * FROM post WHERE s_p_id = ? ORDER BY p_id DESC', [s_p_id]), function (err, row3) {
           if(row3.length){
-            console.log("ndjf");
+            //console.log("ndjf");
             
           }
           else{
@@ -271,7 +272,7 @@ router.get('/profile', function (req, res, next) {
   var no_post=true;
   console.log(user_id);
   console.log(req.isAuthenticated());
-  connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id], function (err, rows) {
+  connection.query(SqlString.format('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id]), function (err, rows) {
     const s_p_id = rows[0].s_p_id;
     const ima = rows[0].image;
     var nav_image = rows[0].image;
@@ -279,12 +280,12 @@ router.get('/profile', function (req, res, next) {
     console.log(nav_image);
     console.log(nav_name);
     console.log(s_p_id);
-    connection.query('SELECT *  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?', [s_p_id], function (err, row1) {
+    connection.query(SqlString.format('SELECT *  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?', [s_p_id]), function (err, row1) {
       if (row1.length < 3) {
         add_more = true;
       }
       connection.query('SELECT * FROM main_talent', function (err, row2) {
-        connection.query('SELECT * FROM post WHERE s_p_id = ? ORDER BY p_id DESC', [s_p_id], function (err, row3) {
+        connection.query(SqlString.format('SELECT * FROM post WHERE s_p_id = ? ORDER BY p_id DESC', [s_p_id]), function (err, row3) {
           console.log(row3);
           if(row3.lenght){
             no_post=false;
@@ -340,9 +341,9 @@ router.get('/add_thired:id', function (req, res, next) {
   if(req.isAuthenticated()){
     var user_id = req.user.user_id;
     console.log(user_id);
-    connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?',[user_id],function(err,rows){
+    connection.query(SqlString.format('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?',[user_id]),function(err,rows){
       var s_p_id = rows[0].s_p_id;
-      connection.query('SELECT *  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?', [s_p_id], function (err, row5){
+      connection.query(SqlString.format('SELECT *  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?', [s_p_id]), function (err, row5){
         //console.log(row5);
         if(row5.length>3){
           res.redirect('/post1');
@@ -350,8 +351,8 @@ router.get('/add_thired:id', function (req, res, next) {
           var image=rows[0].image;
           var name = rows[0].s_name;
       var m_t_id = req.params.id;
-      connection.query('SELECT * FROM main_talent WHERE m_t_id = ?',[m_t_id],function(err,row2){
-        connection.query('SELECT * FROM sub_talent WHERE m_t_id = ?', [m_t_id], function (err, row) {
+      connection.query(SqlString.format('SELECT * FROM main_talent WHERE m_t_id = ?',[m_t_id]),function(err,row2){
+        connection.query(SqlString.format('SELECT * FROM sub_talent WHERE m_t_id = ?', [m_t_id]), function (err, row) {
           console.log(row);
           res.render('add_thired', {
             main:row2,
@@ -380,7 +381,7 @@ router.get('/home', function (req, res, next) {
 
     var user_id = req.user.user_id;
     console.log(user_id);
-    connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?',[user_id],function(err,rows){
+    connection.query(SqlString.format('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?',[user_id]),function(err,rows){
       var image=rows[0].image;
       var name = rows[0].s_name;
       connection.query('SELECT * FROM main_talent',function(err,main_talents){
@@ -547,14 +548,14 @@ router.post('/register', function (req, res) {
     var re_password = req.body.re_password;
     if (password == re_password) {
       bcrypt.hash(password, saltRounds, function (err, hash) {
-        connection.query('INSERT INTO service_provider(s_name,email,address,mobile,overal_description,district,dob,town) VALUES(?,?,?,?,?,?,?,?)', [name, email, address, phone_no, dis, district, dob, city], function (err, result) {
+        connection.query(SqlString.format('INSERT INTO service_provider(s_name,email,address,mobile,overal_description,district,dob,town) VALUES(?,?,?,?,?,?,?,?)', [name, email, address, phone_no, dis, district, dob, city]), function (err, result) {
           if (err) throw err;
           connection.query('SELECT LAST_INSERT_ID() as s_p_id', function (err, results, fields) {
             if (err) throw err;
             var s_p_id = results[0].s_p_id;
             //console.log(s_p_id);
 
-            connection.query('INSERT INTO users(u_email,u_name,u_password,u_group,u_status,s_p_id) VALUES(?,?,?,?,?,?)', [email, name, hash, '1', '1', s_p_id], function (err, result) {
+            connection.query(SqlString.format('INSERT INTO users(u_email,u_name,u_password,u_group,u_status,s_p_id) VALUES(?,?,?,?,?,?)', [email, name, hash, '1', '1', s_p_id]), function (err, result) {
               if (err) throw err;
               connection.query('SELECT LAST_INSERT_ID() as u_id', function (err, results, fields) {
                 if (err) throw err;
@@ -660,7 +661,7 @@ router.post('/registerfornt', function (req, res) {
     var password = req.body.password;
     var re_password = req.body.re_password;
    console.log(email);
-  connection.query('SELECT * FROM service_provider WHERE email = ?',[email],function (err,rows){
+  connection.query(SqlString.format('SELECT * FROM service_provider WHERE email = ?',[email]),function (err,rows){
   
     console.log(rows);
     if(rows.lenght>0){
@@ -680,7 +681,7 @@ router.post('/registerfornt', function (req, res) {
 
     if (password == re_password) {
       bcrypt.hash(password, saltRounds, function (err, hash) {
-        connection.query('INSERT INTO service_provider(s_name,email,mobile,overal_description) VALUES(?,?,?,?)', [name, email, phone_no, dis], function (err, result) {
+        connection.query(SqlString.format('INSERT INTO service_provider(s_name,email,mobile,overal_description) VALUES(?,?,?,?)', [name, email, phone_no, dis]), function (err, result) {
 
           if (err) throw err;
           connection.query('SELECT LAST_INSERT_ID() as s_p_id', function (err, results, fields) {
@@ -688,7 +689,7 @@ router.post('/registerfornt', function (req, res) {
             var s_p_id = results[0].s_p_id;
             //console.log(s_p_id);
 
-            connection.query('INSERT INTO users(u_email,u_name,u_password,u_group,u_status,s_p_id) VALUES(?,?,?,?,?,?)', [email, name, hash, '1', '1', s_p_id], function (err, result) {
+            connection.query(SqlString.format('INSERT INTO users(u_email,u_name,u_password,u_group,u_status,s_p_id) VALUES(?,?,?,?,?,?)', [email, name, hash, '1', '1', s_p_id]), function (err, result) {
               if (err) throw err;
               connection.query('SELECT LAST_INSERT_ID() as u_id', function (err, results, fields) {
                 if (err) throw err;
@@ -782,10 +783,10 @@ router.post('/fristadd', function (req, res) {
     var user_id = req.body.user;
     console.log(req.isAuthenticated());
     console.log(user_id);
-    connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
+    connection.query(SqlString.format('SELECT * FROM users WHERE u_id = ?', [user_id]), function (err, row2) {
       var s_p_id = row2[0].s_p_id;
       console.log(s_p_id);
-      connection.query('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [s_p_id, sub, dis], function (err, result) {
+      connection.query(SqlString.format('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [s_p_id, sub, dis]), function (err, result) {
         if (err) throw err;
         res.render('add_secound', {
           user_id: user_id
@@ -845,10 +846,10 @@ router.post('/secoundadd', function (req, res) {
     var user_id = req.body.user;
     console.log(req.isAuthenticated());
     console.log(user_id);
-    connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
+    connection.query(SqlString.format('SELECT * FROM users WHERE u_id = ?', [user_id]), function (err, row2) {
       console.log(row2);
       var s_p_id = row2[0].s_p_id;
-      connection.query('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [s_p_id, sub, dis], function (err, result) {
+      connection.query(SqlString.format('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [s_p_id, sub, dis]), function (err, result) {
         if (err) throw err;
         res.render('add_thired', {
           user_id: user_id
@@ -919,9 +920,9 @@ router.post('/thiredadd', function (req, res) {
     console.log(req.isAuthenticated());
     console.log(user_id);
 
-    connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
+    connection.query(SqlString.format('SELECT * FROM users WHERE u_id = ?', [user_id]), function (err, row2) {
       var s_p_id = row2[0].s_p_id;
-      connection.query('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [s_p_id, sub, dis], function (err, result) {
+      connection.query(SqlString.format('INSERT INTO provider_talent(s_p_id,s_t_id,own_description) VALUES(?,?,?)', [s_p_id, sub, dis]), function (err, result) {
         if (err) throw err;
         res.redirect('/post1');
       })
@@ -967,7 +968,7 @@ router.get('/maincatagerious', function (req, res) {
   if(req.isAuthenticated()){
     var user_id = req.user.user_id;
     console.log(user_id);
-    connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?',[user_id],function(err,rows){
+    connection.query(SqlString.format('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?',[user_id]),function(err,rows){
       var image=rows[0].image;
       var name = rows[0].s_name;
       connection.query('SELECT * FROM main_talent', function (err, rows) {
@@ -1002,10 +1003,10 @@ router.post('/addpost', function (req, res) {
       const user_id = req.user.user_id;
       console.log(req.isAuthenticated());
       console.log(user_id);
-      connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
+      connection.query(SqlString.format('SELECT * FROM users WHERE u_id = ?', [user_id]), function (err, row2) {
         console.log(row2);
         var s_p_id = row2[0].s_p_id;
-        connection.query('INSERT INTO post (title,description,s_p_id,publish_date) VALUES(?,?,?,NOW())', [subject, message, s_p_id], function (err, rows) {
+        connection.query(SqlString.format('INSERT INTO post (title,description,s_p_id,publish_date) VALUES(?,?,?,NOW())', [subject, message, s_p_id]), function (err, rows) {
           if (err) throw err;
           res.redirect('/post1');
         })
@@ -1018,10 +1019,10 @@ router.post('/addpost', function (req, res) {
       const user_id = req.user.user_id;
       console.log(req.isAuthenticated());
       console.log(user_id);
-      connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
+      connection.query(SqlString.format('SELECT * FROM users WHERE u_id = ?', [user_id]), function (err, row2) {
         console.log(row2);
         var s_p_id = row2[0].s_p_id;
-        connection.query('INSERT INTO post (title,description,s_p_id,image_path,publish_date) VALUES(?,?,?,?,NOW())', [subject, message, s_p_id, logo], function (err, rows) {
+        connection.query(SqlString.format('INSERT INTO post (title,description,s_p_id,image_path,publish_date) VALUES(?,?,?,?,NOW())', [subject, message, s_p_id, logo]), function (err, rows) {
           if (err) throw err;
           res.redirect('/post1');
         })
@@ -1032,9 +1033,9 @@ router.post('/addpost', function (req, res) {
 
 router.get('/update_details', function (req, res) {
   const user_id = req.user.user_id;
-  connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
+  connection.query(SqlString.format('SELECT * FROM users WHERE u_id = ?', [user_id]), function (err, row2) {
     var s_p_id = row2[0].s_p_id;
-    connection.query('SELECT * FROM service_provider WHERE s_p_id = ?', [s_p_id], function (err, rows) {
+    connection.query(SqlString.format('SELECT * FROM service_provider WHERE s_p_id = ?', [s_p_id]), function (err, rows) {
       nav_image=rows[0].image;
       nav_name=rows[0].s_name;
       res.render('update_profile', {
@@ -1099,9 +1100,9 @@ router.post('/update_profile',function(req,res){
       
     }
     const user_id = req.user.user_id;
-  connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
+  connection.query(SqlString.format('SELECT * FROM users WHERE u_id = ?', [user_id]), function (err, row2) {
     var s_p_id = row2[0].s_p_id;
-    connection.query('SELECT * FROM service_provider WHERE s_p_id = ?',[s_p_id],function(err,rows){
+    connection.query(SqlString.format('SELECT * FROM service_provider WHERE s_p_id = ?',[s_p_id]),function(err,rows){
       
    
    
@@ -1126,9 +1127,9 @@ router.post('/update_profile',function(req,res){
     var city = req.body.city;
     
     
-  connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
+  connection.query(SqlString.format('SELECT * FROM users WHERE u_id = ?', [user_id]), function (err, row2) {
     var s_p_id = row2[0].s_p_id;
-    connection.query('UPDATE service_provider SET s_name = ?,email = ?,overal_description = ?,mobile = ? WHERE s_p_id = ?',[name,email,dis,phone_no,s_p_id],function(err,rows){
+    connection.query(SqlString.format('UPDATE service_provider SET s_name = ?,overal_description = ?,mobile = ? WHERE s_p_id = ?',[name,dis,phone_no,s_p_id]),function(err,rows){
       res.redirect('/post1');
     })
   })
@@ -1161,7 +1162,7 @@ router.post('/suggestions', function (req, res, next) {
 
     var idea = req.body.idea;
     console.log(idea);
-    connection.query('INSERT INTO notification(content,content_type) VALUES(?,1)', [idea], function (err, result) {
+    connection.query(SqlString.format('INSERT INTO notification(content,content_type) VALUES(?,1)', [idea]), function (err, result) {
       if (err) throw err;
       res.redirect('/');
     });
@@ -1182,10 +1183,10 @@ router.post('/add_profile_image', function (req, res) {
       const user_id = req.user.user_id;
       console.log(user_id);
       console.log("fnv1");
-      connection.query('SELECT * FROM users WHERE u_id = ?', [user_id], function (err, row2) {
+      connection.query(SqlString.format('SELECT * FROM users WHERE u_id = ?', [user_id]), function (err, row2) {
         var s_p_id = row2[0].s_p_id;
         const logo = '../upload/' + req.files[0].filename;
-        connection.query('UPDATE service_provider SET image =? WHERE s_p_id = ?', [logo, s_p_id], function (err, rows) {
+        connection.query(SqlString.format('UPDATE service_provider SET image =? WHERE s_p_id = ?', [logo, s_p_id]), function (err, rows) {
           res.redirect('/post1');
         })
       })
@@ -1196,8 +1197,8 @@ router.get('/search', (req, res) => {
   console.log('in serch method');
   var serch_text = req.param('search');
   console.log(serch_text);
-  connection.query('SELECT * FROM sub_talent INNER JOIN provider_talent ON sub_talent.s_t_id = provider_talent.s_t_id ' +
-    'INNER JOIN service_provider ON provider_talent.s_p_id= service_provider.s_p_id WHERE sub_talent.s_t_name LIKE "%'+serch_text+'%"',
+  connection.query(SqlString.format('SELECT * FROM sub_talent INNER JOIN provider_talent ON sub_talent.s_t_id = provider_talent.s_t_id ' +
+    'INNER JOIN service_provider ON provider_talent.s_p_id= service_provider.s_p_id WHERE sub_talent.s_t_name LIKE "%'+serch_text+'%"'),
     function (err, searched_s_p_list) {
       console.log(searched_s_p_list);
       res.render('service_provider_list', {
@@ -1220,19 +1221,19 @@ router.get('/post:id',function (req, res){
   var no_post = false;
   console.log(user_id);
   console.log(req.isAuthenticated());
-  connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id], function (err, rows) {
+  connection.query(SqlString.format('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id]), function (err, rows) {
     const s_p_id = rows[0].s_p_id;
     var nav_image = rows[0].image;
     var nav_name = rows[0].s_name;
 
    
     console.log(s_p_id);
-    connection.query('SELECT *  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?', [s_p_id], function (err, row1) {
+    connection.query(SqlString.format('SELECT *  FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id = sub_talent.s_t_id WHERE s_p_id=?', [s_p_id]), function (err, row1) {
       if (row1.length < 3) {
         add_more = true;
       }
       connection.query('SELECT * FROM main_talent', function (err, row2) {
-        connection.query('SELECT * FROM post WHERE s_p_id = ? ORDER BY p_id DESC ', [s_p_id], function (err, row3) {
+        connection.query(SqlString.format('SELECT * FROM post WHERE s_p_id = ? ORDER BY p_id DESC ', [s_p_id]), function (err, row3) {
           console.log(row3);
           if(row3.length){
             console.log("ndjf");
@@ -1267,7 +1268,7 @@ router.get('/post:id',function (req, res){
 
 router.get('/change_password',function(req,res){
   const user_id = req.user.user_id;
-  connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id], function (err, rows) {
+  connection.query(SqlString.format('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id]), function (err, rows) {
     const s_p_id = rows[0].s_p_id;
     var nav_image = rows[0].image;
     var nav_name = rows[0].s_name;
@@ -1289,7 +1290,7 @@ router.post('/change_password_post',function(req,res){
   // console.log(old_password);
   // console.log(new_password);
   // console.log(re_new_password);
-  connection.query('SELECT u_password FROM users WHERE u_id = ?',[user_id],function(err,rows){
+  connection.query(SqlString.format('SELECT u_password FROM users WHERE u_id = ?',[user_id]),function(err,rows){
     if(err){
       done(err)
     }
@@ -1298,13 +1299,13 @@ router.post('/change_password_post',function(req,res){
       if (response === true) {
         if(new_password == re_new_password){
           bcrypt.hash(new_password, saltRounds, function (err, hash) {
-          connection.query('UPDATE Users SET u_password = ? WHERE u_id = ?',[hash,user_id],function(err,rows){
+          connection.query(SqlString.format('UPDATE Users SET u_password = ? WHERE u_id = ?',[hash,user_id]),function(err,rows){
             res.redirect('/post1');
           })
         })
         }
         else{
-          connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id], function (err, rows) {
+          connection.query(SqlString.format('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id]), function (err, rows) {
           console.log("fvn");
           re_new_passworder = "Not Match Password and RE Enter Password";
           var nav_image = rows[0].image;
@@ -1319,7 +1320,7 @@ router.post('/change_password_post',function(req,res){
         }
       }else {
         console.log("hhbhbhj");
-        connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id], function (err, rows) {
+        connection.query(SqlString.format('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id]), function (err, rows) {
         old_passworder = "Old Password is worng";
         var nav_image = rows[0].image;
           var nav_name = rows[0].s_name;
@@ -1340,9 +1341,9 @@ router.get('/update_telant:id',function(req,res){
   sub_talent_id = req.params.id;
   user_id = req.user.user_id;
   console.log(sub_talent_id);
-  connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id], function (err, rows) {
+  connection.query(SqlString.format('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id]), function (err, rows) {
     var s_p_id = rows[0].s_p_id;
-  connection.query('SELECT provider_talent.own_description,sub_talent.s_t_name,sub_talent.s_t_id FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id=sub_talent.s_t_id WHERE s_p_id = ? AND sub_talent.s_t_id =?',[s_p_id,sub_talent_id],function(err,row){
+  connection.query(SqlString.format('SELECT provider_talent.own_description,sub_talent.s_t_name,sub_talent.s_t_id FROM provider_talent INNER JOIN sub_talent ON provider_talent.s_t_id=sub_talent.s_t_id WHERE s_p_id = ? AND sub_talent.s_t_id =?',[s_p_id,sub_talent_id]),function(err,row){
     
       var nav_image = rows[0].image;
       var nav_name = rows[0].s_name; 
@@ -1364,9 +1365,9 @@ router.post('/update_sub_telant',function(req,res){
    var s_t_id = req.body.sub;
    //console.log(s_t_id);
    var discrition = req.body.dis;
-   connection.query('SELECT * FROM users WHERE u_id = ?',[user_id],function(err,rows){
+   connection.query(SqlString.format('SELECT * FROM users WHERE u_id = ?',[user_id]),function(err,rows){
      var s_p_id = rows[0].s_p_id;
-     connection.query('UPDATE provider_talent SET own_description = ? WHERE s_p_id = ? AND s_t_id = ?',[discrition,s_p_id,s_t_id],function(err,rows){
+     connection.query(SqlString.format('UPDATE provider_talent SET own_description = ? WHERE s_p_id = ? AND s_t_id = ?',[discrition,s_p_id,s_t_id]),function(err,rows){
      res.redirect('/post1');
 
 
@@ -1382,10 +1383,10 @@ router.get('/edit_post:id',function(req,res){
   var post_id = req.params.id;
   const user_id = req.user.user_id;
   console.log(post_id);
-  connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id], function (err, rows) {
+  connection.query(SqlString.format('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id]), function (err, rows) {
     var nav_image = rows[0].image;
       var nav_name = rows[0].s_name;
-    connection.query('SELECT * FROM post WHERE p_id = ?',[post_id],function(err,row){
+    connection.query(SqlString.format('SELECT * FROM post WHERE p_id = ?',[post_id]),function(err,row){
       res.render('edit_post',{
         nav_image:nav_image,
         nav_name:nav_name,
