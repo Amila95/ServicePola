@@ -12,62 +12,32 @@
         <br />
         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
           <li class="nav-item">
-            <a
-              class="nav-link active"
-              data-toggle="pill"
-              href="#pills-new-users"
-              role="tab"
-              aria-controls="pills-home"
-              aria-selected="true"
-            >
+            <a class="nav-link active" data-toggle="pill" href="#pills-new-users" role="tab" aria-controls="pills-home"
+              aria-selected="true">
               Activated Users
             </a>
           </li>
           <li class="nav-item">
-            <a
-              class="nav-link"
-              data-toggle="pill"
-              href="#pills-deleted-users"
-              role="tab"
-              aria-controls="pills-profile"
-              aria-selected="false"
-            >
+            <a class="nav-link" data-toggle="pill" href="#pills-deleted-users" role="tab" aria-controls="pills-profile"
+              aria-selected="false">
               Deleted Users
             </a>
           </li>
           <li class="nav-item">
-            <a
-              class="nav-link"
-              data-toggle="pill"
-              href="#pills-edit-talents"
-              role="tab"
-              aria-controls="pills-contact"
-              aria-selected="false"
-            >
+            <a class="nav-link" data-toggle="pill" href="#pills-edit-talents" role="tab" aria-controls="pills-contact"
+              aria-selected="false">
               Edit Talents
             </a>
           </li>
           <li class="nav-item">
-            <a
-              class="nav-link"
-              data-toggle="pill"
-              href="#pills-add-talent"
-              role="tab"
-              aria-controls="pills-add-talent"
-              aria-selected="false"
-            >
+            <a class="nav-link" data-toggle="pill" href="#pills-add-talent" role="tab" aria-controls="pills-add-talent"
+              aria-selected="false">
               Add Talents
             </a>
           </li>
           <li class="nav-item">
-            <a
-              class="nav-link"
-              data-toggle="pill"
-              href="#pills-view-suggessions"
-              role="tab"
-              aria-controls="pills-view-suggessions"
-              aria-selected="false"
-            >
+            <a class="nav-link" data-toggle="pill" href="#pills-view-suggessions" role="tab" aria-controls="pills-view-suggessions"
+              aria-selected="false">
               View Suggessions
               <span class="badge badge-light">
                 {{new_suggessions_count}}
@@ -75,14 +45,8 @@
             </a>
           </li>
           <li class="nav-item">
-            <a
-              class="nav-link"
-              data-toggle="pill"
-              href="#pills-view-notifications"
-              role="tab"
-              aria-controls="pills-view-notifications"
-              aria-selected="false"
-            >
+            <a class="nav-link" data-toggle="pill" href="#pills-view-notifications" role="tab" aria-controls="pills-view-notifications"
+              aria-selected="false">
               View Notifications
               <span class="badge badge-light">
                 {{new_notifications_count}}
@@ -91,12 +55,7 @@
           </li>
         </ul>
         <div class="tab-content" id="pills-tabContent">
-          <div
-            class="tab-pane fade show active"
-            id="pills-new-users"
-            role="tabpanel"
-            aria-labelledby="pills-new-users-tab"
-          >
+          <div class="tab-pane fade show active" id="pills-new-users" role="tabpanel" aria-labelledby="pills-new-users-tab">
             <h4>
               New users :
             </h4>
@@ -120,43 +79,31 @@
               <tbody>
                 <div>
                   {{#each allusers}}
-                    <tr>
-                      <td>
-                        {{this.s_name}}
-                      </td>
-                      <td>
-                        {{this.email}}
-                      </td>
-                      <td>
-                        {{this.mobile}}
-                      </td>
-                      <td>
-                        <a
-                          target="_blank"
-                          href="/provider_profile{{this.s_p_id}}"
-                          class="btn btn-outline-success"
-                        >
-                          VIew details..
-                        </a>
-                        <a
-                          href="/admin/delete/user{{this.s_p_id}}"
-                          class="btn btn-outline-danger"
-                        >
-                          Delete User
-                        </a>
-                      </td>
-                    </tr>
+                  <tr>
+                    <td>
+                      {{this.s_name}}
+                    </td>
+                    <td>
+                      {{this.email}}
+                    </td>
+                    <td>
+                      {{this.mobile}}
+                    </td>
+                    <td>
+                      <a target="_blank" href="/provider_profile{{this.s_p_id}}" class="btn btn-outline-success">
+                        VIew details..
+                      </a>
+                      <a href="/admin/delete/user{{this.s_p_id}}" class="btn btn-outline-danger">
+                        Delete User
+                      </a>
+                    </td>
+                  </tr>
                   {{/each}}
                 </div>
               </tbody>
             </table>
           </div>
-          <div
-            class="tab-pane fade"
-            id="pills-deleted-users"
-            role="tabpanel"
-            aria-labelledby="pills-deleted-users-tab"
-          >
+          <div class="tab-pane fade" id="pills-deleted-users" role="tabpanel" aria-labelledby="pills-deleted-users-tab">
             <h4>
               Deleted users :
             </h4>
@@ -191,12 +138,7 @@
               </tbody>
             </table>
           </div>
-          <div
-            class="tab-pane fade"
-            id="pills-edit-talents"
-            role="tabpanel"
-            aria-labelledby="pills-edit-talents-tab"
-          >
+          <div class="tab-pane fade" id="pills-edit-talents" role="tabpanel" aria-labelledby="pills-edit-talents-tab">
             <h2>
               Edit Main Talents :
             </h2>
@@ -224,7 +166,7 @@
                     {{this.m_t_description}}
                   </td>
                   <td>
-                    buttons
+                    <a href="/admin/edit_main_talent{{this.m_t_id}}" class="btn btn-outline-success">Edit Main Talent
                   </td>
                 </tr>
                 {{/each}}
@@ -260,19 +202,14 @@
                     {{this.s_t_description}}
                   </td>
                   <td>
-                    buttons
+                    <a href="/admin/edit_sub_talent{{this.s_t_id}}" class="btn btn-outline-success">Edit Sub Talent
                   </td>
                 </tr>
                 {{/each}}
               </tbody>
             </table>
           </div>
-          <div
-            class="tab-pane fade"
-            id="pills-add-talent"
-            role="tabpanel"
-            aria-labelledby="pills-add-talent-tab"
-          >
+          <div class="tab-pane fade" id="pills-add-talent" role="tabpanel" aria-labelledby="pills-add-talent-tab">
             <h2>
               Add a new Sub talent
             </h2>
@@ -292,11 +229,11 @@
                           Select Your Main Talent
                         </option>
                         {{#each main_talents}}
-                          '
-                          <option value={{this.m_t_id}}>
-                            {{this.m_t_name}}
-                          </option>
-                          '  ;
+                        '
+                        <option value={{this.m_t_id}}>
+                          {{this.m_t_name}}
+                        </option>
+                        ' ;
                         {{/each}}
                       </select>
                     </div>
@@ -311,15 +248,8 @@
                     </label>
                   </div>
                   <div class="col-lg-8 col-md-10">
-                    <input
-                      type="text"
-                      name="stalent"
-                      placeholder="Enter sub talent"
-                      onfocus="this.placeholder = 'Enter sub talent'"
-                      onblur="this.placeholder = 'Enter sub talent'"
-                      required
-                      class="single-input"
-                     />
+                    <input type="text" name="stalent" placeholder="Enter sub talent" onfocus="this.placeholder = 'Enter sub talent'"
+                      onblur="this.placeholder = 'Enter sub talent'" required class="single-input" />
 
                   </div>
                 </div>
@@ -332,25 +262,15 @@
                     </label>
                   </div>
                   <div class="col-lg-8 col-md-10">
-                    <input
-                      type="text"
-                      name="stdescription"
-                      placeholder="Enter simple description about sub talent"
-                      onfocus="this.placeholder = ''"
-                      onblur="this.placeholder = 'Enter simple description about sub talent'"
-                      required
-                      class="single-input"
-                     />
+                    <input type="text" name="stdescription" placeholder="Enter simple description about sub talent"
+                      onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter simple description about sub talent'"
+                      required class="single-input" />
 
                   </div>
                 </div>
               </div>
               <div class="mt-10">
-                <button
-                  style="float: center;"
-                  type="submit"
-                  class="btn btn-outline-primary"
-                >
+                <button style="float: center;" type="submit" class="btn btn-outline-primary">
                   Add Sub Talent
                 </button>
               </div>
@@ -371,15 +291,8 @@
                     </label>
                   </div>
                   <div class="col-lg-8 col-md-10">
-                    <input
-                      type="text"
-                      name="mtname"
-                      placeholder="Enter title for main talent"
-                      onfocus="this.placeholder = 'Enter title for main talent'"
-                      onblur="this.placeholder = 'Enter title for main talent'"
-                      required
-                      class="single-input"
-                     />
+                    <input type="text" name="mtname" placeholder="Enter title for main talent" onfocus="this.placeholder = 'Enter title for main talent'"
+                      onblur="this.placeholder = 'Enter title for main talent'" required class="single-input" />
 
                   </div>
                 </div>
@@ -392,36 +305,21 @@
                     </label>
                   </div>
                   <div class="col-lg-8 col-md-10">
-                    <input
-                      type="text"
-                      name="mtdescription"
-                      placeholder="Enter simple description about main talent"
-                      onfocus="this.placeholder = 'Enter simple description about main talent'"
-                      onblur="this.placeholder = 'Enter simple description about main talent'"
-                      required
-                      class="single-input"
-                     />
+                    <input type="text" name="mtdescription" placeholder="Enter simple description about main talent"
+                      onfocus="this.placeholder = 'Enter simple description about main talent'" onblur="this.placeholder = 'Enter simple description about main talent'"
+                      required class="single-input" />
 
                   </div>
                 </div>
               </div>
               <div class="mt-10">
-                <button
-                  style="float: center;"
-                  type="submit"
-                  class="btn btn-outline-primary"
-                >
+                <button style="float: center;" type="submit" class="btn btn-outline-primary">
                   Add Main Talent
                 </button>
               </div>
             </form>
           </div>
-          <div
-            class="tab-pane fade"
-            id="pills-view-suggessions"
-            role="tabpanel"
-            aria-labelledby="pills-view-suggessions-tab"
-          >
+          <div class="tab-pane fade" id="pills-view-suggessions" role="tabpanel" aria-labelledby="pills-view-suggessions-tab">
             <h4>
               VIew Suggessions
             </h4>
@@ -442,34 +340,26 @@
               <tbody>
                 <div>
                   {{#each site_suggesions}}
-                    <tr>
-                      <td>
-                        {{this.content}}
-                      </td>
-                      <td>
-                        {{this.recieved_date}}
-                      </td>
-                      <td>
-                        {{#unless this.status}}
-                        <a
-                          href="/admin/suggessions/viewed/{{this.n_id}}"
-                          class="btn btn-outline-success"
-                        >Mark as read
-                          
+                  <tr>
+                    <td>
+                      {{this.content}}
+                    </td>
+                    <td>
+                      {{this.recieved_date}}
+                    </td>
+                    <td>
+                      {{#unless this.status}}
+                      <a href="/admin/suggessions/viewed/{{this.n_id}}" class="btn btn-outline-success">Mark as read
+
                         {{/unless}}
-                      </td>
-                    </tr>
+                    </td>
+                  </tr>
                   {{/each}}
                 </div>
               </tbody>
             </table>
           </div>
-          <div
-            class="tab-pane fade"
-            id="pills-view-notifications"
-            role="tabpanel"
-            aria-labelledby="pills-view-notifications-tab"
-          >
+          <div class="tab-pane fade" id="pills-view-notifications" role="tabpanel" aria-labelledby="pills-view-notifications-tab">
             <h4>
               Notifications
             </h4>
@@ -490,23 +380,20 @@
               <tbody>
                 <div>
                   {{#each all_notifications}}
-                    <tr>
-                      <td>
-                        {{this.content}}
-                      </td>
-                      <td>
-                        {{this.recieved_date}}
-                      </td>
-                      <td>
-                        {{#unless this.status}}
-                        <a
-                          href="/admin/notifications/viewed/{{this.n_id}}"
-                          class="btn btn-outline-success"
-                        >Mark as read
-                          
+                  <tr>
+                    <td>
+                      {{this.content}}
+                    </td>
+                    <td>
+                      {{this.recieved_date}}
+                    </td>
+                    <td>
+                      {{#unless this.status}}
+                      <a href="/admin/notifications/viewed/{{this.n_id}}" class="btn btn-outline-success">Mark as read
+
                         {{/unless}}
-                      </td>
-                    </tr>
+                    </td>
+                  </tr>
                   {{/each}}
                 </div>
               </tbody>

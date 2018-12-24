@@ -262,7 +262,7 @@ router.get('/edit_main_talent:m_t_id', function(req, res,next){
 });
 
 //to get sub talent
-router.get('/edit_sub_talent/:s_t_id?', function(req, res,next){
+router.get('/edit_sub_talent:s_t_id?', function(req, res,next){
   console.log("in edit sub talent");
   var s_t_id = req.params.s_t_id;
   connection.query(SqlString.format('SELECT * FROM sub_talent INNER JOIN main_talent ON sub_talent.m_t_id=main_talent.m_t_id WHERE sub_talent.s_t_id = ?', [s_t_id]), function (err, sub_talent) {
