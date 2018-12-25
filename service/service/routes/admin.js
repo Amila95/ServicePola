@@ -20,7 +20,7 @@ router.get('/', function (req, res, next) {
     var user_id = req.user.user_id;
     connection.query(SqlString.format('SELECT * FROM users WHERE u_id= ?', [user_id]), function (err, rows) {
       if (rows[0].u_group == 2) {
-        connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id=users.s_p_id WHERE users.u_status=1', function (err, allusers) {
+        connection.query('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id=users.s_p_id WHERE users.u_status=1 AND users.u_group=1', function (err, allusers) {
           connection.query('SELECT * FROM main_talent', function (err, main_talents) {
             connection.query('SELECT * FROM sub_talent', function (err, sub_talent) {
               connection.query('SELECT * FROM notification WHERE content_type=1 ORDER BY status,n_id DESC', function (err, site_suggesions) {
