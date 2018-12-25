@@ -139,6 +139,7 @@ router.get('/service_provider_list:id', function (req, res, next) {
   if(req.isAuthenticated()){
     var id = req.params.id;
     var u_id = req.user.user_id;
+    var no_user = false
       console.log(id);
       connection.query(SqlString.format('SELECT * FROM users WHERE u_id = ?',[u_id]),function(err,rows){
         var s_p_id = rows[0].s_p_id;
@@ -147,10 +148,14 @@ router.get('/service_provider_list:id', function (req, res, next) {
           var name=row1[0].s_name;
           connection.query(SqlString.format('SELECT * FROM provider_talent INNER JOIN service_provider ON provider_talent.s_p_id = service_provider.s_p_id WHERE s_t_id = ?', [id]), function (err, row2) {
            console.log(row2);
+           if(row2.length==0){
+             no_user = true;
+           }
             res.render('service_provider_list', {
               rows: row2,
               nav_image:image,
-              nav_name:name
+              nav_name:name,
+              no_user:no_user
             });
           })
         })
