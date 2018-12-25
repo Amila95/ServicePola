@@ -140,7 +140,7 @@ router.get('/service_provider_list:id', function (req, res, next) {
     var id = req.params.id;
     var u_id = req.user.user_id;
     var no_user = false
-      console.log(id);
+      //console.log(id);
       connection.query(SqlString.format('SELECT * FROM users WHERE u_id = ?',[u_id]),function(err,rows){
         var s_p_id = rows[0].s_p_id;
         connection.query(SqlString.format('SELECT * FROM service_provider WHERE s_p_id=?',[s_p_id]),function(err,row1){
@@ -342,8 +342,8 @@ router.get('/add_secound', function (req, res, next) {
   res.render('add_secound');
 })
 
-router.get('/add_thired:id', function (req, res, next) {
-  if(req.isAuthenticated()){
+router.get('/add_thired:id',authenticationMiddleware(), function (req, res, next) {
+  
     var user_id = req.user.user_id;
     console.log(user_id);
     connection.query(SqlString.format('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?',[user_id]),function(err,rows){
@@ -372,17 +372,13 @@ router.get('/add_thired:id', function (req, res, next) {
      
  
 })
-  }
-  else{
-    res.redirect('/');
-  }
-
+  
 })
 
 
 
-router.get('/home', function (req, res, next) {
-  if(req.isAuthenticated()){
+router.get('/home',authenticationMiddleware(), function (req, res, next) {
+ 
 
     var user_id = req.user.user_id;
     console.log(user_id);
@@ -394,14 +390,7 @@ router.get('/home', function (req, res, next) {
       })
     })
 
-  }else{
-    // console.log("bnj");
-    // connection.query('SELECT * FROM main_talent',function(err,main_talents){
-    //   res.render('home',{main_talents:main_talents});
-    //   })
-    res.redirect("/")
-  }
-  
+ 
 })
 
 router.get('/signin', function (req, res, next) {
@@ -873,7 +862,7 @@ router.post('/secoundadd', function (req, res) {
 
 })
 
-router.post('/thiredadd', function (req, res) {
+router.post('/thiredadd',authenticationMiddleware(), function (req, res) {
   //req.checkBody('main', 'main field connot be empty.').notEmpty();
   req.checkBody('sub', 'sub field connot be empty.').notEmpty();
   req.checkBody('dis', 'dis field connot be empty.').notEmpty();
@@ -955,7 +944,7 @@ function authenticationMiddleware() {
     if (req.isAuthenticated()) return next();
     res.redirect('/');
   }
-  res.redirect('/');
+ 
 }
 
 router.post('/textdata', function (req, res) {
@@ -969,8 +958,8 @@ router.post('/textdata', function (req, res) {
 
 })
 
-router.get('/maincatagerious', function (req, res) {
-  if(req.isAuthenticated()){
+router.get('/maincatagerious',authenticationMiddleware(), function (req, res) {
+  
     var user_id = req.user.user_id;
     console.log(user_id);
     connection.query(SqlString.format('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?',[user_id]),function(err,rows){
@@ -985,17 +974,10 @@ router.get('/maincatagerious', function (req, res) {
       })
     })
 
-  }
-  else{
-  connection.query('SELECT * FROM main_talent', function (err, rows) {
-    res.render('main_catagerious', {
-      main: rows
-    })
-  })
-}
+ 
 })
 
-router.post('/addpost', function (req, res) {
+router.post('/addpost',authenticationMiddleware(), function (req, res) {
   upload(req, res, function (err) {
     if (err) {
       console.log('erro');
@@ -1037,7 +1019,7 @@ router.post('/addpost', function (req, res) {
   })
 })
 
-router.get('/update_details', function (req, res) {
+router.get('/update_details',authenticationMiddleware(), function (req, res) {
   const user_id = req.user.user_id;
   connection.query(SqlString.format('SELECT * FROM users WHERE u_id = ?', [user_id]), function (err, row2) {
     var s_p_id = row2[0].s_p_id;
@@ -1052,7 +1034,7 @@ router.get('/update_details', function (req, res) {
 
 })
 
-router.post('/update_profile',function(req,res){
+router.post('/update_profile',authenticationMiddleware(),function(req,res){
   req.checkBody('name', 'Username field connot be empty.').notEmpty();
   // req.checkBody('email', 'Email field connot be empty.').notEmpty();
   // req.checkBody('email', 'Enter a valid email address.').isEmail();
@@ -1215,7 +1197,7 @@ router.get('/search', (req, res) => {
     });
 })
 
-router.get('/post:id',function (req, res){
+router.get('/post:id',authenticationMiddleware(),function (req, res){
   var page_no = req.params.id;
   console.log(page_no);
   var offset = (page_no-1)*10;
@@ -1273,7 +1255,7 @@ router.get('/post:id',function (req, res){
 
 });
 
-router.get('/change_password',function(req,res){
+router.get('/change_password',authenticationMiddleware(),function(req,res){
   const user_id = req.user.user_id;
   connection.query(SqlString.format('SELECT * FROM service_provider INNER JOIN users ON service_provider.s_p_id = users.s_p_id WHERE users.u_id=?', [user_id]), function (err, rows) {
     const s_p_id = rows[0].s_p_id;
@@ -1287,7 +1269,7 @@ router.get('/change_password',function(req,res){
   })
 })
 
-router.post('/change_password_post',function(req,res){
+router.post('/change_password_post',authenticationMiddleware(),function(req,res){
   const user_id = req.user.user_id;
   var old_password = req.body.password;
   var new_password = req.body.new_password;
@@ -1344,7 +1326,7 @@ router.post('/change_password_post',function(req,res){
 })
 })
 
-router.get('/update_telant:id',function(req,res){
+router.get('/update_telant:id',authenticationMiddleware(),function(req,res){
   sub_talent_id = req.params.id;
   user_id = req.user.user_id;
   console.log(sub_talent_id);
@@ -1366,7 +1348,7 @@ router.get('/update_telant:id',function(req,res){
 
 })
 
-router.post('/update_sub_telant',function(req,res){
+router.post('/update_sub_telant',authenticationMiddleware(),function(req,res){
    const user_id = req.user.user_id;
    //console.log(user_id);
    var s_t_id = req.body.sub;

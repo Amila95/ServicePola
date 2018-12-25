@@ -107,8 +107,8 @@ passport.use(new LocalStrategy(
           done(err)
         }
         //console.log("rt");
-        console.log(result);
-        console.log(result.length);
+        // console.log(result);
+        // console.log(result.length);
         if (result.length > 0) {
           //return done(null,false,{message:'Unknow User
           console.log("bf");

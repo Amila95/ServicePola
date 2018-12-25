@@ -14,8 +14,8 @@ var connection = mysql.createConnection({
 
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
-  if (req.isAuthenticated()) {
+router.get('/',authenticationMiddleware(), function (req, res, next) {
+ 
 
     var user_id = req.user.user_id;
     connection.query(SqlString.format('SELECT * FROM users WHERE u_id= ?', [user_id]), function (err, rows) {
@@ -55,15 +55,13 @@ router.get('/', function (req, res, next) {
         res.redirect('/');
       }
     })
-  } else {
-    res.redirect('/');
-  }
+ 
 
 
 });
 
-router.post('/sub_talent_add', function (req, res) {
-  if (req.isAuthenticated()) {
+router.post('/sub_talent_add',authenticationMiddleware(), function (req, res) {
+  
 
     var user_id = req.user.user_id;
     connection.query(SqlString.format('SELECT * FROM users WHERE u_id= ?', [user_id]), function (err, rows) {
@@ -116,15 +114,13 @@ router.post('/sub_talent_add', function (req, res) {
         res.redirect('/');
       }
     })
-  } else {
-    res.redirect('/');
-  }
+ 
 
 })
 
-router.post('/main_talent_add', function (req, res) {
+router.post('/main_talent_add',authenticationMiddleware(), function (req, res) {
 
-  if (req.isAuthenticated()) {
+ 
 
     var user_id = req.user.user_id;
     connection.query(SqlString.format('SELECT * FROM users WHERE u_id= ?', [user_id]), function (err, rows) {
@@ -168,14 +164,12 @@ router.post('/main_talent_add', function (req, res) {
         res.redirect('/');
       }
     })
-  } else {
-    res.redirect('/');
-  }
+  
 })
 
 
-router.get('/all_user/more/:id', function (req, res, next) {
-  if (req.isAuthenticated()) {
+router.get('/all_user/more/:id',authenticationMiddleware(), function (req, res, next) {
+  
 
     var user_id = req.user.user_id;
     connection.query(SqlString.format('SELECT * FROM users WHERE u_id= ?', [user_id]), function (err, rows) {
@@ -186,13 +180,11 @@ router.get('/all_user/more/:id', function (req, res, next) {
         res.redirect('/');
       }
     })
-  } else {
-    res.redirect('/');
-  }
+ 
 });
 
-router.get('/notifications/viewed/:id', function (req, res, next) {
-  if (req.isAuthenticated()) {
+router.get('/notifications/viewed/:id', authenticationMiddleware(),function (req, res, next) {
+  
 
     var user_id = req.user.user_id;
     connection.query(SqlString.format('SELECT * FROM users WHERE u_id= ?', [user_id]), function (err, rows) {
@@ -205,14 +197,11 @@ router.get('/notifications/viewed/:id', function (req, res, next) {
         res.redirect('/');
       }
     })
-  } else {
-    res.redirect('/');
-  }
+  
 });
 
-router.get('/suggessions/viewed/:id', function (req, res, next) {
-  if (req.isAuthenticated()) {
-
+router.get('/suggessions/viewed/:id',authenticationMiddleware(), function (req, res, next) {
+  
     var user_id = req.user.user_id;
     connection.query(SqlString.format('SELECT * FROM users WHERE u_id= ?', [user_id]), function (err, rows) {
       if (rows[0].u_group == 2) {
@@ -224,12 +213,10 @@ router.get('/suggessions/viewed/:id', function (req, res, next) {
         res.redirect('/');
       }
     })
-  } else {
-    res.redirect('/');
-  }
+ 
 });
 
-router.get('/delete/user:id', function (req, res, next) {
+router.get('/delete/user:id',authenticationMiddleware(), function (req, res, next) {
   console.log("in delete method");
   var s_p_id = req.params.id;
   connection.query(SqlString.format('UPDATE users SET u_status = 0 WHERE s_p_id = ?', [s_p_id]), function (err, rows) {
@@ -238,7 +225,7 @@ router.get('/delete/user:id', function (req, res, next) {
 
 });
 
-router.get('/activate/user:id', function (req, res, next) {
+router.get('/activate/user:id',authenticationMiddleware(), function (req, res, next) {
   console.log("in activate method");
   var u_id = req.params.id;
   connection.query(SqlString.format('UPDATE users SET u_status = 1 WHERE u_id = ?', [u_id]), function (err, rows) {
@@ -247,7 +234,7 @@ router.get('/activate/user:id', function (req, res, next) {
 
 });
 //to get a mian talent
-router.get('/edit_main_talent:m_t_id', function(req, res,next){
+router.get('/edit_main_talent:m_t_id',authenticationMiddleware(), function(req, res,next){
   console.log("in edit main talent");
   var m_t_id = req.params.m_t_id;
   connection.query(SqlString.format('SELECT * FROM main_talent WHERE m_t_id = ?', [m_t_id]), function (err, main_talent) {
@@ -262,7 +249,7 @@ router.get('/edit_main_talent:m_t_id', function(req, res,next){
 });
 
 //to get sub talent
-router.get('/edit_sub_talent:s_t_id?', function(req, res,next){
+router.get('/edit_sub_talent:s_t_id?',authenticationMiddleware(), function(req, res,next){
   console.log("in edit sub talent");
   var s_t_id = req.params.s_t_id;
   connection.query(SqlString.format('SELECT * FROM sub_talent INNER JOIN main_talent ON sub_talent.m_t_id=main_talent.m_t_id WHERE sub_talent.s_t_id = ?', [s_t_id]), function (err, sub_talent) {
@@ -274,6 +261,18 @@ router.get('/edit_sub_talent:s_t_id?', function(req, res,next){
     });
   })
 });
+
+
+function authenticationMiddleware() {
+  return (req, res, next) => {
+    console.log(
+      'req.session.passport.user:${JSON.stringify(req.session.passport)}'
+    );
+    if (req.isAuthenticated()) return next();
+    res.redirect('/');
+  }
+ 
+}
 
 
 module.exports = router;
