@@ -1396,6 +1396,6 @@ router.get('/edit_post:id',function(req,res){
   })
 
 })
-
+///comitteda by finalay
 module.exports = router;
 
