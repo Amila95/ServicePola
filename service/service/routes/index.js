@@ -999,6 +999,7 @@ router.post('/addpost', function (req, res) {
   upload(req, res, function (err) {
     if (err) {
       console.log('erro');
+      res.redirect('/post1');
 
     }
     if (req.files[0] == undefined) {
@@ -1180,6 +1181,7 @@ router.post('/add_profile_image', function (req, res) {
   upload(req, res, function (err) {
     if (err) {
       console.log('erro');
+      res.redirect('/post1');
 
     }
     if (req.files[0] == undefined) {
