@@ -238,7 +238,7 @@ router.get('/edit_main_talent:m_t_id',authenticationMiddleware(), function(req, 
   console.log("in edit main talent");
   var m_t_id = req.params.m_t_id;
   connection.query(SqlString.format('SELECT * FROM main_talent WHERE m_t_id = ?', [m_t_id]), function (err, main_talent) {
-    console.log(main_talent[0].m_t_name);
+    console.log(main_talent[0].m_t_description);
     res.render('admin/edit_talent', {
       layout: 'admin_layout',
       main_talent: main_talent,
