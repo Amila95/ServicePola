@@ -9,6 +9,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var multer = require('multer');
 var cors = require('cors')
 var MySQLStore = require('express-mysql-session')(session);
+var flash = require('connect-flash');
 
 
 
@@ -17,6 +18,7 @@ var session = require('express-session');
 var passport = require('passport');
 var bcrypt = require('bcrypt');
 var helmet =require('helmet');
+
 
 var hbs = require('express-handlebars');
 
@@ -36,6 +38,7 @@ app.set('view engine', 'hbs');
 app.use(helmet.noCache());
 app.use(helmet.frameguard());
 
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -43,6 +46,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressValidator());
 //app.use(express.csrf());
+
+//app.use(cookieParser('secret'));
+//app.use(session({cookie: { maxAge: 60000 }}));
+
 
 
 
@@ -59,11 +66,14 @@ var sessionStore = new MySQLStore(options);
 
 app.use(session({
   secret: 'secret',
-  saveUninitialized: false,
-  resave: false,
-  store: sessionStore/*,
+  saveUninitialized: true,
+  resave: true,
+  store: sessionStore,
+  cookie: { maxAge: 60000 }
+  /*,
   cookie:{httpOnly:true,secure:true}*/ // added by watti
 }))
+app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());

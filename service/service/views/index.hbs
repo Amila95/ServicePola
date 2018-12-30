@@ -2,6 +2,9 @@
 {{! <div class="col-lg-3"></div>
 <div class="col-lg-9"> }}
 <section class="home_banner_area">
+  {{#if message}}
+  <p>User Register succeduly</p>
+  {{/if}}
   <div class="banner_inner" style="
     padding-top: 0px;
     padding-bottom: 0px;
@@ -25,13 +28,17 @@
               Service Pola
             </h4>
             <p>
-              If you know your passion and you want to earn money from the the talents you got, this 
+              If you know your passion and you want to earn money from the talents you got, this 
               is the place you should be. So welcome again to Sri Lnkan Parttime Job Portal, Service Pola.
             </p>
             <hr>
             
            
             <h3 class="mb-30 title_color">
+              {{ res.locals.message }}
+               {{!-- {{#if locals.message}}
+  <p>User Register succeduly</p>
+  {{/if}} --}}
               <center>
                 Create a New Account
               </center>
@@ -105,7 +112,7 @@
                     <input
                       type="text"
                       name="phone_no"
-                      placeholder="Tel Phone Number"
+                      placeholder="TelPhone Number"
                       onfocus="this.placeholder = ''"
                       onblur="this.placeholder = 'Tel Phone Number'"
                       class="single-input circle"
@@ -133,7 +140,7 @@
                     <textarea
                       class="single-textarea circle"
                       name="dis"
-                      placeholder="Discribtion About User Self"
+                      placeholder="Describtion About User Self"
                       onfocus="this.placeholder = ''"
                       onblur="this.placeholder = 'Discribtion About User Self'"
                       style="background:#e5fafb;"

@@ -1,15 +1,17 @@
+{{!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> --}}
+
 <section class="blog_area single-post-area p_120">
   <div class="container">
     <div class="row">
       <div class="col-lg-8 posts-list">
         <h3>Service Providers We Have For You</h3>
-        <div class="single-post row">
+        <div class=" single-post row">
           {{#each rows}}
           <div class="col-lg-6 col-md-6">
             <div class="feature_item" style="">
               <div class="row">
                 <div class="col-md-4">
-                  <img src="{{this.image}}" alt="" height="75" width="75" />
+                  <img  src="{{this.image}}" alt="" height="75" width="75" />
                 </div>
                 <div class="col-md-8">
                   <p>
@@ -26,15 +28,19 @@
           </div>
 
           {{/each}}
-          {{#if no_user}}
-            <hr>
-            <p><center><strong>No Registered Users</strong></center></p>
-            <hr>
-          {{/if}}
+
+          
+
+         
 
 
 
         </div>
+         {{#if no_user}}
+            <hr>
+            <p><center><strong>No Registered Users</strong></center></p>
+            <hr>
+          {{/if}}
       </div>
       <div class="col-lg-4 ">
         <div class="blog_right_sidebar">
@@ -67,3 +73,69 @@
     </div>
   </div>
 </section>
+
+{{!-- <script>
+var myIndex = 0;
+//var myIndexs = 1;
+carousel();
+carousel1();
+carousel2();
+
+
+function carousel() {
+  //console.log("buv11");
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  //var y =x.length/2;
+  for (i = 0; i <x.length; i++) {
+    x[i].style.display = "none"; 
+    // x[i+1].style.display = "none"; 
+
+  }
+
+  
+
+  myIndex++;
+  if (myIndex > x.length) {myIndex = 1}    
+  x[myIndex-1].style.display = "block"; 
+ 
+  setTimeout(carousel, 2500); 
+
+ 
+  
+}
+
+function carousel1() {
+  //console.log("buv11");
+  var i;
+  var x = document.getElementsByClassName("mySlidess");
+  //var y =x.length/2;
+  for (i = 0; i <x.length; i++) {
+    x[i].style.display = "none"; 
+    // x[i+1].style.display = "none"; 
+
+  }
+
+  
+
+  myIndex++;
+  if (myIndex > x.length) {myIndex = 2}    
+  x[myIndex-1].style.display = "block"; 
+  
+ 
+  setTimeout(carousel1, 2500); 
+
+ 
+  
+}
+
+
+
+
+
+
+
+
+
+
+</script> --}}

@@ -6,6 +6,7 @@ var passport = require('passport');
 var multer = require('multer');
 var emailCheck = require('email-check');
 var SqlString = require('sqlstring');
+var flash = require('connect-flash');
 
 
 var bcrypt = require('bcrypt');
@@ -167,8 +168,14 @@ router.get('/service_provider_list:id', function (req, res, next) {
   connection.query(SqlString.format('SELECT * FROM provider_talent INNER JOIN service_provider ON provider_talent.s_p_id = service_provider.s_p_id WHERE s_t_id = ?', [id]), function (err, row2) {
     //console.log("bu");
     //console.log(row2);
+    var no_user = false;
+    if(row2.length==0){
+      no_user = true;
+    }
+
     res.render('service_provider_list', {
-      rows: row2
+      rows: row2,
+      no_user:no_user
     });
   })
 }
@@ -394,7 +401,7 @@ router.get('/home',authenticationMiddleware(), function (req, res, next) {
 })
 
 router.get('/signin', function (req, res, next) {
-  res.render('signin',{layout: 'sign_layouts'});
+  res.render('signin');
 })
 
 router.post('/login', passport.authenticate('local', {
@@ -658,7 +665,7 @@ router.post('/registerfornt', function (req, res) {
   connection.query(SqlString.format('SELECT * FROM service_provider WHERE email = ?',[email]),function (err,rows){
   
     console.log(rows);
-    if(rows.lenght>0){
+    if(rows.length>0){
       connection.query('SELECT * FROM main_talent',function(err,main_talents){
       emailer = "Email is alreay exit";
       res.render('index', {
@@ -685,7 +692,9 @@ router.post('/registerfornt', function (req, res) {
 
             connection.query(SqlString.format('INSERT INTO users(u_email,u_name,u_password,u_group,u_status,s_p_id) VALUES(?,?,?,?,?,?)', [email, name, hash, '1', '1', s_p_id]), function (err, result) {
               if (err) throw err;
-              connection.query('SELECT LAST_INSERT_ID() as u_id', function (err, results, fields) {
+              connection.query(SqlString.format('INSERT INTO notification(content,content_type) VALUES(?,?)', [email, 5]), function (err, result1) {
+                if (err) throw err;
+                connection.query('SELECT LAST_INSERT_ID() as u_id', function (err, results, fields) {
                 if (err) throw err;
                 const user_id = results[0].u_id;
                 console.log(results[0].u_id);
@@ -696,12 +705,19 @@ router.post('/registerfornt', function (req, res) {
                 //connection.query('SELECT * FROM main_talent',function(err,rows){
                 //connection.query('SELECT * FROM sub_talent',function(err,row1){
                 //res.render('add_telent',{main:rows,sub:row1,user_id:user_id});
-                res.redirect('/home');
+                //res.locals.success_messages = req.flash('success_messages');
+                
+                // req.flash('success', 'Registration successfully');
+                // res.locals.message = req.flash();
+                // console.log(res.locals.message);
+                //res.redirect('/home');
+                res.render('reg_signin');
                 //})
 
                 //   })
                 //})
               })
+            })
 
             })
 
