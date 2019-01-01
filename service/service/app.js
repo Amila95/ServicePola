@@ -66,10 +66,10 @@ var sessionStore = new MySQLStore(options);
 
 app.use(session({
   secret: 'secret',
-  saveUninitialized: true,
-  resave: true,
+  saveUninitialized: false,
+  resave: false,
   store: sessionStore,
-  cookie: { maxAge: 60000 }
+  
   /*,
   cookie:{httpOnly:true,secure:true}*/ // added by watti
 }))
