@@ -42,34 +42,7 @@ connection.connect(function (err) {
 });
 
 
-// function nav_image(id){
-//   user_id = id;
-//   var nav_image;
-//   console.log(user_id);
-//   connection.query('SELECT * FROM users WHERE u_id = ?',[user_id],function(err,rows){
-//     console.log(rows);
-//     s_p_id=rows[0].s_p_id;
-//     connection.query('SELECT * FROM service_provider WHERE s_p_id = ?',[s_p_id],function(err,row1){
-//       console.log(row1[0].image);
-//       this.nav_image = row1[0].image;
-//       return this.nav_image;
-//     })
-//   })
 
-// };
-// function nav_name(id){
-//   user_id = id;
-//   console.log(user_id);
-//   connection.query('SELECT * FROM users WHERE u_id = ?',[user_id],function(err,rows){
-//     console.log(rows);
-//     s_p_id=rows[0].s_p_id;
-//     connection.query('SELECT * FROM service_provider WHERE s_p_id = ?',[s_p_id],function(err,row1){
-//       console.log(row1[0].s_name);
-//       return row1[0].s_name;
-//     })
-//   })
-
-// };
 
 
 /* GET home page. */
@@ -100,9 +73,7 @@ router.get('/', function (req, res, next) {
 
 });
 
-// router.get('/sidebar', function (req, res, next) {
-//   res.render('sidebar');
-// });
+
 
 router.get('/sub_category:id', function (req, res, next) {
   var id = req.params.id;
@@ -418,7 +389,7 @@ router.post('/login', passport.authenticate('local', {
         console.log(rows);
         if(rows){
         if(rows[0].u_group === 1){
-          res.redirect('/home');
+          res.redirect('/post1');
         }
         else{
           res.redirect('/admin');
@@ -697,25 +668,8 @@ router.post('/registerfornt', function (req, res) {
                 connection.query('SELECT LAST_INSERT_ID() as u_id', function (err, results, fields) {
                 if (err) throw err;
                 const user_id = results[0].u_id;
-                console.log(results[0].u_id);
-                //req.login(user_id, function (err) {
-                console.log(user_id);
-                // res.render('add_telent',{user_id:user_id});
-
-                //connection.query('SELECT * FROM main_talent',function(err,rows){
-                //connection.query('SELECT * FROM sub_talent',function(err,row1){
-                //res.render('add_telent',{main:rows,sub:row1,user_id:user_id});
-                //res.locals.success_messages = req.flash('success_messages');
-                
-                // req.flash('success', 'Registration successfully');
-                // res.locals.message = req.flash();
-                // console.log(res.locals.message);
-                //res.redirect('/home');
                 res.render('reg_signin');
-                //})
-
-                //   })
-                //})
+                
               })
             })
 
