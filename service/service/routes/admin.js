@@ -315,6 +315,59 @@ router.post('/edit/sub_talent/:s_t_id', function (req, res) {
   }
 })
 
+router.post('/edit/main_talent', function (req, res) {
+  var user_id = req.user.user_id;
+  var m_t_id = req.body.mtalentid;
+  if (req.isAuthenticated()) {
+    connection.query('SELECT * FROM users WHERE u_id= ?', [user_id], function (err, rows) {
+      if (rows[0].u_group == 2) {
+
+        var mtalent = req.body.mtalent;
+        var mtdescription = req.body.mtdescription;
+        console.log(mtalent);
+        console.log(mtdescription);
+        connection.query('UPDATE main_talent SET m_t_name=? , m_t_description=? WHERE m_t_id=?', [mtalent, mtdescription, m_t_id], function (err, result) {
+          if (err) throw err;
+          res.redirect('/admin');
+        })
+
+
+      } else {
+        res.redirect('/');
+      }
+    })
+  } else {
+    res.redirect('/');
+  }
+})
+// to edit sub talents
+router.post('/edit/sub_talent', function (req, res) {
+  var user_id = req.user.user_id;
+  var s_t_id = req.body.stalentid;
+  if (req.isAuthenticated()) {
+    connection.query('SELECT * FROM users WHERE u_id= ?', [user_id], function (err, rows) {
+      if (rows[0].u_group == 2) {
+        var m_t_id = req.body.m_t_id;
+        var s_talent = req.body.s_talent;
+        var s_t_description = req.body.s_t_description;
+        console.log(m_t_id);
+        console.log(s_talent);
+        console.log(s_t_description);
+        connection.query('UPDATE sub_talent SET s_t_name=? , s_t_description=? , m_t_id=? WHERE s_t_id=?', [s_talent, s_t_description, m_t_id, s_t_id], function (err, result) {
+          if (err) throw err;
+          res.redirect('/admin');
+        })
+
+
+      } else {
+        res.redirect('/');
+      }
+    })
+  } else {
+    res.redirect('/');
+  }
+})
+
 
 function authenticationMiddleware() {
   return (req, res, next) => {
