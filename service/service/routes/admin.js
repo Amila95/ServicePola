@@ -9,7 +9,7 @@ var connection = mysql.createConnection({
   host: 'localhost',
   database: 'servicepoladb',
   user: 'root',
-  password: '',
+  password: 'Ebba@123',
 });
 
 
