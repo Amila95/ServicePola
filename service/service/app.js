@@ -101,7 +101,7 @@ passport.use(
     var con = mysql.createConnection({
       host: 'localhost',
       user: 'root',
-      password: '',
+      password: 'Ebba@123',
       database: 'servicepoladb'
     });
 
